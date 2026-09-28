@@ -1,0 +1,5632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="description" content="FIDA Admin Panel — Manage users, enquiries and product catalogue." />
+<title>Admin Panel | FIDA Clothing & Essentials</title>
+<link rel="icon" type="image/png" href="logo.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+<style>
+/* =========================================================
+   FIDA BRAND PALETTE
+   ========================================================= */
+:root{
+  --brown:#5c3a21;
+  --brown-light:#7a4e2c;
+  --brown-dark:#3a2415;
+  --gold:#c9a45c;
+  --gold-light:#e0c690;
+  --gold-soft:#f5ecd8;
+  --cream:#faf6f0;
+  --cream-2:#f4ede2;
+  --white:#ffffff;
+  --text-dark:#3a2a1c;
+  --text-muted:#8a7a6a;
+  --border-light:#e8ddc9;
+  --border-soft:#efe6d5;
+  --font-heading:'Playfair Display', Georgia, serif;
+  --font-body:'Poppins', system-ui, sans-serif;
+  --radius-sm:6px; --radius-md:12px; --radius-lg:20px; --radius-xl:28px;
+  --shadow-sm:0 2px 10px rgba(92,58,33,.05);
+  --shadow-md:0 10px 30px rgba(92,58,33,.08);
+  --shadow-lg:0 20px 50px rgba(92,58,33,.12);
+  --shadow-glow:0 12px 30px rgba(201,164,92,.28);
+  --container:1240px;
+  --ease:cubic-bezier(.22,1,.36,1);
+  --t:.35s var(--ease);
+}
+
+*,*::before,*::after{box-sizing:border-box;}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;overflow-x:hidden;width:100%;}
+body{
+  margin:0;font-family:var(--font-body);color:var(--text-dark);
+  background:var(--cream);line-height:1.65;font-size:16px;
+  overflow-x:hidden;width:100%;max-width:100vw;position:relative;
+  -webkit-font-smoothing:antialiased;min-height:100vh;
+}
+h1,h2,h3,h4{font-family:var(--font-heading);color:var(--text-dark);line-height:1.15;margin:0 0 .5em;letter-spacing:-.01em}
+h1{font-size:clamp(1.6rem,3vw,2.2rem);font-weight:800}
+h2{font-size:clamp(1.3rem,2.2vw,1.75rem);font-weight:700}
+h3{font-size:1.05rem;font-weight:700}
+h4{font-size:.95rem;font-weight:700}
+p{margin:0 0 1em;color:var(--text-muted);overflow-wrap:anywhere}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block;height:auto}
+ul,ol{margin:0;padding:0;list-style:none}
+button{font-family:inherit;cursor:pointer;border:0;background:none}
+.container{width:100%;max-width:var(--container);margin:0 auto;padding:0 24px}
+
+/* Buttons */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:9px;
+  padding:12px 24px;border-radius:100px;font-weight:600;font-size:.9rem;
+  transition:all var(--t);white-space:nowrap;border:1.5px solid transparent;
+  line-height:1;cursor:pointer;text-align:center;min-height:44px;
+}
+.btn svg{width:16px;height:16px;flex-shrink:0}
+.btn--primary{background:var(--brown);color:#fff;box-shadow:var(--shadow-glow)}
+.btn--primary:hover{background:var(--gold);color:var(--brown-dark);transform:translateY(-2px)}
+.btn--danger{background:#B23A3A;color:#fff}
+.btn--danger:hover{background:#8C2A2A;transform:translateY(-2px)}
+.btn--outline{background:transparent;color:var(--brown);border-color:var(--border-light)}
+.btn--outline:hover{background:var(--gold-soft);border-color:var(--gold);color:var(--brown-dark)}
+.btn--white{background:#fff;color:var(--brown-dark)}
+.btn--white:hover{background:var(--gold-soft);transform:translateY(-2px)}
+.btn--sm{padding:8px 16px;font-size:.8rem;min-height:36px}
+.btn--sm svg{width:14px;height:14px}
+:focus-visible{outline:3px solid var(--gold);outline-offset:3px;border-radius:6px}
+
+/* =========================================================
+   ADMIN HEADER
+   ========================================================= */
+.admin-header{
+  background:linear-gradient(135deg,var(--brown-dark) 0%,var(--brown) 100%);
+  color:#fff;padding:24px 0;
+  border-bottom:4px solid var(--gold);
+}
+.admin-header__inner{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:20px;flex-wrap:wrap;
+}
+.admin-header__brand{display:flex;align-items:center;gap:14px;}
+.admin-header__logo{
+  height:52px;width:52px;object-fit:contain;
+  background:#fff;padding:5px;border-radius:12px;
+  box-shadow:0 4px 12px rgba(0,0,0,.25);
+}
+.admin-header__text{display:flex;flex-direction:column;line-height:1.05;}
+.admin-header__name{
+  font-family:var(--font-heading);font-weight:800;font-size:1.25rem;
+  color:#fff;letter-spacing:.02em;
+}
+.admin-header__tag{
+  font-size:.68rem;font-weight:500;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--gold-light);margin-top:2px;
+}
+.admin-header__user{display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+.admin-header__user-info{
+  display:flex;flex-direction:column;align-items:flex-end;
+  line-height:1.2;text-align:right;
+}
+.admin-header__user-label{
+  font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;
+  color:rgba(255,255,255,.6);font-weight:600;
+}
+.admin-header__user-email{
+  font-size:.85rem;color:#fff;font-weight:600;word-break:break-all;
+}
+
+/* =========================================================
+   TABS
+   ========================================================= */
+.admin-tabs{
+  background:#fff;border-bottom:1px solid var(--border-light);
+  box-shadow:0 2px 8px rgba(92,58,33,.04);
+  position:sticky;top:0;z-index:100;
+}
+.admin-tabs__inner{
+  display:flex;gap:4px;overflow-x:auto;-webkit-overflow-scrolling:touch;
+  scrollbar-width:none;padding:8px 0;
+}
+.admin-tabs__inner::-webkit-scrollbar{display:none}
+.admin-tab{
+  flex-shrink:0;display:inline-flex;align-items:center;gap:8px;
+  padding:11px 18px;border-radius:100px;
+  color:var(--text-dark);font-weight:600;font-size:.85rem;
+  cursor:pointer;transition:all var(--t);white-space:nowrap;
+  border:1.5px solid transparent;
+}
+.admin-tab svg{width:16px;height:16px;}
+.admin-tab:hover{background:var(--gold-soft);color:var(--brown-dark);}
+.admin-tab.is-active{
+  background:var(--brown);color:#fff;
+  box-shadow:0 6px 16px rgba(92,58,33,.28);
+}
+.admin-tab__count{
+  display:inline-flex;align-items:center;justify-content:center;
+  min-width:22px;height:22px;padding:0 7px;border-radius:100px;
+  background:rgba(0,0,0,.08);color:inherit;
+  font-size:.7rem;font-weight:700;
+}
+.admin-tab.is-active .admin-tab__count{
+  background:rgba(255,255,255,.25);color:#fff;
+}
+
+/* =========================================================
+   MAIN CONTENT
+   ========================================================= */
+.admin-main{padding:32px 0 60px;}
+.admin-section{display:none;}
+.admin-section.is-active{display:block;}
+.admin-section__head{margin-bottom:24px;}
+.admin-section__head h2{margin-bottom:6px;}
+.admin-section__head p{margin:0;font-size:.94rem;}
+
+/* Toolbar */
+.admin-toolbar{
+  display:flex;gap:12px;align-items:center;flex-wrap:wrap;
+  margin-bottom:20px;
+}
+.admin-toolbar__search{
+  flex:1;min-width:200px;position:relative;
+}
+.admin-toolbar__search svg{
+  position:absolute;left:14px;top:50%;transform:translateY(-50%);
+  width:16px;height:16px;color:var(--text-muted);pointer-events:none;
+}
+.admin-toolbar__search input{padding-left:42px !important;}
+
+/* Form controls */
+.form-group{display:flex;flex-direction:column;gap:7px;margin-bottom:16px;}
+.form-group label{font-size:.82rem;font-weight:600;color:var(--text-dark);}
+.form-group label .req{color:var(--gold);margin-left:3px;}
+.form-group .hint{font-size:.74rem;color:var(--text-muted);font-weight:400;margin-top:1px;}
+
+.form-control{
+  width:100%;padding:12px 15px;font-family:inherit;font-size:.92rem;
+  color:var(--text-dark);background:var(--cream);
+  border:1.5px solid var(--border-light);border-radius:11px;
+  transition:all var(--t);min-height:46px;outline:none;
+}
+.form-control::placeholder{color:#b0a090;}
+.form-control:hover{border-color:#d9c9a8;}
+.form-control:focus{
+  border-color:var(--gold);background:#fff;
+  box-shadow:0 0 0 4px rgba(201,164,92,.15);
+}
+textarea.form-control{resize:vertical;min-height:90px;line-height:1.55;}
+select.form-control{
+  cursor:pointer;padding-right:40px;appearance:none;-webkit-appearance:none;
+  background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%238a7a6a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 14px center;
+}
+
+/* =========================================================
+   DASHBOARD
+   ========================================================= */
+.dash-stats{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:16px;
+  margin-bottom:32px;
+}
+.dash-stat{
+  background:#fff;border:1px solid var(--border-light);
+  border-radius:var(--radius-lg);padding:22px;
+  box-shadow:var(--shadow-sm);
+  transition:all var(--t);
+}
+.dash-stat:hover{box-shadow:var(--shadow-md);border-color:rgba(201,164,92,.4);}
+.dash-stat__label{
+  font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--text-muted);font-weight:700;margin:0 0 8px;
+}
+.dash-stat__value{
+  font-family:var(--font-heading);font-weight:800;
+  font-size:2rem;color:var(--brown);line-height:1;
+  margin:0;
+}
+.dash-stat__sub{
+  font-size:.82rem;color:var(--text-muted);
+  margin:8px 0 0;
+}
+.dash-stat__breakdown{
+  display:grid;gap:6px;margin-top:8px;
+}
+.dash-stat__breakdown p{
+  font-size:.82rem;margin:0;
+}
+.dash-stat__breakdown strong{font-weight:700;}
+
+.dash-recent{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:20px;
+  align-items:start;
+}
+.dash-card{
+  background:#fff;border:1px solid var(--border-light);
+  border-radius:var(--radius-lg);padding:22px;
+  box-shadow:var(--shadow-sm);
+}
+.dash-card h3{
+  margin:0 0 14px;font-size:1rem;
+  padding-bottom:12px;
+  border-bottom:1px solid var(--border-light);
+}
+.dash-card ul{display:grid;gap:10px;}
+.dash-card ul li{
+  display:flex;justify-content:space-between;gap:12px;
+  font-size:.84rem;padding-bottom:8px;
+  border-bottom:1px dashed var(--border-light);
+  align-items:center;
+}
+.dash-card ul li:last-child{border-bottom:0;padding-bottom:0;}
+
+/* =========================================================
+   USERS TABLE
+   ========================================================= */
+.users-table-wrap{
+  background:#fff;border:1px solid var(--border-light);
+  border-radius:var(--radius-lg);overflow:hidden;
+  box-shadow:var(--shadow-sm);
+}
+.users-table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+.users-table{width:100%;border-collapse:collapse;min-width:640px;}
+.users-table th{
+  background:var(--gold-soft);color:var(--brown-dark);
+  font-size:.72rem;font-weight:700;letter-spacing:.06em;
+  text-transform:uppercase;text-align:left;
+  padding:14px 16px;border-bottom:1.5px solid var(--border-light);
+  white-space:nowrap;
+}
+.users-table td{
+  padding:14px 16px;border-bottom:1px solid var(--border-light);
+  font-size:.86rem;color:var(--text-dark);vertical-align:middle;
+}
+.users-table tr:last-child td{border-bottom:0;}
+.users-table tr:hover td{background:var(--cream);}
+.user-role-badge{
+  display:inline-flex;align-items:center;gap:5px;
+  padding:4px 10px;border-radius:100px;
+  font-size:.68rem;font-weight:700;letter-spacing:.04em;
+  text-transform:uppercase;
+}
+.user-role-badge--admin{background:var(--gold-soft);color:var(--brown-dark);}
+.user-role-badge--user{background:#E8EEF5;color:#3B5B7C;}
+.user-role-badge svg{width:11px;height:11px;}
+
+/* =========================================================
+   ENQUIRY CARDS
+   ========================================================= */
+.enquiry-list{
+  display:grid;
+  grid-template-columns:repeat(auto-fill, minmax(340px, 1fr));
+  gap:20px;
+}
+.enq-card{
+  background:#fff;border:1px solid var(--border-light);
+  border-radius:var(--radius-lg);padding:20px;
+  box-shadow:var(--shadow-sm);
+  transition:all var(--t);
+}
+.enq-card:hover{box-shadow:var(--shadow-md);border-color:rgba(201,164,92,.4);}
+.enq-card__head{
+  display:flex;align-items:flex-start;justify-content:space-between;
+  gap:12px;margin-bottom:14px;padding-bottom:14px;
+  border-bottom:1px solid var(--border-light);
+}
+.enq-card__name{
+  font-family:var(--font-heading);font-weight:700;
+  font-size:1rem;color:var(--text-dark);margin:0 0 3px;
+}
+.enq-card__biz{font-size:.8rem;color:var(--text-muted);margin:0;font-weight:500;}
+.enq-card__badge{
+  flex-shrink:0;font-size:.68rem;font-weight:700;
+  letter-spacing:.04em;text-transform:uppercase;
+  background:var(--gold-soft);color:var(--brown-dark);
+  padding:4px 10px;border-radius:100px;
+}
+.enq-card__rows{display:grid;gap:10px;}
+.enq-row{display:grid;grid-template-columns:110px 1fr;gap:10px;font-size:.85rem;align-items:start;}
+.enq-row__label{
+  font-weight:600;color:var(--text-muted);font-size:.72rem;
+  letter-spacing:.06em;text-transform:uppercase;padding-top:2px;
+}
+.enq-row__value{color:var(--text-dark);word-break:break-word;line-height:1.5;}
+.enq-row__value a{color:var(--brown);font-weight:600;}
+.enq-row__value a:hover{color:var(--gold);text-decoration:underline;}
+.enq-card__message{
+  background:var(--cream);border-radius:10px;padding:12px 14px;
+  font-size:.85rem;color:var(--text-dark);line-height:1.55;
+  margin-top:12px;overflow-wrap:anywhere;
+}
+.enq-card__foot{
+  display:flex;justify-content:space-between;align-items:center;
+  gap:12px;margin-top:14px;padding-top:14px;
+  border-top:1px solid var(--border-light);flex-wrap:wrap;
+}
+.enq-card__date{font-size:.75rem;color:var(--text-muted);}
+.enq-card__actions{display:flex;gap:8px;}
+
+/* =========================================================
+   UPLOAD PRODUCT
+   ========================================================= */
+.upload-grid{
+  display:grid;grid-template-columns:1.2fr 1fr;gap:26px;align-items:start;
+}
+.upload-card{
+  background:#fff;border:1px solid var(--border-light);
+  border-radius:var(--radius-lg);padding:26px;
+  box-shadow:var(--shadow-sm);
+}
+.upload-card__head{margin-bottom:22px;padding-bottom:16px;border-bottom:1px solid var(--border-light);}
+.upload-card__head h3{margin-bottom:6px;font-size:1.05rem;}
+.upload-card__head p{margin:0;font-size:.85rem;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+
+/* Image upload */
+.img-upload{
+  border:2px dashed var(--border-light);border-radius:14px;
+  padding:24px 16px;text-align:center;cursor:pointer;
+  transition:all var(--t);background:var(--cream);
+  position:relative;overflow:hidden;
+}
+.img-upload:hover{border-color:var(--gold);background:var(--gold-soft);}
+.img-upload__input{position:absolute;inset:0;opacity:0;cursor:pointer;}
+.img-upload__icon{
+  width:52px;height:52px;margin:0 auto 12px;
+  background:var(--gold-soft);border-radius:12px;
+  display:flex;align-items:center;justify-content:center;
+  color:var(--brown);
+}
+.img-upload__icon svg{width:26px;height:26px;}
+.img-upload__title{font-size:.9rem;font-weight:600;color:var(--text-dark);margin:0 0 4px;}
+.img-upload__hint{font-size:.75rem;color:var(--text-muted);margin:0;}
+.img-preview{
+  display:none;position:relative;border-radius:14px;overflow:hidden;
+  background:var(--cream);margin-top:12px;
+  aspect-ratio:1/1;max-width:260px;
+  border:1px solid var(--border-light);
+}
+.img-preview.is-visible{display:block;}
+.img-preview img{width:100%;height:100%;object-fit:cover;}
+.img-preview__remove{
+  position:absolute;top:8px;right:8px;
+  width:32px;height:32px;border-radius:50%;
+  background:rgba(178,58,58,.92);color:#fff;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;border:0;transition:all var(--t);
+}
+.img-preview__remove:hover{background:#8C2A2A;transform:scale(1.05);}
+.img-preview__remove svg{width:16px;height:16px;}
+
+/* Pack size chips */
+.pack-input-row{display:flex;gap:8px;}
+.pack-input-row .form-control{flex:1;}
+.pack-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;}
+.pack-chips:empty{display:none;}
+.pack-chip{
+  display:inline-flex;align-items:center;gap:6px;
+  background:var(--gold-soft);color:var(--brown-dark);
+  border:1px solid rgba(201,164,92,.4);
+  padding:5px 6px 5px 12px;border-radius:100px;
+  font-size:.78rem;font-weight:600;
+}
+.pack-chip button{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:16px;height:16px;border-radius:50%;
+  background:rgba(201,164,92,.3);color:var(--brown-dark);
+  cursor:pointer;border:0;padding:0;transition:all var(--t);
+}
+.pack-chip button:hover{background:var(--brown);color:#fff;}
+.pack-chip button svg{width:10px;height:10px;}
+
+/* Stock preview */
+.stock-preview{
+  margin:0 0 16px;padding:12px 14px;border-radius:10px;
+  font-size:.82rem;font-weight:600;
+  display:flex;align-items:center;gap:8px;
+  border:1.5px solid;transition:all var(--t);
+}
+.stock-preview--in{
+  background:var(--gold-soft);border-color:rgba(201,164,92,.5);
+  color:var(--brown-dark);
+}
+.stock-preview--limited{
+  background:#FEF3E0;border-color:rgba(226,154,28,.4);
+  color:#B4750D;
+}
+.stock-preview--out{
+  background:#FDECEC;border-color:rgba(178,58,58,.4);
+  color:#8C2A2A;
+}
+.stock-preview svg{width:16px;height:16px;flex-shrink:0;}
+
+.form-actions{
+  display:flex;flex-wrap:wrap;gap:10px;margin-top:22px;
+  padding-top:20px;border-top:1px solid var(--border-light);
+}
+.form-alert{
+  display:none;padding:12px 16px;border-radius:10px;
+  font-size:.85rem;font-weight:500;margin-bottom:18px;line-height:1.5;
+}
+.form-alert.is-visible{display:block;}
+.form-alert--success{background:var(--gold-soft);border:1.5px solid rgba(201,164,92,.5);color:var(--brown-dark);}
+.form-alert--error{background:#FDECEC;border:1.5px solid rgba(178,58,58,.35);color:#8C2A2A;}
+
+/* Preview column */
+.preview-card{
+  background:#fff;border:1px solid var(--border-light);
+  border-radius:var(--radius-lg);padding:22px;
+  box-shadow:var(--shadow-sm);position:sticky;top:100px;
+}
+.preview-card__head{
+  display:flex;justify-content:space-between;align-items:center;
+  gap:12px;margin-bottom:16px;
+  padding-bottom:12px;border-bottom:1px solid var(--border-light);
+}
+.preview-card__head h3{margin:0;font-size:1rem;}
+.preview-card__label{
+  font-size:.68rem;font-weight:700;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--gold);
+}
+.preview-card__hint{
+  font-size:.78rem;color:var(--text-muted);
+  margin:16px 0 0;line-height:1.5;
+}
+
+/* Mini product preview */
+.mini-prod-card{
+  border:1px solid var(--border-light);border-radius:16px;
+  overflow:hidden;background:#fff;
+  box-shadow:0 2px 8px rgba(92,58,33,.05);
+}
+.mini-prod-card__media{
+  aspect-ratio:1/1;overflow:hidden;
+  background:var(--gold-soft);
+  display:flex;align-items:center;justify-content:center;
+  color:var(--text-muted);font-size:.8rem;
+  position:relative;
+}
+.mini-prod-card__media img{width:100%;height:100%;object-fit:cover;}
+.mini-prod-card__badge{
+  position:absolute;top:10px;left:10px;
+  padding:4px 10px;border-radius:100px;
+  font-size:.62rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;
+  background:var(--brown);color:#fff;
+}
+.mini-prod-card__badge--limited{background:#E29A1C;}
+.mini-prod-card__badge--out{background:#B23A3A;}
+.mini-prod-card__body{padding:14px;}
+.mini-prod-card__cat{
+  font-size:.68rem;font-weight:600;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--gold);margin-bottom:4px;
+  display:block;
+}
+.mini-prod-card__body h4{
+  font-size:.92rem;margin:0 0 6px;
+  font-family:var(--font-heading);font-weight:700;
+  line-height:1.25;
+}
+.mini-prod-card__desc{font-size:.78rem;margin:0 0 8px;line-height:1.45;color:var(--text-muted);}
+.mini-prod-card__meta{font-size:.72rem;color:var(--text-muted);margin:0;}
+.mini-prod-card__meta strong{color:var(--text-dark);font-weight:600;}
+.mini-prod-card__price{
+  font-size:.72rem;font-weight:600;color:var(--brown-dark);
+  background:var(--gold-soft);padding:6px 10px;border-radius:8px;
+  margin-top:8px;text-align:center;
+}
+
+/* =========================================================
+   PRODUCT DATABASE GRID
+   ========================================================= */
+.admin-product-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill, minmax(260px, 1fr));
+  gap:18px;
+}
+.admin-prod-card{
+  background:#fff;border:1px solid var(--border-light);
+  border-radius:var(--radius-lg);overflow:hidden;
+  transition:all var(--t);box-shadow:var(--shadow-sm);
+  display:flex;flex-direction:column;
+}
+.admin-prod-card:hover{box-shadow:var(--shadow-md);border-color:rgba(201,164,92,.4);}
+.admin-prod-card__media{
+  aspect-ratio:1/1;overflow:hidden;background:var(--gold-soft);
+  position:relative;
+}
+.admin-prod-card__media img{width:100%;height:100%;object-fit:cover;}
+.admin-prod-card__body{padding:14px;display:flex;flex-direction:column;gap:8px;flex:1;}
+.admin-prod-card__cat{
+  font-size:.68rem;font-weight:600;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--gold);
+}
+.admin-prod-card__body h4{
+  font-size:.92rem;margin:0;line-height:1.25;
+  font-family:var(--font-heading);font-weight:700;
+}
+.admin-prod-card__desc{font-size:.78rem;margin:0;flex:1;color:var(--text-muted);line-height:1.45;}
+.admin-prod-card__meta{font-size:.72rem;color:var(--text-muted);margin:0;}
+.admin-prod-card__meta strong{color:var(--text-dark);font-weight:600;}
+.admin-prod-card__avail{
+  display:inline-flex;align-items:center;gap:5px;
+  font-size:.68rem;font-weight:700;letter-spacing:.04em;
+  text-transform:uppercase;
+  padding:4px 10px;border-radius:100px;
+  background:var(--gold-soft);color:var(--brown-dark);
+  align-self:flex-start;
+}
+.admin-prod-card__avail--limited{background:#FEF3E0;color:#B4750D;}
+.admin-prod-card__avail--out{background:#FDECEC;color:#8C2A2A;}
+.admin-prod-card__avail svg{width:11px;height:11px;}
+
+.admin-prod-card__actions{
+  display:flex;gap:8px;margin-top:6px;
+  padding-top:12px;border-top:1px solid var(--border-light);
+}
+.admin-prod-card__actions .btn{flex:1;padding:9px 10px;font-size:.74rem;}
+
+/* Empty state */
+.empty-state{
+  text-align:center;padding:60px 24px;
+  background:#fff;border:1px dashed var(--border-light);
+  border-radius:var(--radius-lg);
+}
+.empty-state svg{
+  width:64px;height:64px;color:#d9c9a8;
+  margin:0 auto 18px;display:block;
+}
+.empty-state h3{font-size:1.05rem;margin-bottom:8px;color:var(--text-dark);}
+.empty-state p{font-size:.9rem;margin:0;color:var(--text-muted);}
+
+/* =========================================================
+   RESPONSIVE — TABLET
+   ========================================================= */
+@media (max-width: 1000px) {
+  .upload-grid{grid-template-columns:1fr;gap:20px;}
+  .preview-card{position:static;}
+  .dash-recent{grid-template-columns:1fr;}
+}
+
+@media (max-width: 900px) {
+  .enquiry-list{grid-template-columns:1fr;}
+}
+
+/* =========================================================
+   MOBILE VIEW
+   ========================================================= */
+@media (max-width: 640px) {
+  .container{padding:0 16px;}
+
+  .admin-header{padding:14px 0;border-bottom-width:3px;}
+  .admin-header__inner{gap:12px;}
+  .admin-header__brand{gap:10px;}
+  .admin-header__logo{height:40px;width:40px;padding:4px;border-radius:10px;}
+  .admin-header__name{font-size:1rem;line-height:1.1;}
+  .admin-header__tag{font-size:.56rem;letter-spacing:.1em;margin-top:1px;}
+  .admin-header__user{width:100%;justify-content:space-between;}
+  .admin-header__user-info{align-items:flex-start;text-align:left;}
+  .admin-header__user-label{font-size:.6rem;}
+  .admin-header__user-email{font-size:.74rem;}
+  .admin-header__user .btn{padding:8px 14px;font-size:.76rem;min-height:34px;}
+
+  .admin-tabs__inner{padding:6px 0;gap:6px;}
+  .admin-tab{
+    padding:8px 14px;
+    font-size:.76rem;
+    gap:6px;
+    min-height:36px;
+  }
+  .admin-tab svg{width:14px;height:14px;}
+  .admin-tab__count{
+    min-width:18px;height:18px;font-size:.62rem;
+    padding:0 5px;
+  }
+
+  .admin-main{padding:16px 0 40px;}
+  .admin-section__head{margin-bottom:14px;}
+  .admin-section__head h2{font-size:1.1rem;margin-bottom:4px;}
+  .admin-section__head p{font-size:.82rem;line-height:1.45;}
+
+  .admin-toolbar{gap:8px;margin-bottom:14px;}
+  .admin-toolbar__search input{
+    font-size:.84rem;
+    min-height:42px;
+    padding:10px 12px 10px 38px !important;
+    border-radius:10px;
+  }
+  .admin-toolbar__search svg{width:14px;height:14px;left:12px;}
+  .admin-toolbar .btn{padding:9px 14px;font-size:.74rem;min-height:38px;}
+
+  .dash-stats{
+    grid-template-columns:repeat(2,1fr);
+    gap:8px;
+    margin-bottom:18px;
+  }
+  .dash-stat{
+    padding:12px 12px 13px;
+    border-radius:12px;
+    box-shadow:0 1px 4px rgba(92,58,33,.06);
+    border-color:var(--border-soft);
+  }
+  .dash-stat:hover{transform:none;box-shadow:0 2px 8px rgba(92,58,33,.10);}
+  .dash-stat__label{
+    font-size:.58rem;
+    letter-spacing:.06em;
+    margin-bottom:6px;
+  }
+  .dash-stat__value{
+    font-size:1.35rem;
+    margin-bottom:4px;
+  }
+  .dash-stat__sub{
+    font-size:.66rem;
+    margin-top:5px;
+    line-height:1.35;
+  }
+  .dash-stat__breakdown{gap:3px;margin-top:5px;}
+  .dash-stat__breakdown p{font-size:.66rem;line-height:1.35;}
+
+  .dash-recent{gap:10px;}
+  .dash-card{padding:14px;border-radius:12px;}
+  .dash-card h3{
+    font-size:.88rem;
+    padding-bottom:9px;
+    margin-bottom:10px;
+  }
+  .dash-card ul{gap:7px;}
+  .dash-card ul li{
+    font-size:.74rem;
+    padding-bottom:6px;
+    gap:8px;
+    align-items:flex-start;
+  }
+  .dash-card ul li span{word-break:break-all;}
+
+  .users-table-wrap{border-radius:12px;}
+  .users-table{min-width:560px;}
+  .users-table th{
+    padding:10px 12px;
+    font-size:.62rem;
+  }
+  .users-table td{
+    padding:10px 12px;
+    font-size:.76rem;
+  }
+  .user-role-badge{
+    font-size:.6rem;
+    padding:3px 8px;
+  }
+  .user-role-badge svg{width:9px;height:9px;}
+
+  .enquiry-list{grid-template-columns:1fr;gap:10px;}
+  .enq-card{
+    padding:14px;
+    border-radius:14px;
+    box-shadow:0 1px 4px rgba(92,58,33,.06);
+    border-color:var(--border-soft);
+  }
+  .enq-card:hover{transform:none;box-shadow:0 2px 8px rgba(92,58,33,.10);}
+  .enq-card__head{
+    margin-bottom:10px;
+    padding-bottom:10px;
+    gap:8px;
+  }
+  .enq-card__name{font-size:.88rem;margin-bottom:2px;}
+  .enq-card__biz{font-size:.68rem;}
+  .enq-card__badge{
+    font-size:.58rem;
+    padding:3px 8px;
+  }
+  .enq-card__rows{gap:7px;}
+  .enq-row{
+    grid-template-columns:1fr;
+    gap:1px;
+    font-size:.78rem;
+  }
+  .enq-row__label{
+    font-size:.62rem;
+    letter-spacing:.05em;
+  }
+  .enq-row__value{
+    font-size:.78rem;
+    line-height:1.4;
+  }
+  .enq-card__message{
+    font-size:.74rem;
+    padding:9px 11px;
+    margin-top:9px;
+    line-height:1.45;
+    border-radius:8px;
+  }
+  .enq-card__foot{
+    margin-top:10px;
+    padding-top:10px;
+    gap:8px;
+  }
+  .enq-card__date{font-size:.66rem;}
+  .enq-card__actions{width:100%;}
+  .enq-card__actions .btn{
+    flex:1;
+    padding:8px 12px;
+    font-size:.72rem;
+    min-height:34px;
+  }
+
+  .upload-grid{gap:14px;}
+  .upload-card{
+    padding:14px;
+    border-radius:14px;
+    box-shadow:0 1px 4px rgba(92,58,33,.06);
+  }
+  .upload-card__head{
+    padding-bottom:12px;
+    margin-bottom:14px;
+  }
+  .upload-card__head h3{font-size:.92rem;margin-bottom:4px;}
+  .upload-card__head p{font-size:.76rem;line-height:1.4;}
+
+  .form-group{margin-bottom:12px;gap:5px;}
+  .form-group label{font-size:.76rem;}
+  .form-group .hint{font-size:.66rem;line-height:1.35;}
+  .form-control{
+    padding:10px 12px;
+    font-size:.84rem;
+    min-height:42px;
+    border-radius:9px;
+  }
+  .form-control::placeholder{font-size:.8rem;}
+  textarea.form-control{min-height:80px;font-size:.84rem;}
+  .form-row{grid-template-columns:1fr;gap:10px;}
+
+  .img-upload{
+    padding:16px 12px;
+    border-radius:12px;
+  }
+  .img-upload__icon{
+    width:40px;height:40px;border-radius:10px;
+    margin-bottom:8px;
+  }
+  .img-upload__icon svg{width:20px;height:20px;}
+  .img-upload__title{font-size:.8rem;}
+  .img-upload__hint{font-size:.68rem;}
+  .img-preview{
+    max-width:200px;
+    border-radius:12px;
+    margin-top:10px;
+  }
+  .img-preview__remove{width:26px;height:26px;top:6px;right:6px;}
+  .img-preview__remove svg{width:13px;height:13px;}
+
+  .pack-input-row{gap:6px;}
+  .pack-input-row .btn{
+    padding:0 14px;
+    font-size:.76rem;
+    min-height:42px;
+  }
+  .pack-chips{gap:5px;margin-top:6px;}
+  .pack-chip{
+    font-size:.7rem;
+    padding:4px 5px 4px 10px;
+    gap:5px;
+  }
+  .pack-chip button{width:14px;height:14px;}
+  .pack-chip button svg{width:9px;height:9px;}
+
+  .stock-preview{
+    padding:9px 12px;
+    font-size:.74rem;
+    margin-bottom:12px;
+    border-radius:8px;
+    gap:6px;
+    line-height:1.4;
+  }
+  .stock-preview svg{width:14px;height:14px;}
+
+  .form-actions{
+    flex-direction:column;
+    gap:7px;
+    margin-top:14px;
+    padding-top:14px;
+  }
+  .form-actions .btn{
+    width:100%;
+    padding:11px 16px;
+    font-size:.8rem;
+    min-height:42px;
+    border-radius:10px;
+  }
+
+  .form-alert{
+    padding:9px 12px;
+    font-size:.74rem;
+    border-radius:8px;
+    margin-bottom:12px;
+    line-height:1.4;
+  }
+
+  .preview-card{
+    padding:14px;
+    border-radius:14px;
+    box-shadow:0 1px 4px rgba(92,58,33,.06);
+  }
+  .preview-card__head{
+    margin-bottom:12px;
+    padding-bottom:10px;
+  }
+  .preview-card__head h3{font-size:.88rem;}
+  .preview-card__label{font-size:.6rem;}
+  .preview-card__hint{font-size:.7rem;margin-top:12px;}
+
+  .mini-prod-card{border-radius:12px;}
+  .mini-prod-card__badge{
+    font-size:.56rem;
+    padding:3px 8px;
+    top:7px;left:7px;
+  }
+  .mini-prod-card__body{padding:11px;}
+  .mini-prod-card__cat{font-size:.6rem;margin-bottom:3px;}
+  .mini-prod-card__body h4{font-size:.82rem;margin-bottom:5px;}
+  .mini-prod-card__desc{font-size:.72rem;margin-bottom:6px;}
+  .mini-prod-card__meta{font-size:.66rem;}
+  .mini-prod-card__price{font-size:.66rem;padding:5px 8px;margin-top:6px;}
+
+  .admin-product-grid{
+    grid-template-columns:repeat(2,1fr);
+    gap:8px;
+  }
+  .admin-prod-card{
+    border-radius:10px;
+    border-color:var(--border-soft);
+    box-shadow:0 1px 4px rgba(92,58,33,.06);
+  }
+  .admin-prod-card:hover{transform:none;box-shadow:0 2px 8px rgba(92,58,33,.10);}
+  .admin-prod-card__body{
+    padding:9px 10px 10px;
+    gap:4px;
+  }
+  .admin-prod-card__cat{font-size:.56rem;}
+  .admin-prod-card__body h4{
+    font-size:.76rem;
+    line-height:1.2;
+    display:-webkit-box;
+    -webkit-line-clamp:2;
+    -webkit-box-orient:vertical;
+    overflow:hidden;
+    min-height:1.85em;
+  }
+  .admin-prod-card__desc{
+    font-size:.64rem;
+    line-height:1.35;
+    display:-webkit-box;
+    -webkit-line-clamp:2;
+    -webkit-box-orient:vertical;
+    overflow:hidden;
+  }
+  .admin-prod-card__meta{
+    font-size:.6rem;
+    line-height:1.3;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+  .admin-prod-card__avail{
+    font-size:.54rem;
+    padding:2px 7px;
+    gap:3px;
+  }
+  .admin-prod-card__avail svg{width:9px;height:9px;}
+  .admin-prod-card__actions{
+    flex-direction:column;
+    gap:4px;
+    margin-top:5px;
+    padding-top:7px;
+  }
+  .admin-prod-card__actions .btn{
+    width:100%;
+    padding:7px 8px;
+    font-size:.66rem;
+    min-height:30px;
+    border-radius:7px;
+    gap:4px;
+  }
+  .admin-prod-card__actions .btn svg{width:11px;height:11px;}
+}
+
+@media (max-width: 380px) {
+  .container{padding:0 12px;}
+  .admin-header__logo{height:36px;width:36px;}
+  .admin-header__name{font-size:.92rem;}
+  .admin-header__tag{font-size:.52rem;}
+  .admin-tab{padding:7px 12px;font-size:.72rem;}
+  .dash-stat__value{font-size:1.2rem;}
+  .admin-product-grid{grid-template-columns:1fr;}
+  .admin-prod-card__actions{flex-direction:row;}
+  .admin-prod-card__actions .btn{width:auto;flex:1;}
+}
+/* =========================================================
+   PROMOTION BANNER ADMIN
+========================================================= */
+
+#promotionSection {
+    padding: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+#promotionSection .section-header {
+    margin-bottom: 30px;
+}
+
+#promotionSection .section-header h2 {
+    margin: 0 0 8px;
+    font-size: 32px;
+}
+
+#promotionSection .section-header p {
+    margin: 0;
+    color: #777;
+}
+
+
+.promotion-card {
+    background: #ffffff;
+    border: 1px solid #eadfce;
+    border-radius: 18px;
+    padding: 32px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+}
+
+.promotion-card h3 {
+    margin-top: 0;
+    margin-bottom: 8px;
+    font-size: 22px;
+}
+
+.form-help {
+    color: #777;
+    margin-bottom: 30px;
+}
+
+
+.form-group {
+    margin-bottom: 24px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+
+.form-group input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 14px 16px;
+    border: 1px solid #ddd0bd;
+    border-radius: 10px;
+    font-size: 16px;
+    background: #fff;
+}
+
+
+.input-with-suffix {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.input-with-suffix input {
+    flex: 1;
+}
+
+.input-with-suffix span {
+    font-weight: 600;
+    color: #6b4023;
+}
+
+
+.promotion-preview {
+    margin-top: 35px;
+    padding-top: 25px;
+    border-top: 1px solid #eadfce;
+}
+
+.promotion-preview h4 {
+    margin-bottom: 15px;
+}
+
+
+.offer-banner-preview {
+    background: #754522;
+    color: white;
+    min-height: 58px;
+    padding: 0 24px;
+    border-radius: 8px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 8px;
+
+    font-size: 16px;
+    flex-wrap: wrap;
+}
+
+
+.offer-banner-preview strong {
+    font-weight: 700;
+}
+
+
+.offer-tag-preview {
+    background: #d7aa52;
+    color: #402613;
+
+    padding: 7px 14px;
+    border-radius: 20px;
+
+    font-size: 13px;
+    font-weight: 700;
+
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+
+.promotion-actions {
+    margin-top: 30px;
+}
+
+
+#saveOfferBtn {
+    padding: 14px 25px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+
+    background: #6b4023;
+    color: white;
+
+    font-size: 15px;
+    font-weight: 600;
+}
+
+
+#saveOfferBtn:hover {
+    background: #4f2d18;
+}
+
+
+#offerMessage {
+    margin-top: 20px;
+    padding: 14px 16px;
+    border-radius: 10px;
+    font-weight: 500;
+}
+</style>
+</head>
+<body>
+
+<!-- =========================================================
+     ADMIN HEADER
+     ========================================================= -->
+<header class="admin-header">
+  <div class="container admin-header__inner">
+    <div class="admin-header__brand">
+      <img src="images/logo.png" alt="FIDA logo" class="admin-header__logo" onerror="this.style.display='none';this.parentElement.style.background='var(--brown)';this.parentElement.style.width='52px';this.parentElement.style.height='52px';" />
+      <span class="admin-header__text">
+        <span class="admin-header__name">FIDA Admin Panel</span>
+        <span class="admin-header__tag">Clothing &amp; Essentials</span>
+      </span>
+    </div>
+
+    <div class="admin-header__user">
+      <div class="admin-header__user-info">
+        <span class="admin-header__user-label">Signed in as</span>
+        <span class="admin-header__user-email" id="currentUser">admin@fidaexports.com</span>
+      </div>
+      <a href="index.html" class="btn btn--white btn--sm">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        View Site
+      </a>
+    </div>
+  </div>
+</header>
+
+<!-- =========================================================
+     TABS
+     ========================================================= -->
+<nav class="admin-tabs">
+  <div class="container admin-tabs__inner">
+    <button class="admin-tab is-active" data-tab="dashboard">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+      Dashboard
+    </button>
+
+    <button class="admin-tab" data-tab="users">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      Users
+      <span class="admin-tab__count" id="userCount">0</span>
+    </button>
+
+    <button class="admin-tab" data-tab="enquiries">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      Enquiries
+      <span class="admin-tab__count" id="enqCount">0</span>
+    </button>
+
+    <button class="admin-tab" data-tab="upload">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+      Upload Product
+    </button>
+
+    <button class="admin-tab" data-tab="products">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+      Product Database
+      <span class="admin-tab__count" id="prodCount">0</span>
+    </button>
+
+    <button
+    type="button"
+    class="admin-tab"
+    data-tab="promotion"
+>
+    Promotion Banner
+</button>
+  </div>
+</nav>
+
+<!-- =========================================================
+     MAIN CONTENT
+     ========================================================= -->
+<main class="admin-main">
+  <div class="container">
+
+    <!-- ============ TAB: DASHBOARD ============ -->
+    <section class="admin-section is-active" id="tab-dashboard">
+      <div class="admin-section__head">
+        <h2>Dashboard Overview</h2>
+        <p>A quick snapshot of the site's users, enquiries and product catalogue.</p>
+      </div>
+
+      <div class="dash-stats" id="dashboardStats"></div>
+      <div class="dash-recent" id="dashboardRecent"></div>
+    </section>
+
+    <!-- ============ TAB: USERS ============ -->
+    <section class="admin-section" id="tab-users">
+      <div class="admin-section__head">
+        <h2>Logged-in Users</h2>
+        <p>Every user who has signed in is tracked here, along with their role and login time.</p>
+      </div>
+
+      <div class="admin-toolbar">
+        <div class="admin-toolbar__search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" id="usersSearch" class="form-control" placeholder="Search by email…" />
+        </div>
+        <button class="btn btn--outline btn--sm" id="clearUsersBtn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/></svg>
+          Clear History
+        </button>
+      </div>
+
+      <div class="users-table-wrap">
+        <div class="users-table-scroll">
+          <table class="users-table" id="usersTable">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Email Address</th>
+                <th>Role</th>
+                <th>Login Time</th>
+              </tr>
+            </thead>
+            <tbody id="usersTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+    <!-- discount option -->
+     <!-- =========================================================
+     PROMOTION BANNER
+========================================================= -->
+
+<section
+    id="tab-promotion"
+    class="admin-section"
+>
+
+    <div class="section-header">
+
+        <div>
+            <h2>Promotion Banner</h2>
+
+            <p>
+                Change the promotion banner displayed on the website.
+            </p>
+        </div>
+
+    </div>
+
+
+    <div class="promotion-editor">
+
+        <div class="promotion-card">
+
+            <h3>Banner Settings</h3>
+
+            <p class="form-help">
+                Update the discount percentage and the category
+                shown in the promotion banner.
+            </p>
+
+
+            <!-- DISCOUNT -->
+
+            <div class="form-group">
+
+                <label for="offerDiscount">
+                    Discount Percentage
+                </label>
+
+                <div class="input-with-suffix">
+
+                   <input
+    type="number"
+    id="offerDiscount"
+    min="0"
+    max="100"
+    placeholder="40"
+>
+
+                    <span>% OFF</span>
+
+                </div>
+
+            </div>
+
+
+            <!-- CATEGORY -->
+
+            <div class="form-group">
+
+                <label for="offerCategory">
+                    Promotion Category
+                </label>
+
+                <input
+    type="text"
+    id="offerCategory"
+    placeholder="All Women's Wear"
+>
+
+            </div>
+
+
+            <!-- PREVIEW -->
+
+            <div class="promotion-preview">
+
+                <h4>Live Preview</h4>
+
+                <div class="offer-banner-preview">
+
+                    <span class="offer-tag-preview">
+                        🔥 Special Offer
+                    </span>
+
+                    <span>
+                        Flat
+                    </span>
+
+                    <strong id="offerPreviewDiscount">
+                        40% OFF
+                    </strong>
+
+                    <span>
+                        on
+                    </span>
+
+                    <span id="offerPreviewCategory">
+                        All Women's Wear
+                    </span>
+
+                    <span>
+                        — Limited Time!
+                    </span>
+
+                    <span>
+                        →
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- BUTTON -->
+
+            <div class="promotion-actions">
+
+                <button
+    type="button"
+    id="saveOfferBtn"
+    class="btn btn--primary">
+    Save Promotion
+</button>
+
+            </div>
+
+
+            <!-- MESSAGE -->
+
+            <div
+                id="offerMessage"
+                style="display:none;"
+            ></div>
+
+        </div>
+
+    </div>
+
+</section>
+
+    <!-- ============ TAB: ENQUIRIES ============ -->
+    <section class="admin-section" id="tab-enquiries">
+      <div class="admin-section__head">
+        <h2>Customer Enquiries</h2>
+        <p>All enquiries submitted through the website enquiry form.</p>
+      </div>
+
+      <div class="admin-toolbar">
+        <div class="admin-toolbar__search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" id="enqSearch" class="form-control" placeholder="Search enquiries…" />
+        </div>
+      </div>
+
+      <div class="enquiry-list" id="enquiryList"></div>
+    </section>
+
+    <!-- ============ TAB: UPLOAD PRODUCT ============ -->
+    <section class="admin-section" id="tab-upload">
+      <div class="admin-section__head">
+        <h2 id="uploadTabTitle">Upload New Product</h2>
+        <p id="uploadTabSubtitle">Add a new product to the catalogue. The image and required fields are marked with <span style="color:var(--gold);font-weight:700">*</span>.</p>
+      </div>
+
+      <div class="upload-grid">
+
+        <!-- -------- FORM -------- -->
+        <div class="upload-card">
+          <div class="upload-card__head">
+            <h3 id="formHeading">Product Details</h3>
+            <p id="formSubheading">Fill in the details and click "Save Product" to add it to the catalogue.</p>
+          </div>
+
+          <div class="form-alert form-alert--success" id="uploadSuccess" role="status"></div>
+          <div class="form-alert form-alert--error" id="uploadError" role="alert"></div>
+
+          <form id="uploadForm" novalidate>
+
+            <div class="form-group">
+              <label>Product Image <span class="req">*</span></label>
+              <div class="img-upload" id="imgUpload">
+                <input type="file" id="imgInput" class="img-upload__input" accept="image/*" />
+                <div class="img-upload__icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                </div>
+                <p class="img-upload__title">Click to upload or drag &amp; drop</p>
+                <p class="img-upload__hint">PNG, JPG or WEBP — up to 5 MB</p>
+              </div>
+
+              <div class="img-preview" id="imgPreview">
+                <img src="" alt="Preview" id="imgPreviewImg" />
+                <button type="button" class="img-preview__remove" id="imgRemove" aria-label="Remove image">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
+                </button>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="pName">Product Name <span class="req">*</span></label>
+              <input type="text" id="pName" class="form-control" placeholder="e.g. Elegant Silk Gown" required />
+            </div>
+
+            <div class="form-group">
+              <label for="pCategory">Category <span class="req">*</span></label>
+              <select id="pCategory" class="form-control" required>
+                <option value="">Select a category</option>
+                <option>Women's Wear</option>
+                <option>Essentials</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="pDesc">Product Description <span class="req">*</span></label>
+              <textarea id="pDesc" class="form-control" placeholder="Short description of the product..." required></textarea>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="pQuantity">Available Quantity <span class="req">*</span></label>
+                <input type="number" id="pQuantity" class="form-control" placeholder="e.g. 20" min="0" step="1" required />
+                <span class="hint">How many units are currently in stock.</span>
+              </div>
+
+              <div class="form-group">
+                <label for="pTotal">Total Capacity <span class="req">*</span></label>
+                <input type="number" id="pTotal" class="form-control" placeholder="e.g. 50" min="1" step="1" required />
+                <span class="hint">Maximum units the product can hold.</span>
+              </div>
+            </div>
+
+            <div class="stock-preview stock-preview--in" id="stockPreview">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+              <span id="stockPreviewText">Enter quantity and total capacity to see stock status.</span>
+            </div>
+
+            <div class="form-group">
+              <label for="pPackInput">Available Sizes <span class="req">*</span></label>
+              <div class="pack-input-row">
+                <input type="text" id="pPackInput" class="form-control" placeholder="e.g. S, M, L, XL or Free Size" />
+                <button type="button" class="btn btn--outline" id="addPackBtn">Add</button>
+              </div>
+              <span class="hint">Type a size and click "Add". Add as many as needed.</span>
+              <div class="pack-chips" id="packChips"></div>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn btn--primary" id="saveBtn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+                <span id="saveBtnText">Save Product</span>
+              </button>
+              <button type="button" class="btn btn--outline" id="cancelEditBtn" style="display:none;">Cancel Edit</button>
+              <button type="button" class="btn btn--outline" id="resetUploadBtn">Clear Form</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- -------- LIVE PREVIEW -------- -->
+        <div class="preview-card">
+          <div class="preview-card__head">
+            <h3>Live Preview</h3>
+            <span class="preview-card__label">As customers see it</span>
+          </div>
+
+          <div class="mini-prod-card">
+            <div class="mini-prod-card__media" id="previewMedia">
+              <span>Image preview</span>
+              <span class="mini-prod-card__badge" id="previewBadge" style="display:none;">In Stock</span>
+            </div>
+            <div class="mini-prod-card__body">
+              <span class="mini-prod-card__cat" id="previewCat">Category</span>
+              <h4 id="previewName">Product Name</h4>
+              <p class="mini-prod-card__desc" id="previewDesc">Product description will appear here…</p>
+              <p class="mini-prod-card__meta" id="previewMeta"><strong>Sizes:</strong> —</p>
+              <div class="mini-prod-card__price">Enquire on WhatsApp for Pricing</div>
+            </div>
+          </div>
+
+          <p class="preview-card__hint">
+            This preview updates live as you fill in the form. Stock badge is auto-calculated from Quantity vs Total Capacity.
+          </p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ============ TAB: PRODUCT DATABASE ============ -->
+    <section class="admin-section" id="tab-products">
+      <div class="admin-section__head">
+        <h2>Product Database</h2>
+        <p>All products in the catalogue. Search, edit, or delete any product.</p>
+      </div>
+
+      <div class="admin-toolbar">
+        <div class="admin-toolbar__search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" id="prodSearch" class="form-control" placeholder="Search products by name or category…" />
+        </div>
+        <button class="btn btn--primary btn--sm" id="gotoUploadBtn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Add New Product
+        </button>
+      </div>
+
+      <div class="admin-product-grid" id="adminProductGrid"></div>
+    </section>
+
+  </div>
+</main>
+
+<script type="module">
+
+/* =========================================================
+   FIDA ADMIN PANEL - COMPLETE JAVASCRIPT
+   ========================================================= */
+
+
+import { auth } from "./firebase-config.js";
+
+import {
+    onAuthStateChanged,
+    signOut
+} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+
+
+/* =========================================================
+   CONFIGURATION
+   ========================================================= */
+
+const API_BASE = "http://127.0.0.1:8000";
+
+
+/* =========================================================
+   STATE
+   ========================================================= */
+
+let selectedImageFile = null;
+let packSizes = [];
+
+
+/* =========================================================
+   DOM HELPER
+   ========================================================= */
+
+function $(id) {
+    return document.getElementById(id);
+}
+
+
+/* =========================================================
+   HTML ESCAPE
+   ========================================================= */
+
+function escapeHtml(value) {
+
+    if (value === null || value === undefined) {
+        return "";
+    }
+
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+
+/* =========================================================
+   DATE FORMAT
+   ========================================================= */
+
+function formatDate(value) {
+
+    if (!value) {
+        return "—";
+    }
+
+    const date = new Date(value);
+
+    if (Number.isNaN(date.getTime())) {
+        return "—";
+    }
+
+    return date.toLocaleString("en-IN", {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit"
+    });
+}
+
+
+/* =========================================================
+   STOCK STATUS
+   ========================================================= */
+
+function computeStockStatus(quantity, total) {
+
+    const q = Number(quantity) || 0;
+    const t = Number(total) || 0;
+
+    if (q <= 0) {
+        return "Out of Stock";
+    }
+
+    if (t > 0 && q <= t / 3) {
+        return "Limited Time Offer";
+    }
+
+    return "In Stock";
+}
+
+
+function stockBadgeClass(status) {
+
+    if (status === "Limited Time Offer") {
+        return "admin-prod-card__avail admin-prod-card__avail--limited";
+    }
+
+    if (status === "Out of Stock") {
+        return "admin-prod-card__avail admin-prod-card__avail--out";
+    }
+
+    return "admin-prod-card__avail";
+}
+
+
+/* =========================================================
+   API RESPONSE HANDLER
+   ========================================================= */
+
+async function getJson(response) {
+
+    const text = await response.text();
+
+    let data = {};
+
+    try {
+        data = text ? JSON.parse(text) : {};
+    } catch {
+        data = {
+            detail: text
+        };
+    }
+
+    if (!response.ok) {
+
+        throw new Error(
+            data.detail ||
+            data.message ||
+            `Request failed with status ${response.status}`
+        );
+    }
+
+    return data;
+}
+
+
+/* =========================================================
+   ADMIN AUTHORIZATION
+   ========================================================= */
+
+/*
+   IMPORTANT:
+   We return ONLY Authorization here.
+
+   Do NOT put Content-Type: application/json here because
+   product upload uses FormData.
+*/
+
+async function getAdminHeaders() {
+
+    const user = auth.currentUser;
+
+    if (!user) {
+        throw new Error("You are not logged in.");
+    }
+
+    const token = await user.getIdToken(true);
+
+    const tokenResult =
+        await user.getIdTokenResult();
+
+    if (tokenResult.claims.admin !== true) {
+        throw new Error(
+            "Administrator access required."
+        );
+    }
+
+    return {
+        Authorization: `Bearer ${token}`
+    };
+}
+
+
+/* =========================================================
+   JSON AUTH HEADERS
+   ========================================================= */
+
+async function getAdminJsonHeaders() {
+
+    const headers =
+        await getAdminHeaders();
+
+    return {
+        ...headers,
+        "Content-Type": "application/json"
+    };
+}
+
+
+/* =========================================================
+   CURRENT USER
+   ========================================================= */
+
+function loadCurrentUser(user) {
+
+    const currentUser =
+        $("currentUser");
+
+    if (!currentUser) {
+        return;
+    }
+
+    if (user && user.email) {
+
+        currentUser.textContent =
+            user.email;
+
+        return;
+    }
+
+    const savedEmail =
+        localStorage.getItem(
+            "fida_user_email"
+        );
+
+    if (savedEmail) {
+        currentUser.textContent =
+            savedEmail;
+    }
+}
+
+
+/* =========================================================
+   ALERTS
+   ========================================================= */
+
+function showAlert(type, message) {
+
+    const success =
+        $("uploadSuccess");
+
+    const error =
+        $("uploadError");
+
+    if (success) {
+        success.classList.remove(
+            "is-visible"
+        );
+
+        success.textContent = "";
+    }
+
+    if (error) {
+        error.classList.remove(
+            "is-visible"
+        );
+
+        error.textContent = "";
+    }
+
+    if (type === "success") {
+
+        if (success) {
+
+            success.textContent =
+                message;
+
+            success.classList.add(
+                "is-visible"
+            );
+        }
+
+    } else {
+
+        if (error) {
+
+            error.textContent =
+                message;
+
+            error.classList.add(
+                "is-visible"
+            );
+        }
+    }
+}
+
+/* =========================================================
+   TAB SYSTEM
+   ========================================================= */
+// =========================================================
+// ADMIN TAB ACTIVATION
+// =========================================================
+
+function activateTab(tabName) {
+
+    console.log(
+        "Opening admin tab:",
+        tabName
+    );
+
+
+    // =====================================================
+    // 1. ACTIVATE NAVIGATION BUTTON
+    // =====================================================
+
+    document
+        .querySelectorAll(".admin-tab")
+        .forEach(button => {
+
+            button.classList.toggle(
+                "is-active",
+                button.dataset.tab === tabName
+            );
+
+        });
+
+
+    // =====================================================
+    // 2. SHOW SELECTED ADMIN SECTION
+    // =====================================================
+
+    document
+        .querySelectorAll(".admin-section")
+        .forEach(section => {
+
+            section.classList.toggle(
+                "is-active",
+                section.id === `tab-${tabName}`
+            );
+
+        });
+
+
+    // =====================================================
+    // 3. LOAD DATA FOR SELECTED TAB
+    // =====================================================
+
+    switch (tabName) {
+
+
+        // -------------------------------------------------
+        // DASHBOARD
+        // -------------------------------------------------
+
+        case "dashboard":
+
+            if (
+                typeof renderDashboard === "function"
+            ) {
+
+                renderDashboard();
+
+            } else {
+
+                console.warn(
+                    "renderDashboard() not found."
+                );
+
+            }
+
+            break;
+
+
+        // -------------------------------------------------
+        // USERS
+        // -------------------------------------------------
+
+        case "users":
+
+            if (
+                typeof renderUsers === "function"
+            ) {
+
+                renderUsers();
+
+            } else {
+
+                console.warn(
+                    "renderUsers() not found."
+                );
+
+            }
+
+            break;
+
+
+        // -------------------------------------------------
+        // ENQUIRIES
+        // -------------------------------------------------
+
+        case "enquiries":
+
+            if (
+                typeof renderEnquiries === "function"
+            ) {
+
+                renderEnquiries();
+
+            } else {
+
+                console.warn(
+                    "renderEnquiries() not found."
+                );
+
+            }
+
+            break;
+
+
+        // -------------------------------------------------
+        // PRODUCTS
+        // -------------------------------------------------
+
+        case "products":
+
+            if (
+                typeof renderProducts === "function"
+            ) {
+
+                renderProducts();
+
+            } else {
+
+                console.warn(
+                    "renderProducts() not found."
+                );
+
+            }
+
+            break;
+
+
+        // -------------------------------------------------
+        // PROMOTION
+        // -------------------------------------------------
+
+        case "promotion":
+
+            console.log(
+                "Loading Promotion Banner..."
+            );
+
+
+            if (
+                typeof renderPromotionBanner ===
+                "function"
+            ) {
+
+                renderPromotionBanner();
+
+            } else {
+
+                console.error(
+                    "renderPromotionBanner() is not defined."
+                );
+
+            }
+
+            break;
+
+
+        // -------------------------------------------------
+        // UNKNOWN TAB
+        // -------------------------------------------------
+
+        default:
+
+            console.warn(
+                "Unknown admin tab:",
+                tabName
+            );
+
+            break;
+
+    }
+
+}
+
+/* =========================================================
+   TAB BUTTON EVENTS
+   ========================================================= */
+
+document
+    .querySelectorAll(
+        ".admin-tab"
+    )
+    .forEach(button => {
+
+        button.addEventListener(
+            "click",
+            function(event) {
+
+                event.preventDefault();
+
+                const tab =
+                    this.dataset.tab;
+
+                if (!tab) {
+                    return;
+                }
+
+                activateTab(tab);
+            }
+        );
+
+    });
+
+
+/* =========================================================
+   DASHBOARD
+   ========================================================= */
+
+async function renderDashboard() {
+
+    const statsEl =
+        $("dashboardStats");
+
+    if (!statsEl) {
+        return;
+    }
+
+    statsEl.innerHTML = `
+        <div class="dash-stat">
+            <p class="dash-stat__label">
+                Loading...
+            </p>
+
+            <p class="dash-stat__value">
+                ...
+            </p>
+        </div>
+    `;
+
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_BASE}/api/admin/dashboard-stats`,
+                {
+                    method: "GET",
+                    headers:
+                        await getAdminHeaders()
+                }
+            );
+
+
+        const data =
+            await getJson(response);
+
+
+        statsEl.innerHTML = `
+
+            <div class="dash-stat">
+
+                <p class="dash-stat__label">
+                    Total Logins
+                </p>
+
+                <p class="dash-stat__value">
+                    ${data.totalLogins || 0}
+                </p>
+
+                <p class="dash-stat__sub">
+                    Users who signed in
+                </p>
+
+            </div>
+
+
+            <div class="dash-stat">
+
+                <p class="dash-stat__label">
+                    Enquiries
+                </p>
+
+                <p class="dash-stat__value">
+                    ${data.totalEnquiries || 0}
+                </p>
+
+                <p class="dash-stat__sub">
+                    Submitted via website
+                </p>
+
+            </div>
+
+
+            <div class="dash-stat">
+
+                <p class="dash-stat__label">
+                    Total Products
+                </p>
+
+                <p class="dash-stat__value">
+                    ${data.totalProducts || 0}
+                </p>
+
+                <p class="dash-stat__sub">
+                    In Firebase catalogue
+                </p>
+
+            </div>
+
+
+            <div class="dash-stat">
+
+                <p class="dash-stat__label">
+                    Stock Breakdown
+                </p>
+
+                <div class="dash-stat__breakdown">
+
+                    <p>
+                        <strong style="color:var(--brown-dark);">
+                            In Stock:
+                        </strong>
+
+                        ${
+                            data.stockBreakdown?.inStock ||
+                            0
+                        }
+                    </p>
+
+
+                    <p>
+                        <strong style="color:#B4750D;">
+                            Limited:
+                        </strong>
+
+                        ${
+                            data.stockBreakdown?.limited ||
+                            0
+                        }
+                    </p>
+
+
+                    <p>
+                        <strong style="color:#8C2A2A;">
+                            Out of Stock:
+                        </strong>
+
+                        ${
+                            data.stockBreakdown?.outOfStock ||
+                            0
+                        }
+                    </p>
+
+                </div>
+
+            </div>
+
+        `;
+
+
+        const recentEl =
+            $("dashboardRecent");
+
+
+        if (recentEl) {
+
+            recentEl.innerHTML = `
+
+                <div class="dash-card">
+
+                    <h3>
+                        Recent Logins
+                    </h3>
+
+                    <p>
+                        Open the Users tab to view
+                        login history.
+                    </p>
+
+                </div>
+
+
+                <div class="dash-card">
+
+                    <h3>
+                        Recent Enquiries
+                    </h3>
+
+                    <p>
+                        Open the Enquiries tab to
+                        view customer enquiries.
+                    </p>
+
+                </div>
+
+            `;
+        }
+
+
+        updateCounters(
+            data
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "Dashboard error:",
+            error
+        );
+
+
+        statsEl.innerHTML = `
+
+            <div
+                class="form-alert form-alert--error is-visible"
+                style="
+                    display:block;
+                    grid-column:1/-1;
+                "
+            >
+
+                Cannot load dashboard.
+
+                <br><br>
+
+                ${escapeHtml(
+                    error.message ||
+                    "Make sure FastAPI is running."
+                )}
+
+            </div>
+
+        `;
+    }
+}
+
+
+/* =========================================================
+   COUNTERS
+   ========================================================= */
+
+function updateCounters(data) {
+
+    if ($("userCount") &&
+        data.totalLogins !== undefined) {
+
+        $("userCount").textContent =
+            data.totalLogins;
+    }
+
+    if ($("enqCount") &&
+        data.totalEnquiries !== undefined) {
+
+        $("enqCount").textContent =
+            data.totalEnquiries;
+    }
+
+    if ($("prodCount") &&
+        data.totalProducts !== undefined) {
+
+        $("prodCount").textContent =
+            data.totalProducts;
+    }
+}
+
+
+/* =========================================================
+   USERS
+   ========================================================= */
+
+async function renderUsers() {
+
+    const tbody =
+        $("usersTableBody");
+
+    if (!tbody) {
+        return;
+    }
+
+
+    tbody.innerHTML = `
+
+        <tr>
+            <td colspan="4"
+                style="
+                    text-align:center;
+                    padding:32px;
+                "
+            >
+                Loading users...
+            </td>
+        </tr>
+
+    `;
+
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_BASE}/api/users/log`,
+                {
+                    method: "GET",
+                    headers:
+                        await getAdminHeaders()
+                }
+            );
+
+
+        const users =
+            await getJson(response);
+
+
+        const userList =
+            Array.isArray(users)
+                ? users
+                : [];
+
+
+        const query =
+            (
+                $("usersSearch")?.value ||
+                ""
+            )
+            .trim()
+            .toLowerCase();
+
+
+        const filtered =
+            query
+
+                ? userList.filter(
+                    user =>
+                        (
+                            user.email ||
+                            ""
+                        )
+                        .toLowerCase()
+                        .includes(query)
+                )
+
+                : userList;
+
+
+        if ($("userCount")) {
+
+            $("userCount").textContent =
+                userList.length;
+        }
+
+
+        if (!filtered.length) {
+
+            tbody.innerHTML = `
+
+                <tr>
+
+                    <td
+                        colspan="4"
+                        style="
+                            text-align:center;
+                            padding:32px;
+                            color:var(--text-muted);
+                        "
+                    >
+
+                        ${
+                            userList.length
+                                ? "No users match your search."
+                                : "No users have logged in yet."
+                        }
+
+                    </td>
+
+                </tr>
+
+            `;
+
+            return;
+        }
+
+
+        tbody.innerHTML =
+            filtered
+                .map(
+                    (user, index) => {
+
+                        const role =
+                            user.role ||
+                            "user";
+
+                        return `
+
+                            <tr>
+
+                                <td>
+                                    ${index + 1}
+                                </td>
+
+
+                                <td
+                                    style="
+                                        word-break:break-all;
+                                    "
+                                >
+
+                                    ${escapeHtml(
+                                        user.email ||
+                                        "—"
+                                    )}
+
+                                </td>
+
+
+                                <td>
+
+                                    <span
+                                        class="
+                                            user-role-badge
+                                            user-role-badge--${escapeHtml(
+                                                role
+                                            )}
+                                        "
+                                    >
+
+                                        ${escapeHtml(
+                                            role
+                                        )}
+
+                                    </span>
+
+                                </td>
+
+
+                                <td>
+
+                                    ${formatDate(
+                                        user.loggedInAt ||
+                                        user.createdAt
+                                    )}
+
+                                </td>
+
+                            </tr>
+
+                        `;
+                    }
+                )
+                .join("");
+
+
+    } catch (error) {
+
+        console.error(
+            "Users error:",
+            error
+        );
+
+
+        tbody.innerHTML = `
+
+            <tr>
+
+                <td
+                    colspan="4"
+                    style="
+                        text-align:center;
+                        padding:32px;
+                        color:#8C2A2A;
+                    "
+                >
+
+                    Cannot load users.
+
+                    <br><br>
+
+                    ${escapeHtml(
+                        error.message ||
+                        "Backend error."
+                    )}
+
+                </td>
+
+            </tr>
+
+        `;
+    }
+}
+
+
+/* =========================================================
+   USER SEARCH
+   ========================================================= */
+
+$("usersSearch")
+    ?.addEventListener(
+        "input",
+        () => {
+            renderUsers();
+        }
+    );
+
+
+/* =========================================================
+   CLEAR USER HISTORY
+   ========================================================= */
+
+$("clearUsersBtn")
+    ?.addEventListener(
+        "click",
+        function(event) {
+
+            event.preventDefault();
+
+            alert(
+                "User history is stored in Firebase. " +
+                "The secure Clear History API has not " +
+                "been added to the backend yet."
+            );
+
+        }
+    );
+
+
+/* =========================================================
+   ENQUIRIES
+   ========================================================= */
+
+async function renderEnquiries() {
+
+    const list =
+        $("enquiryList");
+
+    if (!list) {
+        return;
+    }
+
+
+    list.innerHTML = `
+
+        <div
+            class="empty-state"
+            style="grid-column:1/-1;"
+        >
+
+            <h3>
+                Loading enquiries...
+            </h3>
+
+        </div>
+
+    `;
+
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_BASE}/api/enquiries`,
+                {
+                    method: "GET",
+                    headers:
+                        await getAdminHeaders()
+                }
+            );
+
+
+        const enquiries =
+            await getJson(response);
+
+
+        const enquiryList =
+            Array.isArray(enquiries)
+                ? enquiries
+                : [];
+
+
+        const query =
+            (
+                $("enqSearch")?.value ||
+                ""
+            )
+            .trim()
+            .toLowerCase();
+
+
+        const filtered =
+            query
+
+                ? enquiryList.filter(
+                    enquiry => {
+
+                        const text = [
+
+                            enquiry.fullName,
+
+                            enquiry.email,
+
+                            enquiry.phone,
+
+                            enquiry.country,
+
+                            enquiry.category,
+
+                            enquiry.product,
+
+                            enquiry.message
+
+                        ]
+                        .filter(Boolean)
+                        .join(" ")
+                        .toLowerCase();
+
+
+                        return text.includes(
+                            query
+                        );
+                    }
+                )
+
+                : enquiryList;
+
+
+        if ($("enqCount")) {
+
+            $("enqCount").textContent =
+                enquiryList.length;
+        }
+
+
+        if (!filtered.length) {
+
+            list.innerHTML = `
+
+                <div
+                    class="empty-state"
+                    style="grid-column:1/-1;"
+                >
+
+                    <h3>
+
+                        ${
+                            enquiryList.length
+                                ? "No Matches"
+                                : "No Enquiries Yet"
+                        }
+
+                    </h3>
+
+
+                    <p>
+
+                        ${
+                            enquiryList.length
+                                ? "Try another search."
+                                : "Customer enquiries will appear here."
+                        }
+
+                    </p>
+
+                </div>
+
+            `;
+
+            return;
+        }
+
+
+        list.innerHTML =
+            filtered
+                .map(
+                    enquiry => `
+
+                        <article
+                            class="enq-card"
+                            data-id="${escapeHtml(
+                                enquiry.id
+                            )}"
+                        >
+
+                            <div
+                                class="enq-card__head"
+                            >
+
+                                <div>
+
+                                    <p
+                                        class="enq-card__name"
+                                    >
+
+                                        ${escapeHtml(
+                                            enquiry.fullName ||
+                                            "—"
+                                        )}
+
+                                    </p>
+
+
+                                    <p
+                                        class="enq-card__biz"
+                                    >
+
+                                        ${escapeHtml(
+                                            enquiry.country ||
+                                            ""
+                                        )}
+
+                                    </p>
+
+                                </div>
+
+
+                                <span
+                                    class="enq-card__badge"
+                                >
+
+                                    ${escapeHtml(
+                                        enquiry.category ||
+                                        "Enquiry"
+                                    )}
+
+                                </span>
+
+                            </div>
+
+
+                            <div
+                                class="enq-card__rows"
+                            >
+
+                                <div
+                                    class="enq-row"
+                                >
+
+                                    <span
+                                        class="enq-row__label"
+                                    >
+                                        Email
+                                    </span>
+
+
+                                    <span
+                                        class="enq-row__value"
+                                    >
+
+                                        ${
+                                            enquiry.email
+                                                ? `
+                                                    <a
+                                                        href="mailto:${escapeHtml(
+                                                            enquiry.email
+                                                        )}"
+                                                    >
+                                                        ${escapeHtml(
+                                                            enquiry.email
+                                                        )}
+                                                    </a>
+                                                `
+                                                : "—"
+                                        }
+
+                                    </span>
+
+                                </div>
+
+
+                                <div
+                                    class="enq-row"
+                                >
+
+                                    <span
+                                        class="enq-row__label"
+                                    >
+                                        Phone
+                                    </span>
+
+
+                                    <span
+                                        class="enq-row__value"
+                                    >
+
+                                        ${
+                                            enquiry.phone
+                                                ? `
+                                                    <a
+                                                        href="tel:${escapeHtml(
+                                                            enquiry.phone
+                                                        )}"
+                                                    >
+                                                        ${escapeHtml(
+                                                            enquiry.phone
+                                                        )}
+                                                    </a>
+                                                `
+                                                : "—"
+                                        }
+
+                                    </span>
+
+                                </div>
+
+
+                                <div
+                                    class="enq-row"
+                                >
+
+                                    <span
+                                        class="enq-row__label"
+                                    >
+                                        Product
+                                    </span>
+
+
+                                    <span
+                                        class="enq-row__value"
+                                    >
+
+                                        ${escapeHtml(
+                                            enquiry.product ||
+                                            "—"
+                                        )}
+
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+
+                            <div
+                                class="enq-card__message"
+                            >
+
+                                ${escapeHtml(
+                                    enquiry.message ||
+                                    "—"
+                                )}
+
+                            </div>
+
+
+                            <div
+                                class="enq-card__foot"
+                            >
+
+                                <span
+                                    class="enq-card__date"
+                                >
+
+                                    ${formatDate(
+                                        enquiry.submittedAt
+                                    )}
+
+                                </span>
+
+
+                                <div
+                                    class="enq-card__actions"
+                                >
+
+                                    <button
+                                        type="button"
+                                        class="
+                                            btn
+                                            btn--danger
+                                            btn--sm
+                                            enq-delete
+                                        "
+                                        data-id="${escapeHtml(
+                                            enquiry.id
+                                        )}"
+                                    >
+
+                                        Delete
+
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+                        </article>
+
+                    `
+                )
+                .join("");
+
+
+        /* ---------------------------------------------
+           DELETE ENQUIRY BUTTONS
+           --------------------------------------------- */
+
+        list
+            .querySelectorAll(
+                ".enq-delete"
+            )
+            .forEach(button => {
+
+                button.addEventListener(
+                    "click",
+                    async function(event) {
+
+                        event.preventDefault();
+
+                        const id =
+                            this.dataset.id;
+
+                        if (!id) {
+                            return;
+                        }
+
+
+                        const confirmed =
+                            confirm(
+                                "Delete this enquiry permanently?"
+                            );
+
+
+                        if (!confirmed) {
+                            return;
+                        }
+
+
+                        try {
+
+                            this.disabled =
+                                true;
+
+                            this.textContent =
+                                "Deleting...";
+
+
+                            const response =
+                                await fetch(
+                                    `${API_BASE}/api/enquiries/${encodeURIComponent(
+                                        id
+                                    )}`,
+                                    {
+                                        method: "DELETE",
+                                        headers:
+                                            await getAdminHeaders()
+                                    }
+                                );
+
+
+                            await getJson(
+                                response
+                            );
+
+
+                            await renderEnquiries();
+
+                            await renderDashboard();
+
+
+                        } catch (error) {
+
+                            console.error(
+                                "Delete enquiry error:",
+                                error
+                            );
+
+
+                            alert(
+                                error.message ||
+                                "Could not delete enquiry."
+                            );
+
+
+                            this.disabled =
+                                false;
+
+                            this.textContent =
+                                "Delete";
+                        }
+
+                    }
+                );
+
+            });
+
+
+    } catch (error) {
+
+        console.error(
+            "Enquiries error:",
+            error
+        );
+
+
+        list.innerHTML = `
+
+            <div
+                class="empty-state"
+                style="grid-column:1/-1;"
+            >
+
+                <h3>
+                    Could not load enquiries
+                </h3>
+
+
+                <p>
+
+                    ${escapeHtml(
+                        error.message ||
+                        "Start FastAPI and refresh the page."
+                    )}
+
+                </p>
+
+            </div>
+
+        `;
+    }
+}
+
+
+/* =========================================================
+   ENQUIRY SEARCH
+   ========================================================= */
+
+$("enqSearch")
+    ?.addEventListener(
+        "input",
+        () => {
+            renderEnquiries();
+        }
+    );
+
+
+/* =========================================================
+   PRODUCTS
+   ========================================================= */
+
+async function renderProducts() {
+
+    const grid =
+        $("adminProductGrid");
+
+    if (!grid) {
+        return;
+    }
+
+
+    grid.innerHTML = `
+
+        <div
+            class="empty-state"
+            style="grid-column:1/-1;"
+        >
+
+            <h3>
+                Loading products...
+            </h3>
+
+            <p>
+                Connecting to Firebase.
+            </p>
+
+        </div>
+
+    `;
+
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_BASE}/api/products`,
+                {
+                    method: "GET",
+                    headers:
+                        await getAdminHeaders()
+                }
+            );
+
+
+        const products =
+            await getJson(response);
+
+
+        const productList =
+            Array.isArray(products)
+                ? products
+                : [];
+
+
+        if ($("prodCount")) {
+
+            $("prodCount").textContent =
+                productList.length;
+        }
+
+
+        const query =
+            (
+                $("prodSearch")?.value ||
+                ""
+            )
+            .trim()
+            .toLowerCase();
+
+
+        const filtered =
+            query
+
+                ? productList.filter(
+                    product => {
+
+                        const text = [
+
+                            product.name,
+
+                            product.category,
+
+                            product.description
+
+                        ]
+                        .filter(Boolean)
+                        .join(" ")
+                        .toLowerCase();
+
+
+                        return text.includes(
+                            query
+                        );
+                    }
+                )
+
+                : productList;
+
+
+        if (!filtered.length) {
+
+            grid.innerHTML = `
+
+                <div
+                    class="empty-state"
+                    style="grid-column:1/-1;"
+                >
+
+                    <h3>
+
+                        ${
+                            productList.length
+                                ? "No Matches"
+                                : "No Products Yet"
+                        }
+
+                    </h3>
+
+
+                    <p>
+
+                        ${
+                            productList.length
+                                ? "Try another search."
+                                : "Go to Upload Product to add your first product."
+                        }
+
+                    </p>
+
+                </div>
+
+            `;
+
+            return;
+        }
+
+
+        grid.innerHTML =
+            filtered
+                .map(
+                    product => {
+
+                        const status =
+                            product.status ||
+                            computeStockStatus(
+                                product.quantity,
+                                product.total
+                            );
+
+
+                        const sizes =
+                            Array.isArray(
+                                product.packSizes
+                            )
+                                ? product.packSizes
+                                : product.packSizes
+                                    ? String(
+                                        product.packSizes
+                                    )
+                                    .split(",")
+                                    .map(
+                                        item =>
+                                            item.trim()
+                                    )
+                                    .filter(Boolean)
+                                    : [];
+
+
+                        return `
+
+                            <article
+                                class="admin-prod-card"
+                                data-id="${escapeHtml(
+                                    product.id
+                                )}"
+                            >
+
+                                <div
+                                    class="admin-prod-card__media"
+                                >
+
+                                    ${
+                                        product.image
+
+                                            ? `
+                                                <img
+                                                    src="${escapeHtml(
+                                                        product.image
+                                                    )}"
+                                                    alt="${escapeHtml(
+                                                        product.name ||
+                                                        "Product"
+                                                    )}"
+                                                    onerror="
+                                                        this.style.display='none';
+                                                    "
+                                                >
+                                              `
+
+                                            : `
+                                                <span>
+                                                    No Image
+                                                </span>
+                                              `
+                                    }
+
+                                </div>
+
+
+                                <div
+                                    class="admin-prod-card__body"
+                                >
+
+                                    <span
+                                        class="admin-prod-card__cat"
+                                    >
+
+                                        ${escapeHtml(
+                                            product.category ||
+                                            "—"
+                                        )}
+
+                                    </span>
+
+
+                                    <h4>
+
+                                        ${escapeHtml(
+                                            product.name ||
+                                            "—"
+                                        )}
+
+                                    </h4>
+
+
+                                    <p
+                                        class="admin-prod-card__desc"
+                                    >
+
+                                        ${escapeHtml(
+                                            product.description ||
+                                            ""
+                                        )}
+
+                                    </p>
+
+
+                                    <span
+                                        class="${stockBadgeClass(
+                                            status
+                                        )}"
+                                    >
+
+                                        ${escapeHtml(
+                                            status
+                                        )}
+
+                                    </span>
+
+
+                                    <p
+                                        class="admin-prod-card__meta"
+                                    >
+
+                                        <strong>
+                                            Qty:
+                                        </strong>
+
+                                        ${
+                                            product.quantity ??
+                                            "—"
+                                        }
+
+                                        /
+
+                                        ${
+                                            product.total ??
+                                            "—"
+                                        }
+
+                                    </p>
+
+
+                                    <p
+                                        class="admin-prod-card__meta"
+                                    >
+
+                                        <strong>
+                                            Sizes:
+                                        </strong>
+
+                                        ${escapeHtml(
+                                            sizes.join(
+                                                " • "
+                                            ) ||
+                                            "—"
+                                        )}
+
+                                    </p>
+
+
+                                    <div
+                                        class="
+                                            admin-prod-card__actions
+                                        "
+                                    >
+
+                                        <button
+                                            type="button"
+                                            class="
+                                                btn
+                                                btn--danger
+                                                btn--sm
+                                                prod-delete
+                                            "
+                                            data-id="${escapeHtml(
+                                                product.id
+                                            )}"
+                                        >
+
+                                            Delete
+
+                                        </button>
+
+                                    </div>
+
+                                </div>
+
+                            </article>
+
+                        `;
+                    }
+                )
+                .join("");
+
+
+        /* ---------------------------------------------
+           DELETE PRODUCT BUTTONS
+           --------------------------------------------- */
+
+        grid
+            .querySelectorAll(
+                ".prod-delete"
+            )
+            .forEach(button => {
+
+                button.addEventListener(
+                    "click",
+                    async function(event) {
+
+                        event.preventDefault();
+
+                        const id =
+                            this.dataset.id;
+
+                        if (!id) {
+                            return;
+                        }
+
+
+                        const confirmed =
+                            confirm(
+                                "Permanently delete this product from Firebase?"
+                            );
+
+
+                        if (!confirmed) {
+                            return;
+                        }
+
+
+                        try {
+
+                            this.disabled =
+                                true;
+
+                            this.textContent =
+                                "Deleting...";
+
+
+                            const response =
+                                await fetch(
+                                    `${API_BASE}/api/products/${encodeURIComponent(
+                                        id
+                                    )}`,
+                                    {
+                                        method: "DELETE",
+                                        headers:
+                                            await getAdminHeaders()
+                                    }
+                                );
+
+
+                            await getJson(
+                                response
+                            );
+
+
+                            await renderProducts();
+
+                            await renderDashboard();
+
+
+                        } catch (error) {
+
+                            console.error(
+                                "Delete product error:",
+                                error
+                            );
+
+
+                            alert(
+                                error.message ||
+                                "Could not delete product."
+                            );
+
+
+                            this.disabled =
+                                false;
+
+                            this.textContent =
+                                "Delete";
+                        }
+
+                    }
+                );
+
+            });
+
+
+    } catch (error) {
+
+        console.error(
+            "Products error:",
+            error
+        );
+
+
+        grid.innerHTML = `
+
+            <div
+                class="empty-state"
+                style="grid-column:1/-1;"
+            >
+
+                <h3>
+                    Cannot load products
+                </h3>
+
+
+                <p>
+
+                    ${escapeHtml(
+                        error.message ||
+                        "Make sure FastAPI is running."
+                    )}
+
+                </p>
+
+            </div>
+
+        `;
+    }
+}
+
+
+/* =========================================================
+   PRODUCT SEARCH
+   ========================================================= */
+
+$("prodSearch")
+    ?.addEventListener(
+        "input",
+        () => {
+            renderProducts();
+        }
+    );
+
+
+/* =========================================================
+   GO TO UPLOAD PRODUCT
+   ========================================================= */
+
+$("gotoUploadBtn")
+    ?.addEventListener(
+        "click",
+        function(event) {
+
+            event.preventDefault();
+
+            resetUploadForm();
+
+            activateTab(
+                "upload"
+            );
+
+        }
+    );
+
+
+/* =========================================================
+   IMAGE UPLOAD
+   ========================================================= */
+
+const imgInput =
+    $("imgInput");
+
+const imgPreview =
+    $("imgPreview");
+
+const imgPreviewImg =
+    $("imgPreviewImg");
+
+const imgUpload =
+    $("imgUpload");
+
+const imgRemove =
+    $("imgRemove");
+
+
+if (imgInput) {
+
+    imgInput.addEventListener(
+        "change",
+        function(event) {
+
+            const file =
+                event.target.files[0];
+
+
+            if (!file) {
+
+                selectedImageFile =
+                    null;
+
+                return;
+            }
+
+
+            if (
+                file.size >
+                5 * 1024 * 1024
+            ) {
+
+                alert(
+                    "Image must be smaller than 5 MB."
+                );
+
+                imgInput.value =
+                    "";
+
+                selectedImageFile =
+                    null;
+
+                return;
+            }
+
+
+            if (
+                !file.type.startsWith(
+                    "image/"
+                )
+            ) {
+
+                alert(
+                    "Please select an image file."
+                );
+
+                imgInput.value =
+                    "";
+
+                selectedImageFile =
+                    null;
+
+                return;
+            }
+
+
+            selectedImageFile =
+                file;
+
+
+            const reader =
+                new FileReader();
+
+
+            reader.onload =
+                function(e) {
+
+                    if (imgPreviewImg) {
+
+                        imgPreviewImg.src =
+                            e.target.result;
+                    }
+
+
+                    if (imgPreview) {
+
+                        imgPreview.classList.add(
+                            "is-visible"
+                        );
+                    }
+
+
+                    if (imgUpload) {
+
+                        imgUpload.style.display =
+                            "none";
+                    }
+
+
+                    updatePreview();
+
+                };
+
+
+            reader.readAsDataURL(
+                file
+            );
+
+        }
+    );
+}
+
+
+/* =========================================================
+   REMOVE IMAGE
+   ========================================================= */
+
+if (imgRemove) {
+
+    imgRemove.addEventListener(
+        "click",
+        function(event) {
+
+            event.preventDefault();
+
+            selectedImageFile =
+                null;
+
+
+            if (imgInput) {
+                imgInput.value = "";
+            }
+
+
+            if (imgPreviewImg) {
+                imgPreviewImg.src = "";
+            }
+
+
+            if (imgPreview) {
+
+                imgPreview.classList.remove(
+                    "is-visible"
+                );
+            }
+
+
+            if (imgUpload) {
+
+                imgUpload.style.display =
+                    "";
+            }
+
+
+            updatePreview();
+
+        }
+    );
+}
+
+
+/* =========================================================
+   PACK SIZES
+   ========================================================= */
+
+const addPackBtn =
+    $("addPackBtn");
+
+const pPackInput =
+    $("pPackInput");
+
+const packChips =
+    $("packChips");
+
+
+function renderPackChips() {
+
+    if (!packChips) {
+        return;
+    }
+
+
+    packChips.innerHTML =
+        packSizes
+            .map(
+                (size, index) => `
+
+                    <span
+                        class="pack-chip"
+                    >
+
+                        ${escapeHtml(
+                            size
+                        )}
+
+                        <button
+                            type="button"
+                            data-index="${index}"
+                            aria-label="Remove size"
+                        >
+                            ×
+                        </button>
+
+                    </span>
+
+                `
+            )
+            .join("");
+
+
+    packChips
+        .querySelectorAll(
+            "button"
+        )
+        .forEach(button => {
+
+            button.addEventListener(
+                "click",
+                function(event) {
+
+                    event.preventDefault();
+
+                    const index =
+                        Number(
+                            this.dataset.index
+                        );
+
+
+                    packSizes.splice(
+                        index,
+                        1
+                    );
+
+
+                    renderPackChips();
+
+                    updatePreview();
+
+                }
+            );
+
+        });
+}
+
+
+
+
+function addPackSize() {
+
+    if (!pPackInput) {
+        return;
+    }
+
+
+    const value =
+        pPackInput.value.trim();
+
+
+    if (!value) {
+        return;
+    }
+
+
+    const values =
+        value
+            .split(",")
+            .map(
+                item =>
+                    item.trim()
+            )
+            .filter(Boolean);
+
+
+    values.forEach(size => {
+
+        if (
+            !packSizes.includes(
+                size
+            )
+        ) {
+
+            packSizes.push(
+                size
+            );
+        }
+
+    });
+
+
+    pPackInput.value =
+        "";
+
+
+    renderPackChips();
+
+    updatePreview();
+
+}
+
+
+if (addPackBtn) {
+
+    addPackBtn.addEventListener(
+        "click",
+        function(event) {
+
+            event.preventDefault();
+
+            addPackSize();
+
+        }
+    );
+}
+
+
+if (pPackInput) {
+
+    pPackInput.addEventListener(
+        "keydown",
+        function(event) {
+
+            if (
+                event.key ===
+                "Enter"
+            ) {
+
+                event.preventDefault();
+
+                addPackSize();
+            }
+
+        }
+    );
+}
+
+
+/* =========================================================
+   STOCK PREVIEW
+   ========================================================= */
+
+function updateStockPreview() {
+
+    const quantity =
+        Number(
+            $("pQuantity")?.value
+        ) || 0;
+
+
+    const total =
+        Number(
+            $("pTotal")?.value
+        ) || 0;
+
+
+    const preview =
+        $("stockPreview");
+
+    const text =
+        $("stockPreviewText");
+
+
+    if (!preview || !text) {
+        return;
+    }
+
+
+    const status =
+        computeStockStatus(
+            quantity,
+            total
+        );
+
+
+    preview.classList.remove(
+        "stock-preview--in",
+        "stock-preview--limited",
+        "stock-preview--out"
+    );
+
+
+    if (
+        !quantity &&
+        !total
+    ) {
+
+        preview.classList.add(
+            "stock-preview--in"
+        );
+
+        text.textContent =
+            "Enter quantity and total capacity to see stock status.";
+
+        return;
+    }
+
+
+    if (
+        status ===
+        "Out of Stock"
+    ) {
+
+        preview.classList.add(
+            "stock-preview--out"
+        );
+
+    } else if (
+        status ===
+        "Limited Time Offer"
+    ) {
+
+        preview.classList.add(
+            "stock-preview--limited"
+        );
+
+    } else {
+
+        preview.classList.add(
+            "stock-preview--in"
+        );
+    }
+
+
+    text.textContent =
+        `Stock status: ${status}`;
+
+}
+
+
+/* =========================================================
+   STOCK INPUT EVENTS
+   ========================================================= */
+
+$("pQuantity")
+    ?.addEventListener(
+        "input",
+        function() {
+
+            updateStockPreview();
+
+            updatePreview();
+
+        }
+    );
+
+
+$("pTotal")
+    ?.addEventListener(
+        "input",
+        function() {
+
+            updateStockPreview();
+
+            updatePreview();
+
+        }
+    );
+
+
+/* =========================================================
+   LIVE PRODUCT PREVIEW
+   ========================================================= */
+
+function updatePreview() {
+
+    const name =
+        $("pName")?.value.trim() ||
+        "Product Name";
+
+
+    const category =
+        $("pCategory")?.value ||
+        "Category";
+
+
+    const description =
+        $("pDesc")?.value.trim() ||
+        "Product description will appear here…";
+
+
+    const quantity =
+        Number(
+            $("pQuantity")?.value
+        ) || 0;
+
+
+    const total =
+        Number(
+            $("pTotal")?.value
+        ) || 0;
+
+
+    const status =
+        computeStockStatus(
+            quantity,
+            total
+        );
+
+
+    const previewName =
+        $("previewName");
+
+    const previewCat =
+        $("previewCat");
+
+    const previewDesc =
+        $("previewDesc");
+
+    const previewMeta =
+        $("previewMeta");
+
+    const previewBadge =
+        $("previewBadge");
+
+
+    if (previewName) {
+
+        previewName.textContent =
+            name;
+    }
+
+
+    if (previewCat) {
+
+        previewCat.textContent =
+            category;
+    }
+
+
+    if (previewDesc) {
+
+        previewDesc.textContent =
+            description;
+    }
+
+
+    if (previewMeta) {
+
+        previewMeta.innerHTML =
+            `<strong>Sizes:</strong> ${
+                packSizes.join(
+                    " • "
+                ) || "—"
+            }`;
+    }
+
+
+    if (previewBadge) {
+
+        previewBadge.style.display =
+            "inline-flex";
+
+        previewBadge.textContent =
+            status;
+
+
+        previewBadge.classList.remove(
+            "mini-prod-card__badge--limited",
+            "mini-prod-card__badge--out"
+        );
+
+
+        if (
+            status ===
+            "Limited Time Offer"
+        ) {
+
+            previewBadge.classList.add(
+                "mini-prod-card__badge--limited"
+            );
+        }
+
+
+        if (
+            status ===
+            "Out of Stock"
+        ) {
+
+            previewBadge.classList.add(
+                "mini-prod-card__badge--out"
+            );
+        }
+
+    }
+
+
+    const previewMedia =
+        $("previewMedia");
+
+
+    if (
+        previewMedia &&
+        selectedImageFile
+    ) {
+
+        const reader =
+            new FileReader();
+
+
+        reader.onload =
+            function(event) {
+
+                previewMedia.style.backgroundImage =
+                    `url("${event.target.result}")`;
+
+                previewMedia.style.backgroundSize =
+                    "cover";
+
+                previewMedia.style.backgroundPosition =
+                    "center";
+
+            };
+
+
+        reader.readAsDataURL(
+            selectedImageFile
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   PRODUCT FIELD PREVIEW EVENTS
+   ========================================================= */
+
+[
+    "pName",
+    "pCategory",
+    "pDesc"
+]
+.forEach(id => {
+
+    $(id)?.addEventListener(
+        "input",
+        updatePreview
+    );
+
+    $(id)?.addEventListener(
+        "change",
+        updatePreview
+    );
+
+});
+
+
+/* =========================================================
+   RESET PRODUCT FORM
+   ========================================================= */
+
+function resetUploadForm() {
+
+    selectedImageFile =
+        null;
+
+    packSizes =
+        [];
+
+
+    const form =
+        $("uploadForm");
+
+
+    if (form) {
+        form.reset();
+    }
+
+
+    if (imgInput) {
+        imgInput.value = "";
+    }
+
+
+    if (imgPreviewImg) {
+        imgPreviewImg.src = "";
+    }
+
+
+    if (imgPreview) {
+
+        imgPreview.classList.remove(
+            "is-visible"
+        );
+    }
+
+
+    if (imgUpload) {
+
+        imgUpload.style.display =
+            "";
+    }
+
+
+    renderPackChips();
+
+    updateStockPreview();
+
+    updatePreview();
+
+
+    const saveBtnText =
+        $("saveBtnText");
+
+
+    if (saveBtnText) {
+
+        saveBtnText.textContent =
+            "Save Product";
+    }
+
+
+    const cancelEditBtn =
+        $("cancelEditBtn");
+
+
+    if (cancelEditBtn) {
+
+        cancelEditBtn.style.display =
+            "none";
+    }
+
+
+    const uploadTitle =
+        $("uploadTabTitle");
+
+
+    if (uploadTitle) {
+
+        uploadTitle.textContent =
+            "Upload New Product";
+    }
+
+
+    const formHeading =
+        $("formHeading");
+
+
+    if (formHeading) {
+
+        formHeading.textContent =
+            "Product Details";
+    }
+
+
+    const success =
+        $("uploadSuccess");
+
+    const error =
+        $("uploadError");
+
+
+    if (success) {
+
+        success.textContent =
+            "";
+
+        success.classList.remove(
+            "is-visible"
+        );
+    }
+
+
+    if (error) {
+
+        error.textContent =
+            "";
+
+        error.classList.remove(
+            "is-visible"
+        );
+    }
+
+}
+
+
+/* =========================================================
+   RESET BUTTON
+   ========================================================= */
+
+$("resetUploadBtn")
+    ?.addEventListener(
+        "click",
+        function(event) {
+
+            event.preventDefault();
+
+            resetUploadForm();
+
+        }
+    );
+
+
+/* =========================================================
+   CANCEL BUTTON
+   ========================================================= */
+
+$("cancelEditBtn")
+    ?.addEventListener(
+        "click",
+        function(event) {
+
+            event.preventDefault();
+
+            resetUploadForm();
+
+            activateTab(
+                "products"
+            );
+
+        }
+    );
+
+
+/* =========================================================
+   SAVE PRODUCT
+   ========================================================= */
+
+$("uploadForm")
+    ?.addEventListener(
+        "submit",
+        async function(event) {
+
+            event.preventDefault();
+
+
+            showAlert(
+                "success",
+                ""
+            );
+
+
+            /* ---------------------------------------------
+               IMAGE VALIDATION
+               --------------------------------------------- */
+
+            if (!selectedImageFile) {
+
+                showAlert(
+                    "error",
+                    "Please select a product image."
+                );
+
+                return;
+            }
+
+
+            /* ---------------------------------------------
+               GET VALUES
+               --------------------------------------------- */
+
+            const name =
+                $("pName")?.value.trim();
+
+
+            const category =
+                $("pCategory")?.value;
+
+
+            const description =
+                $("pDesc")?.value.trim();
+
+
+            const quantity =
+                Number(
+                    $("pQuantity")?.value
+                );
+
+
+            const total =
+                Number(
+                    $("pTotal")?.value
+                );
+
+
+            /* ---------------------------------------------
+               VALIDATION
+               --------------------------------------------- */
+
+            if (!name) {
+
+                showAlert(
+                    "error",
+                    "Please enter the product name."
+                );
+
+                return;
+            }
+
+
+            if (!category) {
+
+                showAlert(
+                    "error",
+                    "Please select a category."
+                );
+
+                return;
+            }
+
+
+            if (!description) {
+
+                showAlert(
+                    "error",
+                    "Please enter the product description."
+                );
+
+                return;
+            }
+
+
+            if (
+                Number.isNaN(
+                    quantity
+                ) ||
+                quantity < 0
+            ) {
+
+                showAlert(
+                    "error",
+                    "Please enter a valid available quantity."
+                );
+
+                return;
+            }
+
+
+            if (
+                Number.isNaN(
+                    total
+                ) ||
+                total < 1
+            ) {
+
+                showAlert(
+                    "error",
+                    "Please enter a valid total capacity."
+                );
+
+                return;
+            }
+
+
+            if (
+                quantity >
+                total
+            ) {
+
+                showAlert(
+                    "error",
+                    "Available quantity cannot be greater than total capacity."
+                );
+
+                return;
+            }
+
+
+            if (
+                !packSizes.length
+            ) {
+
+                showAlert(
+                    "error",
+                    "Please add at least one available size."
+                );
+
+                return;
+            }
+
+
+            /* ---------------------------------------------
+               BUTTON STATE
+               --------------------------------------------- */
+
+            const saveBtn =
+                $("saveBtn");
+
+            const saveBtnText =
+                $("saveBtnText");
+
+
+            const originalText =
+                saveBtnText
+                    ? saveBtnText.textContent
+                    : "Save Product";
+
+
+            if (saveBtn) {
+                saveBtn.disabled =
+                    true;
+            }
+
+
+            if (saveBtnText) {
+
+                saveBtnText.textContent =
+                    "Saving...";
+            }
+
+
+            try {
+
+                /* -----------------------------------------
+                   FORM DATA
+                   ----------------------------------------- */
+
+                const formData =
+                    new FormData();
+
+
+                formData.append(
+                    "name",
+                    name
+                );
+
+
+                formData.append(
+                    "category",
+                    category
+                );
+
+
+                formData.append(
+                    "description",
+                    description
+                );
+
+
+                formData.append(
+                    "quantity",
+                    String(
+                        quantity
+                    )
+                );
+
+
+                formData.append(
+                    "total",
+                    String(
+                        total
+                    )
+                );
+
+
+                formData.append(
+                    "packSizes",
+                    packSizes.join(",")
+                );
+
+
+                formData.append(
+                    "image",
+                    selectedImageFile
+                );
+
+
+                /* -----------------------------------------
+                   IMPORTANT
+
+                   FormData MUST NOT have:
+
+                   Content-Type: application/json
+
+                   The browser automatically creates
+                   multipart/form-data boundary.
+                   ----------------------------------------- */
+
+                const response =
+                    await fetch(
+                        `${API_BASE}/api/products`,
+                        {
+                            method: "POST",
+
+                            headers:
+                                await getAdminHeaders(),
+
+                            body:
+                                formData
+                        }
+                    );
+
+
+                const data =
+                    await getJson(
+                        response
+                    );
+
+
+                console.log(
+                    "Product saved:",
+                    data
+                );
+
+
+                showAlert(
+                    "success",
+                    "Product saved successfully to Firebase."
+                );
+
+
+                resetUploadForm();
+
+
+                await renderProducts();
+
+                await renderDashboard();
+
+
+                setTimeout(
+                    function() {
+
+                        activateTab(
+                            "products"
+                        );
+
+                    },
+                    700
+                );
+
+
+            } catch (error) {
+
+                console.error(
+                    "Save product error:",
+                    error
+                );
+
+
+                showAlert(
+                    "error",
+                    `Could not save product: ${
+                        error.message ||
+                        "Unknown error"
+                    }`
+                );
+
+
+            } finally {
+
+                if (saveBtn) {
+
+                    saveBtn.disabled =
+                        false;
+                }
+
+
+                if (saveBtnText) {
+
+                    saveBtnText.textContent =
+                        originalText;
+                }
+
+            }
+
+        }
+    );
+
+
+/* =========================================================
+   BACKEND TEST
+   ========================================================= */
+
+async function testBackend() {
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_BASE}/api/health`
+            );
+
+
+        if (!response.ok) {
+            throw new Error(
+                `Backend returned ${response.status}`
+            );
+        }
+
+
+        console.log(
+            "FIDA backend connected."
+        );
+
+
+        return true;
+
+    } catch (error) {
+
+        console.error(
+            "Backend connection failed:",
+            error
+        );
+
+        return false;
+    }
+}
+
+
+/* =========================================================
+   INITIALIZE ADMIN PANEL
+   ========================================================= */
+
+let adminAuthReadyResolve;
+
+let adminAuthReadyReject;
+
+
+const adminAuthReady =
+    new Promise(
+        (resolve, reject) => {
+
+            adminAuthReadyResolve =
+                resolve;
+
+            adminAuthReadyReject =
+                reject;
+
+        }
+    );
+
+
+/* =========================================================
+   FIREBASE AUTH STATE
+   ========================================================= */
+
+onAuthStateChanged(
+    auth,
+    async function(user) {
+
+        console.log(
+            "Firebase auth state:",
+            user
+                ? user.email
+                : "No user"
+        );
+
+
+        if (!user) {
+
+            adminAuthReadyReject(
+                new Error(
+                    "You are not logged in."
+                )
+            );
+
+
+            window.location.href =
+                "login.html";
+
+            return;
+        }
+
+
+        try {
+
+            /* ---------------------------------------------
+               FORCE REFRESH TOKEN
+               This is important after setting the admin
+               custom claim.
+               --------------------------------------------- */
+
+            const tokenResult =
+                await user.getIdTokenResult(
+                    true
+                );
+
+
+            console.log(
+                "Firebase claims:",
+                tokenResult.claims
+            );
+
+
+            if (
+                tokenResult.claims.admin !==
+                true
+            ) {
+
+                adminAuthReadyReject(
+                    new Error(
+                        "Administrator access required."
+                    )
+                );
+
+
+                alert(
+                    "Administrator access required."
+                );
+
+
+                window.location.href =
+                    "index.html";
+
+                return;
+            }
+
+
+            loadCurrentUser(
+                user
+            );
+
+
+            adminAuthReadyResolve(
+                user
+            );
+
+
+        } catch (error) {
+
+            console.error(
+                "Admin verification failed:",
+                error
+            );
+
+
+            adminAuthReadyReject(
+                error
+            );
+
+
+            alert(
+                "Administrator authentication failed."
+            );
+
+
+            window.location.href =
+                "login.html";
+        }
+
+    }
+);
+
+
+/* =========================================================
+   LOGOUT
+   =========================================================
+
+   The current admin.html does not have a logout button.
+   If you later add:
+
+   <button id="logoutBtn">Logout</button>
+
+   this code will automatically handle it.
+   ========================================================= */
+
+const logoutBtn =
+    $("logoutBtn");
+
+
+if (logoutBtn) {
+
+    logoutBtn.addEventListener(
+        "click",
+        async function(event) {
+
+            event.preventDefault();
+
+
+            try {
+
+                await signOut(
+                    auth
+                );
+
+
+                localStorage.removeItem(
+                    "fida_user_email"
+                );
+
+
+                window.location.href =
+                    "login.html";
+
+
+            } catch (error) {
+
+                console.error(
+                    "Logout error:",
+                    error
+                );
+
+
+                alert(
+                    "Could not logout. Please try again."
+                );
+
+            }
+
+        }
+    );
+}
+
+
+/* =========================================================
+   INITIAL STARTUP
+   ========================================================= */
+
+async function initializeAdmin() {
+
+    try {
+
+        await adminAuthReady;
+
+
+        console.log(
+            "Admin authentication ready."
+        );
+
+
+        /* ---------------------------------------------
+           INITIAL UI
+           --------------------------------------------- */
+
+        renderPackChips();
+
+        updateStockPreview();
+
+        updatePreview();
+
+
+        /* ---------------------------------------------
+           TEST BACKEND
+           --------------------------------------------- */
+
+        await testBackend();
+
+
+        /* ---------------------------------------------
+           START DASHBOARD
+           --------------------------------------------- */
+
+        activateTab(
+            "dashboard"
+        );
+
+
+        /* ---------------------------------------------
+           LOAD ALL DATA
+           --------------------------------------------- */
+
+        await Promise.allSettled([
+
+            renderDashboard(),
+
+            renderUsers(),
+
+            renderEnquiries(),
+
+            renderProducts()
+
+        ]);
+
+
+        console.log(
+            "FIDA Admin Panel initialized successfully."
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "Admin initialization failed:",
+            error
+        );
+
+    }
+
+}
+
+/* =========================================================
+   START
+   ========================================================= */
+
+initializeAdmin();
+
+
+// ============================================================
+// RENDER PROMOTION ADMIN SECTION
+// ============================================================
+
+// ============================================================
+// PROMOTION SETTINGS
+// ============================================================
+
+const OFFER_API_URL =
+    "http://127.0.0.1:8000/api/admin/offer";
+
+const GET_OFFER_URL =
+    "http://127.0.0.1:8000/api/offer";
+
+
+// ============================================================
+// GET FIREBASE ADMIN TOKEN
+// ============================================================
+
+async function getAdminToken() {
+
+    const user = auth.currentUser;
+
+    if (!user) {
+        throw new Error(
+            "You are not signed in as administrator."
+        );
+    }
+
+    const token =
+        await user.getIdToken(true);
+
+    if (!token) {
+        throw new Error(
+            "Could not get Firebase authentication token."
+        );
+    }
+
+    console.log(
+        "Firebase user:",
+        user.email
+    );
+
+    return token;
+}
+
+
+// ============================================================
+// RENDER PROMOTION BANNER
+// ============================================================
+
+async function renderPromotionBanner() {
+
+    const section =
+        document.getElementById(
+            "tab-promotion"
+        );
+
+
+    if (!section) {
+
+        console.warn(
+            "Promotion section not found."
+        );
+
+        return;
+    }
+
+
+    section.innerHTML = `
+
+        <div class="admin-card">
+
+            <div class="admin-card__header">
+
+                <div>
+
+                    <h2>
+                        Promotion Banner
+                    </h2>
+
+                    <p>
+                        Change the promotion displayed
+                        at the top of the website.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <form id="promotionForm">
+
+                <div class="form-group">
+
+                    <label for="offerDiscount">
+                        Discount
+                    </label>
+
+                    <input
+                        type="number"
+                        id="offerDiscount"
+                        min="0"
+                        max="100"
+                        placeholder="40"
+                        required
+                    >
+
+                    <small>
+                        Example: 40 means 40% OFF
+                    </small>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="offerCategory">
+                        Promotion Category
+                    </label>
+
+                    <input
+                        type="text"
+                        id="offerCategory"
+                        placeholder="All Women's Wear"
+                        required
+                    >
+
+                    <small>
+                        Example: Essentials
+                    </small>
+
+                </div>
+
+
+                <div class="promotion-preview">
+
+                    <h3>
+                        Live Preview
+                    </h3>
+
+                    <div class="offer-banner-preview">
+
+                        🔥 Special Offer
+
+                        &nbsp;
+
+                        Flat
+
+                        <strong
+                            id="offerPreviewDiscount"
+                        >
+                            40% OFF
+                        </strong>
+
+                        &nbsp;
+
+                        on
+
+                        <span
+                            id="offerPreviewCategory"
+                        >
+                            All Women's Wear
+                        </span>
+
+                        &nbsp;— Limited Time! →
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-actions">
+
+                    <button
+                        type="submit"
+                        id="saveOfferBtn"
+                        class="btn btn--primary"
+                    >
+                        Save Promotion
+                    </button>
+
+                </div>
+
+
+                <div
+                    id="offerMessage"
+                    style="
+                        display:none;
+                        margin-top:15px;
+                        padding:12px;
+                        border-radius:8px;
+                    "
+                ></div>
+
+            </form>
+
+        </div>
+
+    `;
+
+
+    // ========================================================
+    // GET ELEMENTS AFTER HTML IS CREATED
+    // ========================================================
+
+    const discountInput =
+        document.getElementById(
+            "offerDiscount"
+        );
+
+    const categoryInput =
+        document.getElementById(
+            "offerCategory"
+        );
+
+    const discountPreview =
+        document.getElementById(
+            "offerPreviewDiscount"
+        );
+
+    const categoryPreview =
+        document.getElementById(
+            "offerPreviewCategory"
+        );
+
+    const saveButton =
+        document.getElementById(
+            "saveOfferBtn"
+        );
+
+    const message =
+        document.getElementById(
+            "offerMessage"
+        );
+
+
+    // ========================================================
+    // LIVE PREVIEW
+    // ========================================================
+
+    function updatePreview() {
+
+        const discount =
+            discountInput.value || 0;
+
+        const category =
+            categoryInput.value.trim()
+            || "All Women's Wear";
+
+
+        discountPreview.textContent =
+            `${discount}% OFF`;
+
+
+        categoryPreview.textContent =
+            category;
+    }
+
+
+    discountInput.addEventListener(
+        "input",
+        updatePreview
+    );
+
+
+    categoryInput.addEventListener(
+        "input",
+        updatePreview
+    );
+
+
+    // ========================================================
+    // LOAD CURRENT PROMOTION
+    // ========================================================
+
+    try {
+
+        const response =
+            await fetch(
+                GET_OFFER_URL
+            );
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                `Failed to load promotion: ${response.status}`
+            );
+        }
+
+
+        const offer =
+            await response.json();
+
+
+        console.log(
+            "Promotion from database:",
+            offer
+        );
+
+
+        discountInput.value =
+            offer.discount ?? 40;
+
+
+        categoryInput.value =
+            offer.category ??
+            "All Women's Wear";
+
+
+        updatePreview();
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Load promotion error:",
+            error
+        );
+
+
+        discountInput.value = 40;
+
+        categoryInput.value =
+            "All Women's Wear";
+
+
+        updatePreview();
+    }
+
+
+    // ========================================================
+    // SAVE PROMOTION
+    // ========================================================
+
+    document
+        .getElementById("promotionForm")
+        .addEventListener(
+            "submit",
+            async function(event) {
+
+                event.preventDefault();
+
+
+                try {
+
+                    const discount =
+                        Number(
+                            discountInput.value
+                        );
+
+
+                    const category =
+                        categoryInput.value.trim();
+
+
+                    // ----------------------------
+                    // VALIDATION
+                    // ----------------------------
+
+                    if (
+                        Number.isNaN(discount) ||
+                        discount < 0 ||
+                        discount > 100
+                    ) {
+
+                        throw new Error(
+                            "Discount must be between 0 and 100."
+                        );
+                    }
+
+
+                    if (!category) {
+
+                        throw new Error(
+                            "Promotion category cannot be empty."
+                        );
+                    }
+
+
+                    // ----------------------------
+                    // GET FIREBASE TOKEN
+                    // ----------------------------
+
+                    const token =
+                        await getAdminToken();
+
+
+                    // ----------------------------
+                    // DISABLE BUTTON
+                    // ----------------------------
+
+                    saveButton.disabled = true;
+
+                    saveButton.textContent =
+                        "Saving...";
+
+
+                    // ----------------------------
+                    // SEND TO FASTAPI
+                    // ----------------------------
+
+                    const response =
+                        await fetch(
+                            OFFER_API_URL,
+                            {
+                                method: "PUT",
+
+                                headers: {
+
+                                    "Content-Type":
+                                        "application/json",
+
+                                    "Authorization":
+                                        `Bearer ${token}`
+                                },
+
+                                body: JSON.stringify({
+
+                                    discount:
+                                        discount,
+
+                                    category:
+                                        category
+
+                                })
+                            }
+                        );
+
+
+                    const data =
+                        await response.json();
+
+
+                    console.log(
+                        "Backend response:",
+                        data
+                    );
+
+
+                    if (!response.ok) {
+
+                        throw new Error(
+                            data.detail ||
+                            "Could not save promotion."
+                        );
+                    }
+
+
+                    // ----------------------------
+                    // SUCCESS
+                    // ----------------------------
+
+                    showOfferMessage(
+                        "Promotion updated successfully.",
+                        false
+                    );
+
+
+                    // Make sure preview shows
+                    // saved value
+
+                    updatePreview();
+
+
+                }
+
+                catch (error) {
+
+                    console.error(
+                        "Save promotion error:",
+                        error
+                    );
+
+
+                    showOfferMessage(
+                        error.message ||
+                        "Could not save promotion.",
+                        true
+                    );
+
+                }
+
+                finally {
+
+                    saveButton.disabled =
+                        false;
+
+                    saveButton.textContent =
+                        "Save Promotion";
+                }
+
+            }
+        );
+}
+
+
+// ============================================================
+// SHOW MESSAGE
+// ============================================================
+
+function showOfferMessage(
+    messageText,
+    isError = false
+) {
+
+    const message =
+        document.getElementById(
+            "offerMessage"
+        );
+
+
+    if (!message) {
+        return;
+    }
+
+
+    message.style.display =
+        "block";
+
+
+    message.textContent =
+        messageText;
+
+
+    if (isError) {
+
+        message.style.background =
+            "#fdeaea";
+
+        message.style.color =
+            "#a52828";
+
+    }
+
+    else {
+
+        message.style.background =
+            "#e8f7ed";
+
+        message.style.color =
+            "#176b35";
+    }
+
+
+    setTimeout(() => {
+
+        message.style.display =
+            "none";
+
+    }, 4000);
+}
+
+</script>
+</body>
+</html>

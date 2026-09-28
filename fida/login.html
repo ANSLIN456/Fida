@@ -1,0 +1,1642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign In / Sign Up — FIDA Clothing & Essentials</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+/* ============ VARIABLES ============ */
+:root {
+    --brown: #5c3a21;
+    --brown-light: #7a4e2c;
+    --brown-dark: #3a2415;
+    --gold: #c9a45c;
+    --gold-light: #e0c690;
+    --cream: #faf6f0;
+    --cream-2: #f4ede2;
+    --dark: #3a2a1c;
+    --text: #4a3a2a;
+    --gray: #8a7a6a;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body {
+    font-family: 'Poppins', sans-serif;
+    color: var(--text);
+    background: var(--cream);
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    overflow-x: hidden;
+}
+a { text-decoration: none; color: inherit; }
+img { display: block; max-width: 100%; }
+button { font-family: inherit; cursor: pointer; }
+
+/* ============ CONTAINER ============ */
+.auth-container {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 25px 70px rgba(92, 58, 33, 0.18);
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    max-width: 1050px;
+    min-height: 680px;
+}
+
+/* ============ FORM CONTAINERS ============ */
+.form-container {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    transition: all 0.6s ease-in-out;
+}
+
+.sign-in-container {
+    left: 0;
+    width: 50%;
+    z-index: 2;
+}
+.auth-container.right-panel-active .sign-in-container {
+    transform: translateX(100%);
+    opacity: 0;
+    z-index: 1;
+}
+
+.sign-up-container {
+    left: 0;
+    width: 50%;
+    opacity: 0;
+    z-index: 1;
+}
+.auth-container.right-panel-active .sign-up-container {
+    transform: translateX(100%);
+    opacity: 1;
+    z-index: 5;
+    animation: show 0.6s;
+}
+@keyframes show {
+    0%, 49.99% { opacity: 0; z-index: 1; }
+    50%, 100% { opacity: 1; z-index: 5; }
+}
+
+/* ============ FORM STYLES ============ */
+form {
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    padding: 40px 55px;
+    height: 100%;
+    justify-content: center;
+    overflow-y: auto;
+}
+
+.form-title-block {
+    margin-bottom: 22px;
+    text-align: left;
+}
+.form-title-block .sub {
+    color: var(--gold);
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+.form-title-block h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 30px;
+    color: var(--dark);
+    margin-bottom: 6px;
+    line-height: 1.15;
+}
+.form-title-block h2 span { color: var(--gold); font-style: italic; }
+.form-title-block p {
+    font-size: 12px;
+    color: var(--gray);
+    line-height: 1.5;
+}
+
+.form-group { margin-bottom: 14px; }
+.form-group label {
+    display: block;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--dark);
+    margin-bottom: 6px;
+}
+.form-group label .required { color: var(--gold); margin-left: 2px; }
+
+.input-wrap { position: relative; }
+.input-wrap .input-icon {
+    position: absolute;
+    top: 50%;
+    left: 14px;
+    transform: translateY(-50%);
+    color: var(--gray);
+    font-size: 13px;
+    pointer-events: none;
+    transition: color .3s;
+}
+.input-wrap input,
+.input-wrap select {
+    width: 100%;
+    padding: 11px 40px 11px 40px;
+    font-family: inherit;
+    font-size: 13px;
+    color: var(--text);
+    background: var(--cream);
+    border: 1.5px solid #e8ddc9;
+    border-radius: 4px;
+    outline: none;
+    transition: all .3s;
+}
+.input-wrap input:focus,
+.input-wrap select:focus {
+    border-color: var(--gold);
+    background: #fff;
+    box-shadow: 0 0 0 3px rgba(201,164,92,0.12);
+}
+.input-wrap input:focus ~ .input-icon,
+.input-wrap select:focus ~ .input-icon { color: var(--gold); }
+.input-wrap select {
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3e%3cpath fill='%235c3a21' d='M6 8L0 0h12z'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    padding-right: 36px;
+    cursor: pointer;
+}
+.input-wrap .toggle-password {
+    position: absolute;
+    top: 50%;
+    right: 12px;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: var(--gray);
+    font-size: 13px;
+    padding: 4px;
+    transition: color .3s;
+}
+.input-wrap .toggle-password:hover { color: var(--brown); }
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+/* Highlighted "how did you hear" */
+.hear-about-group {
+    background: linear-gradient(135deg, #fff8ec, #fdf3e0);
+    border: 1.5px solid #f0e0c0;
+    padding: 12px 14px 14px;
+    border-radius: 6px;
+    margin: 4px 0 12px;
+}
+.hear-about-group label { color: var(--brown); }
+.hear-about-group .input-wrap input,
+.hear-about-group .input-wrap select {
+    background: #fff;
+    border-color: #ecdab5;
+}
+
+/* Form options */
+.form-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 18px;
+    font-size: 12px;
+}
+.remember-me {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--gray);
+    cursor: pointer;
+    user-select: none;
+}
+.remember-me input,
+.terms-check input {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 15px;
+    height: 15px;
+    min-width: 15px;
+    border: 1.5px solid #d4c7ab;
+    border-radius: 3px;
+    cursor: pointer;
+    position: relative;
+    transition: all .3s;
+}
+.remember-me input:checked,
+.terms-check input:checked {
+    background: var(--gold);
+    border-color: var(--gold);
+}
+.remember-me input:checked::after,
+.terms-check input:checked::after {
+    content: '\f00c';
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    font-size: 9px;
+    color: #fff;
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+}
+.form-options a {
+    color: var(--brown);
+    font-weight: 500;
+    transition: color .3s;
+}
+.form-options a:hover { color: var(--gold); }
+
+/* Terms checkbox */
+.terms-check {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    margin-bottom: 16px;
+    font-size: 11px;
+    color: var(--gray);
+    line-height: 1.5;
+    cursor: pointer;
+    user-select: none;
+}
+.terms-check input { margin-top: 2px; width: 16px; height: 16px; min-width: 16px; }
+.terms-check a { color: var(--brown); font-weight: 500; }
+.terms-check a:hover { color: var(--gold); }
+
+/* Buttons */
+.btn-primary {
+    width: 100%;
+    padding: 13px 24px;
+    background: var(--brown);
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all .3s;
+}
+.btn-primary:hover {
+    background: var(--gold);
+    color: var(--dark);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(201,164,92,0.35);
+}
+.btn-primary:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.btn-ghost {
+    background: transparent;
+    border: 2px solid #fff;
+    color: #fff;
+    padding: 12px 45px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all .3s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+.btn-ghost:hover {
+    background: #fff;
+    color: var(--brown);
+}
+
+/* Message */
+.form-message {
+    display: none;
+    margin-bottom: 14px;
+    padding: 10px 14px;
+    border-radius: 4px;
+    font-size: 12px;
+    align-items: center;
+    gap: 8px;
+}
+.form-message.show { display: flex; }
+.form-message.success {
+    background: #f0f7ef;
+    border-left: 4px solid #7cb342;
+    color: #2e5d1e;
+}
+.form-message.error {
+    background: #fdf0ef;
+    border-left: 4px solid #e05252;
+    color: #8a1e1e;
+}
+.form-message i { font-size: 16px; }
+
+/* ============ OVERLAY (sliding brand panel) ============ */
+.overlay-container {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 50%;
+    height: 100%;
+    overflow: hidden;
+    transition: transform 0.6s ease-in-out;
+    z-index: 100;
+}
+.auth-container.right-panel-active .overlay-container {
+    transform: translateX(-100%);
+}
+
+.overlay {
+    background: linear-gradient(135deg, var(--brown) 0%, var(--brown-dark) 100%);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    color: #fff;
+    position: relative;
+    left: -100%;
+    height: 100%;
+    width: 200%;
+    transform: translateX(0);
+    transition: transform 0.6s ease-in-out;
+}
+.auth-container.right-panel-active .overlay {
+    transform: translateX(50%);
+}
+
+/* Decorative circles on overlay */
+.overlay::before {
+    content: '';
+    position: absolute;
+    top: -100px; right: 20%;
+    width: 400px; height: 400px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(201,164,92,0.20), transparent 70%);
+    pointer-events: none;
+}
+.overlay::after {
+    content: '';
+    position: absolute;
+    bottom: -120px; left: 10%;
+    width: 300px; height: 300px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(201,164,92,0.14), transparent 70%);
+    pointer-events: none;
+}
+
+.overlay-panel {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 0 45px;
+    text-align: center;
+    top: 0;
+    height: 100%;
+    width: 50%;
+    transform: translateX(0);
+    transition: transform 0.6s ease-in-out;
+}
+
+.overlay-left {
+    transform: translateX(-20%);
+}
+.auth-container.right-panel-active .overlay-left {
+    transform: translateX(0);
+}
+.overlay-right {
+    right: 0;
+    transform: translateX(0);
+}
+.auth-container.right-panel-active .overlay-right {
+    transform: translateX(20%);
+}
+
+/* Overlay content */
+.overlay-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 40px;
+    position: relative;
+    z-index: 2;
+}
+.overlay-logo img {
+    height: 55px;
+    width: auto;
+    max-width: 110px;
+    object-fit: contain;
+    filter: brightness(0) invert(1);
+    opacity: 0.95;
+}
+.overlay-logo-text {
+    display: flex;
+    flex-direction: column;
+    border-left: 1px solid rgba(224,198,144,0.5);
+    padding-left: 12px;
+    text-align: left;
+}
+.overlay-logo-text .brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 900;
+    letter-spacing: 6px;
+    color: #fff;
+    line-height: 1;
+    margin-bottom: 4px;
+}
+.overlay-logo-text .tagline-sm {
+    font-size: 7.5px;
+    font-weight: 500;
+    letter-spacing: 2.5px;
+    color: var(--gold);
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.overlay-panel .sub {
+    color: var(--gold);
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+    position: relative;
+    z-index: 2;
+}
+.overlay-panel h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 38px;
+    line-height: 1.15;
+    color: #fff;
+    margin-bottom: 18px;
+    position: relative;
+    z-index: 2;
+}
+.overlay-panel h1 span { color: var(--gold-light); font-style: italic; }
+.overlay-panel p {
+    font-size: 13px;
+    color: #cdbfae;
+    line-height: 1.7;
+    margin-bottom: 28px;
+    max-width: 340px;
+    position: relative;
+    z-index: 2;
+}
+
+/* Mobile: overlay becomes a top bar */
+@media (max-width: 850px) {
+    body {
+        padding: 0;
+        display: block;
+        min-height: auto;
+    }
+    .auth-container {
+        border-radius: 0;
+        box-shadow: none;
+        min-height: 100vh;
+        max-width: 100%;
+        overflow: visible;
+    }
+
+    /* The overlay becomes a static hero block */
+    .overlay-container {
+        position: relative;
+        left: 0;
+        width: 100%;
+        height: auto;
+        transform: none !important;
+        transition: none;
+    }
+    .auth-container.right-panel-active .overlay-container {
+        transform: none !important;
+    }
+    .overlay {
+        position: relative;
+        left: 0;
+        width: 100%;
+        height: auto;
+        transform: none !important;
+        padding: 0;
+    }
+    .auth-container.right-panel-active .overlay { transform: none !important; }
+
+    .overlay-panel {
+        position: relative;
+        width: 100%;
+        height: auto;
+        padding: 28px 22px 32px;
+        transform: none !important;
+    }
+    .overlay-left { display: none; }
+    .auth-container.right-panel-active .overlay-right { display: none; }
+    .auth-container.right-panel-active .overlay-left {
+        display: flex;
+        transform: none !important;
+    }
+    .overlay-right,
+    .auth-container.right-panel-active .overlay-left {
+        transform: none !important;
+    }
+
+    .overlay-logo {
+        margin-bottom: 22px;
+        justify-content: center;
+    }
+    .overlay-logo img { height: 42px; max-width: 80px; }
+    .overlay-logo-text .brand { font-size: 18px; letter-spacing: 4px; }
+    .overlay-logo-text .tagline-sm { font-size: 6.5px; letter-spacing: 2px; }
+
+    .overlay-panel .sub { font-size: 9px; letter-spacing: 3px; margin-bottom: 10px; }
+    .overlay-panel h1 { font-size: 24px; margin-bottom: 12px; }
+    .overlay-panel p { font-size: 12px; margin-bottom: 20px; }
+    .btn-ghost { padding: 10px 30px; font-size: 11px; letter-spacing: 1.5px; }
+
+    /* Both forms stack below and one is hidden */
+    .form-container {
+        position: relative;
+        width: 100% !important;
+        height: auto;
+        transform: none !important;
+        transition: none;
+    }
+    .sign-in-container {
+        display: block;
+        opacity: 1;
+        z-index: 2;
+    }
+    .sign-up-container {
+        display: none;
+        opacity: 0;
+    }
+    .auth-container.right-panel-active .sign-in-container { display: none; opacity: 0; }
+    .auth-container.right-panel-active .sign-up-container {
+        display: block;
+        opacity: 1;
+        transform: none !important;
+        animation: none;
+    }
+
+    form { padding: 30px 20px 40px; }
+    .form-title-block h2 { font-size: 24px; }
+    .form-title-block p { font-size: 12px; }
+    .form-row { grid-template-columns: 1fr; gap: 0; }
+    .form-group { margin-bottom: 14px; }
+    .btn-primary { padding: 13px 22px; font-size: 11px; }
+}
+
+@media (max-width: 420px) {
+    .overlay-panel { padding: 22px 16px 26px; }
+    .overlay-panel h1 { font-size: 22px; }
+    form { padding: 26px 16px 36px; }
+    .form-title-block h2 { font-size: 22px; }
+}
+
+/* Scrollbar styling for form when overflow */
+form::-webkit-scrollbar { width: 5px; }
+form::-webkit-scrollbar-thumb { background: #e0d3bb; border-radius: 5px; }
+
+/* ============ DESKTOP: Make sure sign-up form is scrollable ============ */
+@media (min-width: 851px) {
+    .sign-up-container form {
+        padding: 30px 50px;
+        justify-content: flex-start;
+        padding-top: 35px;
+    }
+    .sign-up-container .form-title-block { margin-bottom: 16px; }
+    .sign-up-container .form-group { margin-bottom: 11px; }
+    .sign-up-container .form-group label { margin-bottom: 5px; }
+    .sign-up-container .input-wrap input,
+    .sign-up-container .input-wrap select { padding: 10px 38px 10px 38px; }
+    .sign-up-container .terms-check { margin-bottom: 12px; }
+    .sign-up-container .btn-primary { padding: 12px 24px; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="auth-container" id="authContainer">
+
+    <!-- ============ SIGN UP FORM ============ -->
+    <div class="form-container sign-up-container">
+        <form id="signupForm" novalidate>
+
+            <div class="form-title-block">
+                <p class="sub">Join FIDA</p>
+                <h2>Create your <span>account</span></h2>
+                <p>Get 10% off your first enquiry + save your favourites.</p>
+            </div>
+
+            <div class="form-message" id="signupMessage"></div>
+
+            <!-- Full Name -->
+            <div class="form-group">
+                <label for="signupName">Full Name <span class="required">*</span></label>
+                <div class="input-wrap">
+                    <i class="fas fa-user input-icon"></i>
+                    <input type="text" id="signupName" placeholder="e.g. Priya Sharma" required>
+                </div>
+            </div>
+
+            <!-- Email + Phone -->
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="signupEmail">Email <span class="required">*</span></label>
+                    <div class="input-wrap">
+                        <i class="fas fa-envelope input-icon"></i>
+                        <input type="email" id="signupEmail" placeholder="you@example.com" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="signupPhone">Phone <span class="required">*</span></label>
+                    <div class="input-wrap">
+                        <i class="fas fa-phone input-icon"></i>
+                        <input type="tel" id="signupPhone" placeholder="+91 98765 43210" required>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Country + Gender -->
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="signupCountry">Country <span class="required">*</span></label>
+                    <div class="input-wrap">
+                        <i class="fas fa-globe input-icon"></i>
+                        <select id="signupCountry" required>
+                            <option value="">Select</option>
+                            <option value="India">India</option>
+                            <option value="Sri Lanka">Sri Lanka</option>
+                            <option value="UAE">UAE</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="signupGender">Gender <span class="required">*</span></label>
+                    <div class="input-wrap">
+                        <i class="fas fa-venus-mars input-icon"></i>
+                        <select id="signupGender" required>
+                            <option value="">Select</option>
+                            <option value="Female">Female</option>
+                            <option value="Male">Male</option>
+                            <option value="Prefer not to say">Prefer not to say</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Password + Confirm -->
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="signupPassword">Password <span class="required">*</span></label>
+                    <div class="input-wrap">
+                        <i class="fas fa-lock input-icon"></i>
+                        <input type="password" id="signupPassword" placeholder="Min. 6 chars" required>
+                        <button type="button" class="toggle-password" data-target="signupPassword" aria-label="Toggle password"><i class="far fa-eye"></i></button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="signupConfirm">Confirm <span class="required">*</span></label>
+                    <div class="input-wrap">
+                        <i class="fas fa-lock input-icon"></i>
+                        <input type="password" id="signupConfirm" placeholder="Re-enter" required>
+                        <button type="button" class="toggle-password" data-target="signupConfirm" aria-label="Toggle password"><i class="far fa-eye"></i></button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- How did you hear -->
+            <div class="hear-about-group">
+                <div class="form-group" style="margin-bottom: 8px;">
+                    <label for="signupHear">How did you hear about us? <span class="required">*</span></label>
+                    <div class="input-wrap">
+                        <i class="fas fa-bullhorn input-icon"></i>
+                        <select id="signupHear" required>
+                            <option value="">Select an option</option>
+                            <option value="Instagram">📷 Instagram</option>
+                            <option value="Facebook">👍 Facebook</option>
+                            <option value="WhatsApp">💬 WhatsApp</option>
+                            <option value="Friend / Family">👥 Friend / Family</option>
+                            <option value="Google Search">🔍 Google Search</option>
+                            <option value="LinkedIn">💼 LinkedIn</option>
+                            <option value="Trade Show / Event">🎪 Trade Show / Event</option>
+                            <option value="Existing Customer">🤝 Existing Customer</option>
+                            <option value="Other">✦ Other</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group" id="otherSourceGroup" style="margin-bottom: 0; display: none;">
+                    <label for="signupOther">Please specify</label>
+                    <div class="input-wrap">
+                        <i class="fas fa-pen input-icon"></i>
+                        <input type="text" id="signupOther" placeholder="Tell us how you found us">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Terms -->
+            <label class="terms-check">
+                <input type="checkbox" id="signupTerms" required>
+                <span>I agree to the <a href="#">Terms of Service</a> & <a href="#">Privacy Policy</a>.</span>
+            </label>
+
+            <button type="submit" class="btn-primary" id="signupBtn">
+                <i class="fas fa-user-plus"></i> Create Account
+            </button>
+
+        </form>
+    </div>
+
+    <!-- ============ SIGN IN FORM ============ -->
+    <div class="form-container sign-in-container">
+        <form id="signinForm" novalidate>
+
+            <div class="form-title-block">
+                <p class="sub">Welcome Back</p>
+                <h2>Login to <span>your account</span></h2>
+                <p>Enter your details below to continue.</p>
+            </div>
+
+            <div class="form-message" id="signinMessage"></div>
+
+            <div class="form-group">
+                <label for="signinEmail">Email <span class="required">*</span></label>
+                <div class="input-wrap">
+                    <i class="fas fa-envelope input-icon"></i>
+                    <input
+    type="email"
+    id="signinEmail"
+    placeholder="you@example.com"
+    autocomplete="email"
+    required
+>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="signinPassword">Password <span class="required">*</span></label>
+                <div class="input-wrap">
+                    <i class="fas fa-lock input-icon"></i>
+                    <input type="password" id="signinPassword" placeholder="Enter your password" required>
+                    <button type="button" class="toggle-password" data-target="signinPassword" aria-label="Toggle password"><i class="far fa-eye"></i></button>
+                </div>
+            </div>
+
+            <div class="form-options">
+                <label class="remember-me">
+                    <input type="checkbox" id="signinRemember">
+                    <span>Remember me</span>
+                </label>
+                <a href="#">Forgot password?</a>
+            </div>
+
+            <button type="submit" class="btn-primary" id="signinBtn">
+                <i class="fas fa-sign-in-alt"></i> Sign In
+            </button>
+
+        </form>
+    </div>
+
+    <!-- ============ OVERLAY (sliding panel) ============ -->
+    <div class="overlay-container">
+        <div class="overlay">
+
+            <!-- LEFT overlay (shown when on SIGN UP) -->
+            <div class="overlay-panel overlay-left">
+                <div class="overlay-logo">
+                    <img src="logo.png" alt="FIDA" onerror="this.style.display='none'">
+                    <div class="overlay-logo-text">
+                        <span class="brand">FIDA</span>
+                        <span class="tagline-sm">Clothing &amp; Essentials</span>
+                    </div>
+                </div>
+                <p class="sub">Welcome Back</p>
+                <h1>Already one <span>of us?</span></h1>
+                <p>Sign in to access your wishlist, enquiries, and the latest collections.</p>
+                <button type="button" class="btn-ghost" id="signInBtnOverlay">
+                    <i class="fas fa-sign-in-alt"></i> Sign In
+                </button>
+            </div>
+
+            <!-- RIGHT overlay (shown when on SIGN IN) -->
+            <div class="overlay-panel overlay-right">
+                <div class="overlay-logo">
+                    <img src="logo.png" alt="FIDA" onerror="this.style.display='none'">
+                    <div class="overlay-logo-text">
+                        <span class="brand">FIDA</span>
+                        <span class="tagline-sm">Clothing &amp; Essentials</span>
+                    </div>
+                </div>
+                <p class="sub">Join FIDA</p>
+                <h1>New to <span>FIDA?</span></h1>
+                <p>Create an account for 10% off your first enquiry and exclusive access to new drops.</p>
+                <button type="button" class="btn-ghost" id="signUpBtnOverlay">
+                    <i class="fas fa-user-plus"></i> Sign Up
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<script type="module">
+
+// ============================================================
+// FIREBASE IMPORTS
+// ============================================================
+
+import {
+    auth,
+    db
+} from "./firebase-config.js";
+
+import {
+    createUserWithEmailAndPassword,
+    updateProfile,
+    signInWithEmailAndPassword,
+    signOut,
+    setPersistence,
+    browserLocalPersistence,
+    browserSessionPersistence
+} from
+"https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+
+import {
+    doc,
+    setDoc,
+    serverTimestamp
+} from
+"https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+
+
+// ============================================================
+// ELEMENTS
+// ============================================================
+
+const authContainer =
+    document.getElementById("authContainer");
+
+const signUpBtnOverlay =
+    document.getElementById("signUpBtnOverlay");
+
+const signInBtnOverlay =
+    document.getElementById("signInBtnOverlay");
+
+
+// ============================================================
+// SLIDER
+// ============================================================
+
+if (signUpBtnOverlay) {
+
+    signUpBtnOverlay.addEventListener("click", () => {
+
+        authContainer.classList.add(
+            "right-panel-active"
+        );
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+
+    });
+
+}
+
+
+if (signInBtnOverlay) {
+
+    signInBtnOverlay.addEventListener("click", () => {
+
+        authContainer.classList.remove(
+            "right-panel-active"
+        );
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+
+    });
+
+}
+
+
+// ============================================================
+// PASSWORD VISIBILITY
+// ============================================================
+
+document
+    .querySelectorAll(".toggle-password")
+    .forEach(button => {
+
+        button.addEventListener("click", () => {
+
+            const input =
+                document.getElementById(
+                    button.dataset.target
+                );
+
+            const icon =
+                button.querySelector("i");
+
+            if (!input || !icon) return;
+
+            const isPassword =
+                input.type === "password";
+
+            input.type =
+                isPassword
+                    ? "text"
+                    : "password";
+
+            icon.classList.toggle(
+                "fa-eye",
+                !isPassword
+            );
+
+            icon.classList.toggle(
+                "fa-eye-slash",
+                isPassword
+            );
+
+        });
+
+    });
+
+
+// ============================================================
+// "OTHER SOURCE"
+// ============================================================
+
+const signupHear =
+    document.getElementById("signupHear");
+
+const otherSourceGroup =
+    document.getElementById("otherSourceGroup");
+
+if (signupHear && otherSourceGroup) {
+
+    signupHear.addEventListener(
+        "change",
+        () => {
+
+            if (signupHear.value === "Other") {
+
+                otherSourceGroup.style.display =
+                    "block";
+
+            } else {
+
+                otherSourceGroup.style.display =
+                    "none";
+
+                document.getElementById(
+                    "signupOther"
+                ).value = "";
+
+            }
+
+        }
+    );
+
+}
+
+
+// ============================================================
+// SIGN UP
+// ============================================================
+
+const signupForm =
+    document.getElementById("signupForm");
+
+const signupBtn =
+    document.getElementById("signupBtn");
+
+const signupMessage =
+    document.getElementById("signupMessage");
+
+
+signupForm.addEventListener(
+    "submit",
+    async function (e) {
+
+        e.preventDefault();
+
+
+        const name =
+            document.getElementById(
+                "signupName"
+            ).value.trim();
+
+        const email =
+            document.getElementById(
+                "signupEmail"
+            ).value.trim();
+
+        const phone =
+            document.getElementById(
+                "signupPhone"
+            ).value.trim();
+
+        const country =
+            document.getElementById(
+                "signupCountry"
+            ).value;
+
+        const gender =
+            document.getElementById(
+                "signupGender"
+            ).value;
+
+        const password =
+            document.getElementById(
+                "signupPassword"
+            ).value;
+
+        const confirmPassword =
+            document.getElementById(
+                "signupConfirm"
+            ).value;
+
+        const hear =
+            document.getElementById(
+                "signupHear"
+            ).value;
+
+        const other =
+            document.getElementById(
+                "signupOther"
+            ).value.trim();
+
+        const terms =
+            document.getElementById(
+                "signupTerms"
+            ).checked;
+
+
+        signupMessage.className =
+            "form-message";
+
+        signupMessage.innerHTML = "";
+
+
+        // ----------------------------------------------------
+        // VALIDATION
+        // ----------------------------------------------------
+
+        if (
+            !name ||
+            !email ||
+            !phone ||
+            !country ||
+            !gender ||
+            !password ||
+            !confirmPassword ||
+            !hear
+        ) {
+
+            showSignupError(
+                "Please fill in all required fields (*)."
+            );
+
+            return;
+        }
+
+
+        if (password.length < 6) {
+
+            showSignupError(
+                "Password must be at least 6 characters."
+            );
+
+            return;
+        }
+
+
+        if (password !== confirmPassword) {
+
+            showSignupError(
+                "Passwords do not match."
+            );
+
+            return;
+        }
+
+
+        if (
+            hear === "Other" &&
+            !other
+        ) {
+
+            showSignupError(
+                "Please specify how you heard about us."
+            );
+
+            return;
+        }
+
+
+        if (!terms) {
+
+            showSignupError(
+                "Please accept the Terms & Privacy Policy."
+            );
+
+            return;
+        }
+
+
+        signupBtn.disabled = true;
+
+        signupBtn.innerHTML =
+            '<i class="fas fa-spinner fa-spin"></i> Creating...';
+
+
+        try {
+
+            // ------------------------------------------------
+            // CREATE FIREBASE ACCOUNT
+            // ------------------------------------------------
+
+            const credential =
+                await createUserWithEmailAndPassword(
+                    auth,
+                    email,
+                    password
+                );
+
+            const user =
+                credential.user;
+
+
+            // ------------------------------------------------
+            // SAVE DISPLAY NAME
+            // ------------------------------------------------
+
+            await updateProfile(
+                user,
+                {
+                    displayName: name
+                }
+            );
+
+
+            // ------------------------------------------------
+            // SAVE CUSTOMER PROFILE
+            // ------------------------------------------------
+
+            await setDoc(
+                doc(
+                    db,
+                    "users",
+                    user.uid
+                ),
+                {
+                    uid: user.uid,
+                    fullName: name,
+                    email: email,
+                    phone: phone,
+                    country: country,
+                    gender: gender,
+
+                    hearAbout: hear,
+
+                    hearAboutOther:
+                        hear === "Other"
+                            ? other
+                            : "",
+
+                    // This is only profile information.
+                    // Admin authorization is NOT based on this.
+                    role: "user",
+
+                    createdAt:
+                        serverTimestamp()
+                },
+                {
+                    merge: true
+                }
+            );
+
+
+            // ------------------------------------------------
+            // SUCCESS
+            // ------------------------------------------------
+
+            signupMessage.className =
+                "form-message success show";
+
+            signupMessage.innerHTML =
+                '<i class="fas fa-check-circle"></i>' +
+                '<span>Account created successfully! Redirecting...</span>';
+
+
+            // ------------------------------------------------
+            // CUSTOMER GOES TO HOME
+            // ------------------------------------------------
+
+            setTimeout(() => {
+
+                window.location.href =
+                    "index.html";
+
+            }, 1500);
+
+
+        } catch (error) {
+
+            console.error(
+                "Firebase signup error:",
+                error
+            );
+
+
+            showSignupError(
+                firebaseSignupError(
+                    error
+                )
+            );
+
+
+        } finally {
+
+            signupBtn.disabled = false;
+
+            signupBtn.innerHTML =
+                '<i class="fas fa-user-plus"></i> Create Account';
+
+        }
+
+    }
+);
+
+
+// ============================================================
+// SIGN UP ERROR HELPERS
+// ============================================================
+
+function showSignupError(message) {
+
+    signupMessage.className =
+        "form-message error show";
+
+    signupMessage.innerHTML =
+        '<i class="fas fa-exclamation-circle"></i>' +
+        `<span>${escapeHtml(message)}</span>`;
+
+}
+
+
+function firebaseSignupError(error) {
+
+    switch (error.code) {
+
+        case "auth/email-already-in-use":
+            return "An account with this email already exists.";
+
+        case "auth/invalid-email":
+            return "Please enter a valid email address.";
+
+        case "auth/weak-password":
+            return "Password is too weak. Use at least 6 characters.";
+
+        case "auth/network-request-failed":
+            return "Network error. Please check your internet connection.";
+
+        default:
+            return error.message ||
+                "Unable to create your account.";
+
+    }
+
+}
+
+
+// ============================================================
+// SIGN IN
+// ============================================================
+
+const signinForm =
+    document.getElementById("signinForm");
+
+const signinBtn =
+    document.getElementById("signinBtn");
+
+const signinMessage =
+    document.getElementById("signinMessage");
+
+
+signinForm.addEventListener(
+    "submit",
+    async function (e) {
+
+        e.preventDefault();
+
+
+        const email =
+            document.getElementById(
+                "signinEmail"
+            ).value.trim();
+
+        const password =
+            document.getElementById(
+                "signinPassword"
+            ).value;
+
+        const remember =
+            document.getElementById(
+                "signinRemember"
+            ).checked;
+
+
+        signinMessage.className =
+            "form-message";
+
+        signinMessage.innerHTML = "";
+
+
+        if (!email || !password) {
+
+            showSigninError(
+                "Please enter your email and password."
+            );
+
+            return;
+        }
+
+
+        signinBtn.disabled = true;
+
+        signinBtn.innerHTML =
+            '<i class="fas fa-spinner fa-spin"></i> Signing in...';
+
+
+        try {
+
+            // ------------------------------------------------
+            // PERSISTENCE
+            // ------------------------------------------------
+
+            await setPersistence(
+                auth,
+                remember
+                    ? browserLocalPersistence
+                    : browserSessionPersistence
+            );
+
+
+            // ------------------------------------------------
+            // FIREBASE LOGIN
+            // ------------------------------------------------
+
+            const credential =
+                await signInWithEmailAndPassword(
+                    auth,
+                    email,
+                    password
+                );
+
+            const user =
+                credential.user;
+
+
+            // ------------------------------------------------
+            // FORCE REFRESH TOKEN
+            //
+            // Important when custom admin claims have
+            // recently been assigned.
+            // ------------------------------------------------
+
+            const tokenResult =
+                await user.getIdTokenResult(
+                    true
+                );
+
+
+            const isAdmin =
+                tokenResult.claims.admin === true;
+
+
+            console.log(
+                "Authenticated UID:",
+                user.uid
+            );
+
+            console.log(
+                "Admin:",
+                isAdmin
+            );
+
+
+            // ------------------------------------------------
+            // LOG LOGIN
+            //
+            // This endpoint will later verify the Firebase
+            // token server-side.
+            // ------------------------------------------------
+
+            try {
+
+                const idToken =
+                    await user.getIdToken();
+
+                await fetch(
+                    "http://127.0.0.1:8000/api/users/log",
+                    {
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json",
+
+                            "Authorization":
+                                `Bearer ${idToken}`
+                        },
+
+                        body: JSON.stringify({
+                            email: user.email
+                        })
+                    }
+                );
+
+            } catch (logError) {
+
+                console.warn(
+                    "Login logging failed:",
+                    logError
+                );
+
+            }
+
+
+            // ------------------------------------------------
+            // ADMIN
+            // ------------------------------------------------
+
+            if (isAdmin) {
+
+                signinMessage.className =
+                    "form-message success show";
+
+                signinMessage.innerHTML =
+                    '<i class="fas fa-shield-alt"></i>' +
+                    '<span>Admin login successful! Redirecting...</span>';
+
+
+                setTimeout(() => {
+
+                    window.location.href =
+                        "admin.html";
+
+                }, 1000);
+
+                return;
+            }
+
+
+            // ------------------------------------------------
+            // NORMAL CUSTOMER
+            // ------------------------------------------------
+
+            signinMessage.className =
+                "form-message success show";
+
+            signinMessage.innerHTML =
+                '<i class="fas fa-check-circle"></i>' +
+                '<span>Login successful! Redirecting...</span>';
+
+
+            setTimeout(() => {
+
+                window.location.href =
+                    "index.html";
+
+            }, 1000);
+
+
+        } catch (error) {
+
+            console.error(
+                "Firebase login error:",
+                error
+            );
+
+
+            showSigninError(
+                firebaseSigninError(
+                    error
+                )
+            );
+
+
+        } finally {
+
+            signinBtn.disabled = false;
+
+            signinBtn.innerHTML =
+                '<i class="fas fa-sign-in-alt"></i> Sign In';
+
+        }
+
+    }
+);
+
+
+// ============================================================
+// SIGN IN ERROR
+// ============================================================
+
+function showSigninError(message) {
+
+    signinMessage.className =
+        "form-message error show";
+
+    signinMessage.innerHTML =
+        '<i class="fas fa-exclamation-circle"></i>' +
+        `<span>${escapeHtml(message)}</span>`;
+
+}
+
+
+function firebaseSigninError(error) {
+
+    switch (error.code) {
+
+        case "auth/invalid-credential":
+            return "Incorrect email or password.";
+
+        case "auth/user-not-found":
+            return "No account was found with this email.";
+
+        case "auth/wrong-password":
+            return "Incorrect password.";
+
+        case "auth/invalid-email":
+            return "Please enter a valid email address.";
+
+        case "auth/user-disabled":
+            return "This account has been disabled.";
+
+        case "auth/too-many-requests":
+            return "Too many attempts. Please try again later.";
+
+        case "auth/network-request-failed":
+            return "Network error. Check your internet connection.";
+
+        default:
+            return error.message ||
+                "Unable to sign in.";
+
+    }
+
+}
+
+
+// ============================================================
+// HTML ESCAPE
+// ============================================================
+
+function escapeHtml(value) {
+
+    return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+
+}
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,20 @@
+# Firebase service account credentials
+serviceAccountKey.json
+**/serviceAccountKey.json
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Environment variables
+.env
+.env.*
+
+# Node
+node_modules/
+
+# OS
+.DS_Store
+Thumbs.db
