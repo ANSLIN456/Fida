@@ -39,7 +39,7 @@ if not firebase_admin._apps:
 # ENTER ADMIN EMAIL
 # ============================================================
 
-ADMIN_EMAIL = "admin@fida.com"
+ADMIN_EMAIL = "admin@fidafashions.com"
 
 
 # ============================================================
