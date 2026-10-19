@@ -1533,6 +1533,20 @@ body {
 </nav>
 
 <script>
+    
+function getImageUrl(path) {
+    if (!path) return "./images/logo.png";
+
+    if (/^https?:\/\//i.test(path)) {
+        return path.replace(
+            /^http:\/\/127\.0\.0\.1:8000/i,
+            "https://fida-back.onrender.com"
+        );
+    }
+
+    return `https://fida-back.onrender.com/${path.replace(/^\/+/, "")}`;
+}
+
 /* ============ WISHLIST TOGGLE ============ */
 document.querySelectorAll('.wishlist').forEach(btn => {
     btn.addEventListener('click', function(e) {
@@ -1823,17 +1837,15 @@ window.addEventListener('scroll', () => {
 
         card.innerHTML = `
 
+            
             <div class="product-img">
-
                 <img
-                    src="${escapeHtml(image)}"
+                    src="${escapeHtml(getImageUrl(image))}"
                     alt="${escapeHtml(name)}"
                     loading="lazy"
-                    onerror="
-                        this.onerror=null;
-                        this.src='images/logo.png';
-                    "
+                    onerror="this.onerror=null; this.src='images/logo.png';"
                 >
+
 
                 ${badge}
 
