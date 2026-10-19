@@ -1041,7 +1041,7 @@ async def create_product(
 
     image_url = (
 
-        "http://127.0.0.1:8000"
+        "https://fida-back.onrender.com"
 
         f"/static/uploads/{filename}"
 
@@ -1235,7 +1235,7 @@ def delete_product(
 
     prefix = (
 
-        "http://127.0.0.1:8000"
+        "https://fida-back.onrender.com"
 
         "/static/uploads/"
 
