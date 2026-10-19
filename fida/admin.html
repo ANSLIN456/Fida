@@ -1586,6 +1586,20 @@ import {
 
 const API_BASE = "https://fida-back.onrender.com";
 
+function getImageUrl(path) {
+    if (!path) return "";
+
+    if (/^https?:\/\//i.test(path)) {
+        return path.replace(
+            /^http:\/\/127\.0\.0\.1:8000/i,
+            API_BASE
+        );
+    }
+
+    return `${API_BASE}/${path.replace(/^\/+/, "")}`;
+}
+
+
 
 /* =========================================================
    STATE
@@ -3284,7 +3298,7 @@ async function renderProducts() {
                                             ? `
                                                 <img
                                                     src="${escapeHtml(
-                                                        product.image
+                                                        getImageUrl(product.image)
                                                     )}"
                                                     alt="${escapeHtml(
                                                         product.name ||
