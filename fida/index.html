@@ -6,6 +6,7 @@
 <title>FIDA — Clothing & Essentials | Catalog</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="./style.css">
 
 <style>
 /* ============ VARIABLES ============ */
@@ -22,13 +23,29 @@
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
-html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; min-height: 100%; }
 body {
     font-family: 'Poppins', sans-serif;
     color: var(--text);
-    background: var(--cream);
+    background: transparent !important;
     line-height: 1.6;
     overflow-x: hidden;
+    min-height: 100vh;
+    position: relative;
+    isolation: isolate;
+}
+
+/* Fixed fashion image stays behind the full page while scrolling */
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background-image: url('./images/fida-background.png');
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 h1, h2, h3, h4 { font-family: 'Playfair Display', serif; color: var(--dark); }
 a { text-decoration: none; color: inherit; }
@@ -205,7 +222,7 @@ button { font-family: inherit; }
     min-height: 78vh;
 }
 .hero-tag {
-    color: var(--gold);
+    color: #4d3105;
     letter-spacing: 3px;
     font-size: 12px;
     margin-bottom: 18px;
@@ -221,7 +238,7 @@ button { font-family: inherit; }
 .hero h1 em { color: var(--gold); font-style: italic; }
 .hero-desc {
     font-size: 16px;
-    color: var(--gray);
+    color: #a37c40;
     margin-bottom: 32px;
     max-width: 480px;
 }
@@ -298,11 +315,88 @@ section { padding: 80px 30px; }
     letter-spacing: 8px;
 }
 
+/* Background image with blur */
+body {
+    position: relative;
+    isolation: isolate;
+    background: transparent !important;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: -8px;
+    z-index: -1;
+    pointer-events: none;
+
+    background-image: url("./images/fida-background.png");
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+
+    filter: blur(px);
+    transform: scale(1.01);
+}
+
+/* Reduce section background opacity */
+.categories-section {
+    background-color: rgba(255, 255, 255, 0.25) !important;
+}
+
+/* Keep text and images fully visible */
+.categories-section h1,
+.categories-section h2,
+.categories-section p,
+.categories-section img,
+.categories-section .category-card {
+    opacity: 1;
+}
+/* Keep page sections transparent so the background shows */
+.hero,
+.categories-section,
+.featured-section,
+.about-section {
+    background: transparent !important;
+}
+
+/* Soft blurred background effect for the first three sections */
+.hero,
+.categories-section,
+.featured-section {
+    position: relative;
+    isolation: isolate;
+    background: transparent !important;
+}
+
+/* Blur only the background, not the content */
+.hero::before,
+.categories-section::before,
+.featured-section::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    background: rgba(255, 245, 235, 0.12);
+    pointer-events: none;
+}
+
+/* Keep category cards and product cards clear */
+.category-card,
+.product-card,
+.hero-content,
+.hero-image,
+.section-header {
+    position: relative;
+    z-index: 1;
+}
+
 /* ============ CATALOG NOTE ============ */
 .catalog-note {
     text-align: center;
     padding: 22px 30px;
-    background: #fff8ec;
+    background: rgba(255, 248, 236, 0.72);
     border-top: 1px solid #efe0c2;
     border-bottom: 1px solid #efe0c2;
 }
@@ -321,24 +415,71 @@ section { padding: 80px 30px; }
 
 /* ============ CATEGORIES ============ */
 .categories { max-width: 1300px; margin: auto; }
+
+/* Category grid: use the full available page width */
 .category-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 25px;
+
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    box-sizing: border-box;
 }
+
+/* Category cards */
 .category-card {
     position: relative;
     overflow: hidden;
     height: 440px;
+    width: 100%;
+    min-width: 0;
     cursor: pointer;
     display: block;
+    box-sizing: border-box;
 }
+
 .category-card img {
-    width: 100%; height: 100%;
+    display: block;
+    width: 100%;
+    height: 100%;
     object-fit: cover;
-    transition: transform .7s;
+    transition: transform 0.7s;
 }
-.category-card:hover img { transform: scale(1.08); }
+
+.category-card:hover img {
+    transform: scale(1.08);
+}
+
+/* Remove horizontal page overflow */
+html,
+body {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    overflow-x: hidden;
+}
+
+/* Remove width restrictions from the category section */
+.categories-section {
+    width: 100%;
+    max-width: none;
+    box-sizing: border-box;
+}
+
+/* Responsive layout */
+@media (max-width: 768px) {
+    .category-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .category-card {
+        height: 350px;
+    }
+}
+
 .overlay {
     position: absolute;
     inset: 0;
@@ -365,7 +506,7 @@ section { padding: 80px 30px; }
     gap: 28px;
 }
 .product-card {
-    background: #fff;
+    background: #FDF0D9;
     border-radius: 6px;
     overflow: hidden;
     transition: transform .3s, box-shadow .3s;
@@ -457,7 +598,7 @@ section { padding: 80px 30px; }
 .btn-enquire i { font-size: 14px; }
 
 /* ============ ABOUT PREVIEW ============ */
-.about { background: var(--cream-2); padding: 100px 30px; }
+.about { background: rgba(244, 237, 226, 0.48); padding: 100px 30px; }
 .about-wrap {
     max-width: 1200px;
     margin: auto;
@@ -503,7 +644,7 @@ section { padding: 80px 30px; }
 .about-features i { color: var(--gold); font-size: 20px; }
 
 /* ============ HOW TO ORDER ============ */
-.how-to-order { background: #fff; padding: 80px 30px; }
+.how-to-order { background: rgba(255, 255, 255, 0.48); padding: 80px 30px; }
 .steps {
     max-width: 1100px;
     margin: auto;
@@ -548,7 +689,7 @@ section { padding: 80px 30px; }
 .countries {
     text-align: center;
     padding: 50px 30px;
-    background: var(--brown);
+    background: rgba(12, 9, 6, 0.76);
     color: #fff;
 }
 .countries .sub { color: var(--gold-light); }
@@ -571,7 +712,7 @@ section { padding: 80px 30px; }
 .newsletter {
     text-align: center;
     padding: 80px 30px;
-    background: linear-gradient(135deg, #f8f0e3, #efe2cd);
+    background: linear-gradient(135deg, rgba(248, 240, 227, 0.62), rgba(239, 226, 205, 0.62));
 }
 .newsletter h2 { font-size: 36px; margin-bottom: 8px; }
 .newsletter p { color: var(--gray); margin-bottom: 30px; }
@@ -1031,6 +1172,22 @@ section { padding: 80px 30px; }
     .logo-text .brand { font-size: 15px; letter-spacing: 3px; }
     .logo-text .tagline-sm { font-size: 5.5px; letter-spacing: 1.5px; }
 }
+.site-logo {
+    display: block;
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+}
+.site-logo {
+    display: block;
+    width: 68px;
+    height: 68px;
+    object-fit: contain;
+    background: transparent;
+    filter: none !important;
+    opacity: 1;
+    flex-shrink: 0;
+}
 </style>
 </head>
 
@@ -1064,10 +1221,10 @@ section { padding: 80px 30px; }
 
         <!-- LOGO + BRAND NAME + TAGLINE -->
         <a href="index.html" class="logo">
-            <img src="images/logo.png" alt="FIDA" onerror="this.style.display='none'">
+            <img src="./images/logo.jpg" alt="FIDA" onerror="this.style.display='none'">
             <div class="logo-text">
                 <span class="brand">FIDA</span>
-                <span class="tagline-sm">Clothing &amp; Essentials</span>
+                <span class="tagline-sm">FASHIONS &amp; LIFESTYLES</span>
             </div>
         </a>
 
@@ -1087,10 +1244,10 @@ section { padding: 80px 30px; }
     <div class="hero-content">
         <p class="hero-tag">✦ Global Exports Since 2020 ✦</p>
         <h1>Essentials for <span>Every Day.</span><br>Style for <em>Every You.</em></h1>
-        <p class="hero-desc">Premium women's wear, clothing & accessories — thoughtfully crafted and exported across India, Sri Lanka & UAE.</p>
+        <p class="hero-desc">Premium women's wear, Fashions & Lifestyles — thoughtfully crafted and exported across India, Sri Lanka & UAE.</p>
         <div class="hero-buttons">
             <a href="products.html" class="btn btn-primary">Browse Catalog</a>
-            <a href="https://wa.me/916382584014" target="_blank" class="btn btn-enquire-cta">
+            <a href="https://wa.me/+918667462522" target="_blank" class="btn btn-enquire-cta">
                 <i class="fab fa-whatsapp"></i> Enquire Now
             </a>
         </div>
@@ -1102,7 +1259,7 @@ section { padding: 80px 30px; }
     </div>
     <div class="hero-image">
         <div class="hero-shape"></div>
-        <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?w=800" alt="Fashion">
+        <img src="./images/index.jpeg" alt="Fashion">
     </div>
 </section>
 
@@ -1111,7 +1268,7 @@ section { padding: 80px 30px; }
     <p>
         <i class="fab fa-whatsapp"></i>
         <strong>Catalog Only</strong> — To order, contact us on WhatsApp:
-        <a href="https://wa.me/916382584014" target="_blank">+91 63825 84014</a>
+        <a href="https://wa.me/+918667462522" target="_blank">+91 866 746 2522</a>
     </p>
 </div>
 
@@ -1124,26 +1281,20 @@ section { padding: 80px 30px; }
     </div>
     <div class="category-grid">
         <a href="products.html" class="category-card">
-            <img src="https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=600" alt="Women's Wear">
+            <img src="./images/womens.png" alt="Women's Wear">
             <div class="overlay">
                 <h3>Women's Wear</h3>
                 <span>Explore →</span>
             </div>
         </a>
         <a href="products.html" class="category-card">
-            <img src="https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=600" alt="Essentials">
+            <img src="./images/accessories.png" alt="Essentials">
             <div class="overlay">
                 <h3>Essentials</h3>
                 <span>Explore →</span>
             </div>
         </a>
-        <a href="products.html" class="category-card">
-            <img src="https://images.unsplash.com/photo-1591348278863-a8fb3887e2aa?w=600" alt="Accessories">
-            <div class="overlay">
-                <h3>Accessories</h3>
-                <span>Explore →</span>
-            </div>
-        </a>
+        
     </div>
 </section>
 
@@ -1282,7 +1433,7 @@ section { padding: 80px 30px; }
     <h2>Ready to Order?</h2>
     <p>Send us a WhatsApp message — we'll help you pick the perfect piece.</p>
     <div class="newsletter-buttons">
-        <a href="https://wa.me/916382584014?text=Hi%20FIDA%2C%20I%27d%20like%20to%20place%20an%20order"
+        <a href="https://wa.me/+918667462522?text=Hi%20FIDA%2C%20I%27d%20like%20to%20place%20an%20order"
            target="_blank" class="btn btn-enquire-cta">
             <i class="fab fa-whatsapp"></i> Chat on WhatsApp
         </a>
@@ -1295,26 +1446,26 @@ section { padding: 80px 30px; }
     <div class="footer-grid">
         <div class="footer-brand">
             <div class="footer-logo-wrap">
-                <img src="logo.png" alt="FIDA" onerror="this.style.display='none'">
+                <img src="./images/logo.png" alt="FIDA Logo" class="site-logo">
                 <div class="footer-logo-text">
                     <span class="brand">FIDA</span>
-                    <span class="tagline-sm">Clothing &amp; Essentials</span>
+                    <span class="tagline-sm">FASHIONS &amp; LIFESTYLES</span>
                 </div>
             </div>
             <p class="tagline">Essentials for Every Day.<br>Style for Every You.</p>
 
             <!-- ELEGANT CIRCULAR SOCIAL BUTTONS -->
             <div class="socials">
-                <a href="https://instagram.com/" target="_blank" aria-label="Instagram">
+                <a href="https://instagram.com/fidafashions.global" target="_blank" aria-label="Instagram">
                     <i class="fab fa-instagram"></i>
                 </a>
-                <a href="https://facebook.com/" target="_blank" aria-label="Facebook">
+                <a href="https://facebook.com/fidafashions.global" target="_blank" aria-label="Facebook">
                     <i class="fab fa-facebook-f"></i>
                 </a>
-                <a href="https://wa.me/916382584014" target="_blank" aria-label="WhatsApp">
+                <a href="https://wa.me/+918667462522" target="_blank" aria-label="WhatsApp">
                     <i class="fab fa-whatsapp"></i>
                 </a>
-                <a href="https://linkedin.com/" target="_blank" aria-label="LinkedIn">
+                <a href="https://linkedin.com/fidafashions" target="_blank" aria-label="LinkedIn">
                     <i class="fab fa-linkedin-in"></i>
                 </a>
             </div>
@@ -1329,19 +1480,16 @@ section { padding: 80px 30px; }
         </div>
         <div>
             <h4>Categories</h4>
-            <a href="women.html">Women's Wear</a>
-            <a href="essentials.html">Essentials</a>
-            <a href="accessories.html">Accessories</a>
-            <a href="offer.html">Special Offers</a>
+            <a href="products.html">Women's Wear</a>
+            <a href="products.html">Essentials</a>
+            <a href="products.html">Special Offers</a>
         </div>
         <div>
             <h4>Contact</h4>
-            <p class="contact-line"><i class="fas fa-user"></i> Balaji Rajendran</p>
-            <p class="contact-line"><i class="fas fa-briefcase"></i> Business Development Executive</p>
-            <a href="tel:+916382584014"><i class="fas fa-phone"></i> +91 63825 84014</a>
-            <a href="mailto:balajir@fidaexports.com"><i class="fas fa-envelope"></i> balajir@fidaexports.com</a>
+            <a href="tel:+918667462522"><i class="fas fa-phone"></i> +91 866 746 2522</a>
+            <a href="mailto:salesfidafashions.com"><i class="fas fa-envelope"></i> sales@fidafashions.com</a>
             <p class="contact-line"><i class="fas fa-map-marker-alt"></i> Salem, Tamil Nadu, India</p>
-            <a href="https://wa.me/916382584014" target="_blank" class="footer-wa">
+            <a href="https://wa.me/+918667462522" target="_blank" class="footer-wa">
                 <i class="fab fa-whatsapp"></i> Enquire on WhatsApp
             </a>
         </div>
@@ -1353,7 +1501,7 @@ section { padding: 80px 30px; }
 </footer>
 
 <!-- ========== FLOATING WHATSAPP BUTTON ========== -->
-<a href="https://wa.me/916382584014?text=Hi%20FIDA%2C%20I%27d%20like%20to%20enquire%20about%20a%20product"
+<a href="https://wa.me/+918667462522?text=Hi%20FIDA%2C%20I%27d%20like%20to%20enquire%20about%20a%20product"
    target="_blank" class="wa-float" aria-label="WhatsApp">
     <i class="fab fa-whatsapp"></i>
 </a>

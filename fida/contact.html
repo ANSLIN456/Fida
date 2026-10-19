@@ -6,6 +6,7 @@
 <title>Contact — FIDA Clothing & Essentials</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="./style.css">
 
 <style>
 /* ============ VARIABLES ============ */
@@ -26,9 +27,25 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 body {
     font-family: 'Poppins', sans-serif;
     color: var(--text);
-    background: var(--cream);
+    background: transparent !important;
     line-height: 1.6;
     overflow-x: hidden;
+    position: relative;
+    isolation: isolate;
+    min-height: 100vh;
+}
+
+/* Fixed FIDA fashion background */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background-image: url("./images/fida-background.png");
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
 }
 h1, h2, h3, h4 { font-family: 'Playfair Display', serif; color: var(--dark); }
 a { text-decoration: none; color: inherit; }
@@ -877,7 +894,7 @@ button { font-family: inherit; }
     .nav-links a { font-size: 12px; letter-spacing: 1px; }
     .logo-text .brand { font-size: 20px; letter-spacing: 4px; }
     .logo-text .tagline-sm { font-size: 7px; letter-spacing: 2px; }
-    .main-contact-section { grid-template-columns: 1fr; gap: 35px; }
+    .main-contact-section { grid-template-columns: .5fr; gap: 35px; }
     .contact-cards { grid-template-columns: 1fr 1fr; }
 }
 
@@ -1067,7 +1084,253 @@ button { font-family: inherit; }
     .logo-text .brand { font-size: 15px; letter-spacing: 3px; }
     .logo-text .tagline-sm { font-size: 5.5px; letter-spacing: 1.5px; }
 }
+
+
+/* ============ FIDA BACKGROUND / TRANSPARENT CONTACT SECTIONS ============ */
+/* Let the fixed fashion background show through the page sections */
+.page-header,
+.contact-cards-section,
+.main-contact-section {
+    background: rgba(250, 246, 240, 0.30) !important;
+}
+
+/* Keep information panel readable while allowing subtle background visibility */
+.contact-info-panel {
+    background: rgba(92, 58, 33, 0.88) !important;
+}
+
+/* Slightly transparent form and contact cards */
+.contact-card,
+.contact-form-wrap {
+    background: rgba(255, 255, 255, 0.90) !important;
+}
+
+/* Map section background */
+.map-section {
+    background: rgba(244, 237, 226, 0.42) !important;
+}
+
+/* Keep strong contrast for dark sections */
+.countries {
+    background: rgba(92, 58, 33, 0.88) !important;
+}
+
+/* Keep navigation readable */
+.navbar {
+    background: rgba(250, 246, 240, 0.94);
+}
+
+/* Mobile background positioning */
+@media (max-width: 768px) {
+    body::before {
+        background-position: 65% center;
+    }
+}
+.site_logo{
+    width: 70px;
+    height: 70px;
+    object-fit: contain;
+    display: block;
+    background: transparent;
+    filter: none;
+}
+
+.footer-logo-wrap {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 18px;
+}
+
+.site-logo {
+    display: block;
+    width: 55px;
+    height: 55px;
+    object-fit: contain;
+    background: transparent;
+    filter: none;
+    flex-shrink: 0;
+}
+.site-logo {
+    display: block;
+    width: 68px;
+    height: 68px;
+    object-fit: contain;
+    background: transparent;
+    filter: none !important;
+    opacity: 1;
+    flex-shrink: 0;
+}
+
+/* ==========================================================
+   FIDA CONTACT PAGE — THREE-LOCATION MAP LAYOUT
+   HTML section replacement is provided in fida-contact-three-maps.html
+   Background image: ./images/fida-espresso-background.png
+   ========================================================== */
+body::before {
+    background-image: url("./images/fida-background.png") !important;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+/* Let the Indian-luxury background remain visible around the maps. */
+.map-section {
+    background: rgba(250, 246, 240, 0.18) !important;
+    padding: clamp(38px, 5vw, 76px) clamp(14px, 3vw, 32px);
+    text-align: center;
+}
+.map-header {
+    max-width: 1200px;
+    margin: 0 auto clamp(24px, 3vw, 38px);
+}
+.map-header .sub {
+    color: var(--gold);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+.map-header h2 {
+    color: var(--dark);
+    font-size: clamp(28px, 3vw, 42px);
+    line-height: 1.16;
+    margin-bottom: 12px;
+}
+.map-header p {
+    color: #76685c;
+    font-size: 14px;
+    max-width: 700px;
+    margin: 0 auto;
+}
+.map-header .divider {
+    color: var(--gold);
+    font-size: 14px;
+    letter-spacing: 8px;
+    margin-top: 12px;
+}
+
+.map-grid {
+    width: min(100%, 1500px);
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(14px, 1.8vw, 26px);
+    align-items: stretch;
+}
+.map-card {
+    min-width: 0;
+    overflow: hidden;
+    text-align: left;
+    padding: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.78);
+    border-radius: 8px;
+    background: rgba(255, 250, 243, 0.68);
+    -webkit-backdrop-filter: blur(10px) saturate(115%);
+    backdrop-filter: blur(10px) saturate(115%);
+    box-shadow: 0 12px 32px rgba(58, 36, 22, 0.12);
+    transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+}
+.map-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(184, 139, 74, 0.6);
+    box-shadow: 0 18px 38px rgba(58, 36, 22, 0.17);
+}
+.map-card-head {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    padding: 9px 8px 14px;
+}
+.map-card-icon {
+    flex: 0 0 42px;
+    width: 42px;
+    height: 42px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: #fffaf2;
+    background: linear-gradient(135deg, var(--brown), var(--brown-light));
+    box-shadow: 0 5px 14px rgba(57, 32, 20, .18);
+}
+.map-card-head h3 {
+    color: var(--dark);
+    font-size: 20px;
+    line-height: 1.25;
+    margin: 0 0 3px;
+}
+.map-card-head p {
+    color: var(--gray);
+    font-size: 11px;
+    line-height: 1.5;
+    margin: 0;
+}
+.map-frame {
+    height: clamp(220px, 21vw, 310px);
+    min-height: 220px;
+    overflow: hidden;
+    border-radius: 5px;
+    background: #e9e0d5;
+    border: 1px solid rgba(71, 48, 31, 0.10);
+}
+.map-frame iframe {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+.map-directions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    min-height: 44px;
+    margin-top: 10px;
+    padding: 10px 12px;
+    border-radius: 4px;
+    border: 1px solid rgba(57, 32, 20, .45);
+    color: var(--brown);
+    background: rgba(255,255,255,.56);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: color .2s ease, background .2s ease, border-color .2s ease;
+}
+.map-directions:hover {
+    color: #fffaf2;
+    background: var(--brown);
+    border-color: var(--brown);
+}
+
+@media (max-width: 1024px) {
+    .map-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        max-width: 900px;
+    }
+    .map-card:last-child {
+        grid-column: 1 / -1;
+        width: calc(50% - 8px);
+        justify-self: center;
+    }
+    .map-frame { height: 280px; }
+}
+@media (max-width: 640px) {
+    .map-section { padding: 38px 14px; }
+    .map-header { margin-bottom: 22px; }
+    .map-header h2 { font-size: 26px; }
+    .map-header p { font-size: 12px; }
+    .map-grid { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+    .map-card:last-child { grid-column: auto; width: 100%; }
+    .map-card { padding: 10px; border-radius: 7px; }
+    .map-card-head { padding: 7px 5px 12px; }
+    .map-card-head h3 { font-size: 18px; }
+    .map-frame { height: 250px; min-height: 220px; }
+}
 </style>
+
 </head>
 
 <body>
@@ -1118,7 +1381,7 @@ button { font-family: inherit; }
 <!-- ========== PAGE HEADER ========== -->
 <section class="page-header">
     <p class="breadcrumb"><a href="index.html">Home</a> &nbsp;/&nbsp; Contact</p>
-    <h1>Get in <span>Touch</span></h1>
+    <h1>Connect with our<span> Team</span></h1>
     <p>We'd love to hear from you — for orders, partnerships, or general enquiries.</p>
     <div class="divider">✦ ✦ ✦</div>
 </section>
@@ -1126,27 +1389,27 @@ button { font-family: inherit; }
 <!-- ========== QUICK CONTACT CARDS ========== -->
 <section class="contact-cards-section">
     <div class="contact-cards">
-        <a href="https://wa.me/916382584014?text=Hi%20FIDA%2C%20I%20have%20a%20question" target="_blank" class="contact-card">
+        <a href="https://wa.me/+918667462522?text=Hi%20FIDA%2C%20I%20have%20a%20question" target="_blank" class="contact-card">
             <div class="contact-icon"><i class="fab fa-whatsapp"></i></div>
             <h3>WhatsApp</h3>
             <p>Fastest way to reach us — instant replies during business hours</p>
-            <span class="value">+91 63825 84014</span>
+            <span class="value">+91 866 746 2522</span>
             <span class="cta-link">Chat Now <i class="fas fa-arrow-right"></i></span>
         </a>
 
-        <a href="mailto:balajir@fidaexports.com" class="contact-card">
+        <a href="mailto:sales@fidafashions.com" class="contact-card">
             <div class="contact-icon"><i class="fas fa-envelope"></i></div>
             <h3>Email</h3>
             <p>For detailed enquiries, bulk orders & partnerships</p>
-            <span class="value">balajir@fidaexports.com</span>
+            <span class="value">sales@fidafashions.com</span>
             <span class="cta-link">Send Email <i class="fas fa-arrow-right"></i></span>
         </a>
 
-        <a href="tel:+916382584014" class="contact-card">
+        <a href="tel:+918667462522" class="contact-card">
             <div class="contact-icon"><i class="fas fa-phone"></i></div>
             <h3>Call Us</h3>
             <p>Speak directly with our Business Development team</p>
-            <span class="value">+91 63825 84014</span>
+            <span class="value">+91 866 746 2522</span>
             <span class="cta-link">Call Now <i class="fas fa-arrow-right"></i></span>
         </a>
     </div>
@@ -1159,22 +1422,20 @@ button { font-family: inherit; }
     <aside class="contact-info-panel">
         <p class="sub">Contact Details</p>
         <h2>Let's Start a <span>Conversation.</span></h2>
-        <p>Reach out to Balaji Rajendran, our Business Development Executive — for bulk orders, export enquiries, and partnerships.</p>
+        <p>Reach out - for bulk orders, export enquiries, and partnerships.</p>
 
-        <div class="contact-info-items">
-            <div class="contact-info-item">
-                <div class="icon"><i class="fas fa-user"></i></div>
-                <div class="text">
-                    <span class="label">Contact Person</span>
-                    <span>Balaji Rajendran</span>
+        <div >
+            <div >
+                <div ><i"></i></div>
+                <div >
+                    
                 </div>
             </div>
 
-            <div class="contact-info-item">
-                <div class="icon"><i class="fas fa-briefcase"></i></div>
-                <div class="text">
-                    <span class="label">Designation</span>
-                    <span>Business Development Executive</span>
+            <div >
+                <div ><i></i></div>
+                <div >
+                    
                 </div>
             </div>
 
@@ -1182,7 +1443,7 @@ button { font-family: inherit; }
                 <div class="icon"><i class="fas fa-phone"></i></div>
                 <div class="text">
                     <span class="label">Phone / WhatsApp</span>
-                    <a href="tel:+916382584014">+91 63825 84014</a>
+                    <a href="tel:+918667462522">+91 866 746 2522</a>
                 </div>
             </div>
 
@@ -1190,15 +1451,20 @@ button { font-family: inherit; }
                 <div class="icon"><i class="fas fa-envelope"></i></div>
                 <div class="text">
                     <span class="label">Email</span>
-                    <a href="mailto:balajir@fidaexports.com">balajir@fidaexports.com</a>
+                    <a href="mailto:sales@fidafashions.com">sales@fidafashions.com</a>
                 </div>
             </div>
 
             <div class="contact-info-item">
                 <div class="icon"><i class="fas fa-map-marker-alt"></i></div>
                 <div class="text">
-                    <span class="label">Location</span>
-                    <span>Salem, Tamil Nadu, India</span>
+                    <span class="label">Locations</span><br>
+                    <span>Tamil Nadu, India.</span>
+                    <br>
+                    <span>Dubai, UAE.</span>
+                    <br>
+                    <span>kandy, Srilanka.</span>
+                    <br>
                 </div>
             </div>
         </div>
@@ -1207,16 +1473,15 @@ button { font-family: inherit; }
 
         <p class="hours-title">Business Hours</p>
         <ul class="hours-list">
-            <li><span>Monday – Friday</span><span>9:00 AM – 7:00 PM</span></li>
-            <li><span>Saturday</span><span>10:00 AM – 5:00 PM</span></li>
-            <li><span>Sunday</span><span>Closed</span></li>
+            <li><span>24/7</span></li>
+            
         </ul>
 
         <div class="socials">
-            <a href="https://instagram.com/" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-            <a href="https://facebook.com/" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-            <a href="https://wa.me/916382584014" target="_blank" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
-            <a href="https://linkedin.com/" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+            <a href="https://instagram.com/fidafashions.global" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="https://facebook.com/fidafashions.global" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://wa.me/+918667462522" target="_blank" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+            <a href="https://linkedin.com/fidafashions" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
         </div>
     </aside>
 
@@ -1293,22 +1558,74 @@ button { font-family: inherit; }
 </section>
 
 <!-- ========== MAP ========== -->
-<section class="map-section">
+<section class="map-section" aria-labelledby="locations-title">
     <div class="map-header">
-        <p class="sub">Visit Us</p>
-        <h2>Find Us on Map</h2>
-        <p>Our base — Salem, Tamil Nadu, India</p>
-        <div class="divider">✦ ✦ ✦</div>
+        <p class="sub">Our Locations & Markets</p>
+        <h2 id="locations-title">Find FIDA Around the World</h2>
+        <p>Our base is in Salem, Tamil Nadu, with export reach across Sri Lanka and the UAE.</p>
+        <div class="divider" aria-hidden="true">✦ &nbsp; ✦ &nbsp; ✦</div>
     </div>
-    <div class="map-wrap">
-        <iframe
-            src="https://www.google.com/maps?q=Salem,Tamil%20Nadu,India&output=embed"
-            loading="lazy"
-            referrerpolicy="no-referrer-when-downgrade"
-            title="FIDA Location — Salem, Tamil Nadu, India">
-        </iframe>
+
+    <div class="map-grid">
+        <!-- India: FIDA's stated headquarters location -->
+        <article class="map-card">
+            <div class="map-card-head">
+                <span class="map-card-icon" aria-hidden="true"><i class="fas fa-map-marker-alt"></i></span>
+                <div>
+                    <h3>India</h3>
+                    <p>Headquarters · Salem, Tamil Nadu</p>
+                </div>
+            </div>
+            <div class="map-frame">
+                <iframe title="Map of Salem, Tamil Nadu, India"
+                    src="https://maps.google.com/maps?q=Salem%2C%20Tamil%20Nadu%2C%20India&z=11&output=embed"
+                    loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+            </div>
+            <a class="map-directions" href="https://www.google.com/maps/search/?api=1&amp;query=Salem%2C%20Tamil%20Nadu%2C%20India" target="_blank" rel="noopener noreferrer">
+                <i class="fas fa-external-link-alt" aria-hidden="true"></i> Open in Google Maps
+            </a>
+        </article>
+
+        <!-- Country-level map: destination market, not a claimed office address -->
+        <article class="map-card">
+            <div class="map-card-head">
+                <span class="map-card-icon" aria-hidden="true"><i class="fas fa-globe-asia"></i></span>
+                <div>
+                    <h3>Sri Lanka</h3>
+                    <p>Export destination · Sri Lanka</p>
+                </div>
+            </div>
+            <div class="map-frame">
+                <iframe title="Map of Sri Lanka"
+                    src="https://maps.google.com/maps?q=Kandy%2C%20Sri%20Lanka&z=11&output=embed"
+                    loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+            </div>
+            <a class="map-directions" href="https://www.google.com/maps/search/?api=1&amp;query=Sri%20Lanka" target="_blank" rel="noopener noreferrer">
+                <i class="fas fa-external-link-alt" aria-hidden="true"></i> Explore Sri Lanka
+            </a>
+        </article>
+
+        <!-- Country-level map: destination market, not a claimed office address -->
+        <article class="map-card">
+            <div class="map-card-head">
+                <span class="map-card-icon" aria-hidden="true"><i class="fas fa-globe-asia"></i></span>
+                <div>
+                    <h3>UAE</h3>
+                    <p>Export destination · United Arab Emirates</p>
+                </div>
+            </div>
+            <div class="map-frame">
+                <iframe title="Map of the United Arab Emirates"
+                    src="https://maps.google.com/maps?q=Dubai%2C%20United%20Arab%20Emirates&z=11&output=embed"
+                    loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+            </div>
+            <a class="map-directions" href="https://www.google.com/maps/search/?api=1&amp;query=United%20Arab%20Emirates" target="_blank" rel="noopener noreferrer">
+                <i class="fas fa-external-link-alt" aria-hidden="true"></i> Explore UAE
+            </a>
+        </article>
     </div>
 </section>
+
 
 <!-- ========== COUNTRIES ========== -->
 <section class="countries">
@@ -1326,19 +1643,21 @@ button { font-family: inherit; }
 <footer class="footer">
     <div class="footer-grid">
         <div class="footer-brand">
-            <div class="footer-logo-wrap">
-                <img src="logo.png" alt="FIDA" onerror="this.style.display='none'">
-                <div class="footer-logo-text">
-                    <span class="brand">FIDA</span>
-                    <span class="tagline-sm">Clothing &amp; Essentials</span>
-                </div>
-            </div>
+            
+<div class="footer-logo-wrap">
+    <img src="./images/logo.png" alt="FIDA Logo" class="site-logo">
+
+    <div class="footer-logo-text">
+        <span class="brand">FIDA</span>
+        <span class="tagline-sm">FASHIONS &amp; LIFESTYLES</span>
+    </div>
+</div>
             <p class="tagline">Essentials for Every Day.<br>Style for Every You.</p>
             <div class="socials">
-                <a href="https://instagram.com/" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                <a href="https://facebook.com/" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                <a href="https://wa.me/916382584014" target="_blank" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
-                <a href="https://linkedin.com/" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                <a href="https://instagram.com/fidafashions.global" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="https://facebook.com/fidafashions.global" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://wa.me/+918667462522" target="_blank" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                <a href="https://linkedin.com/fidafashions" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
             </div>
         </div>
         <div>
@@ -1351,31 +1670,28 @@ button { font-family: inherit; }
         </div>
         <div>
             <h4>Categories</h4>
-            <a href="women.html">Women's Wear</a>
-            <a href="essentials.html">Essentials</a>
-            <a href="accessories.html">Accessories</a>
-            <a href="offer.html">Special Offers</a>
+            <a href="products.html">Women's Wear</a>
+            <a href="products.html">Accessories</a>
+            <a href="products.html">Special Offers</a>
         </div>
         <div>
             <h4>Contact</h4>
-            <p class="contact-line"><i class="fas fa-user"></i> Balaji Rajendran</p>
-            <p class="contact-line"><i class="fas fa-briefcase"></i> Business Development Executive</p>
-            <a href="tel:+916382584014"><i class="fas fa-phone"></i> +91 63825 84014</a>
-            <a href="mailto:balajir@fidaexports.com"><i class="fas fa-envelope"></i> balajir@fidaexports.com</a>
+            <a href="tel:+918667462522"><i class="fas fa-phone"></i> +91 866 746 2522</a>
+            <a href="mailto:sales@fidafashions.com"><i class="fas fa-envelope"></i> sales@fidafashions.com</a>
             <p class="contact-line"><i class="fas fa-map-marker-alt"></i> Salem, Tamil Nadu, India</p>
-            <a href="https://wa.me/916382584014" target="_blank" class="footer-wa">
+            <a href="https://wa.me/+918667462522" target="_blank" class="footer-wa">
                 <i class="fab fa-whatsapp"></i> Enquire on WhatsApp
             </a>
         </div>
     </div>
     <div class="footer-bottom">
         <p>© 2025 FIDA Exports. All rights reserved.</p>
-        <p class="footer-tags">GLOBAL EXPORTS &nbsp;|&nbsp; WOMEN'S WEAR &nbsp;|&nbsp; ACCESSORIES</p>
+        <p class="footer-tags">GLOBAL EXPORTS &nbsp;|&nbsp; WOMEN'S WEAR &nbsp;|&nbsp; ACCESSORIES & more..</p>
     </div>
 </footer>
 
 <!-- ========== FLOATING WHATSAPP BUTTON ========== -->
-<a href="https://wa.me/916382584014?text=Hi%20FIDA%2C%20I%27d%20like%20to%20enquire" target="_blank" class="wa-float" aria-label="WhatsApp">
+<a href="https://wa.me/+918667462522?text=Hi%20FIDA%2C%20I%27d%20like%20to%20enquire" target="_blank" class="wa-float" aria-label="WhatsApp">
     <i class="fab fa-whatsapp"></i>
 </a>
 
@@ -1437,7 +1753,66 @@ window.addEventListener('scroll', () => {
     const navbar = document.querySelector('.navbar');
     navbar.style.boxShadow = window.scrollY > 50 ? '0 5px 20px rgba(92,58,33,0.08)' : 'none';
 });
+async function loadPromotionBanner() {
 
+    try {
+
+        const response = await fetch("http://127.0.0.1:8000/api/offer");
+
+        if (!response.ok) {
+            throw new Error("Failed to load promotion");
+        }
+
+        const offer = await response.json();
+
+        console.log("Promotion loaded:", offer);
+
+        // Discount
+        const discountElement =
+            document.getElementById("offerDiscount");
+
+        if (discountElement && offer.discount !== undefined) {
+            discountElement.textContent =
+                `${offer.discount}% OFF`;
+        }
+
+        // Category
+        const categoryElement =
+            document.getElementById("offerCategory");
+
+        if (categoryElement && offer.category) {
+            categoryElement.textContent =
+                offer.category;
+        }
+
+        // Banner message
+        const messageElement =
+            document.getElementById("offerMessage");
+
+        if (
+            messageElement &&
+            offer.message
+        ) {
+            messageElement.textContent =
+                offer.message;
+        }
+
+    } catch (error) {
+
+        console.error(
+            "Promotion banner error:",
+            error
+        );
+
+    }
+}
+
+
+// Load promotion when page opens
+document.addEventListener(
+    "DOMContentLoaded",
+    loadPromotionBanner
+);
 
 </script>
 

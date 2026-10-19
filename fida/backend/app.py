@@ -861,11 +861,11 @@ async def create_product(
 
     allowed_subcategories = {
         "Women's Wear": {
-            "KURTIS", "LEHEHGAS", "OFF SAREES", "DRESSES",
-    "DAILY WEARS", "PREMIUM ABAYAS", "WEDDING COLLECTIONS"
+            "Kurtis", "Lehehgas", "Off Sarees",
+    "Daily Wears", "Abayas", "Wedding Collections"
         },
         "Essentials": {
-            "BAGS"
+            "Bags"
         }
     }
 

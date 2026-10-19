@@ -22,26 +22,13 @@ import {
 
 const firebaseConfig = {
 
-    apiKey:
-        "AIzaSyCF8QMTGZ7b4mtBOzL6EKg_KAtbwWWMKVA",
-
-    authDomain:
-        "fida-ecom.firebaseapp.com",
-
-    projectId:
-        "fida-ecom",
-
-    storageBucket:
-        "fida-ecom.firebasestorage.app",
-
-    messagingSenderId:
-        "956972862913",
-
-    appId:
-        "1:956972862913:web:e6c53a16c5a8fd2fb6b340",
-
-    measurementId:
-        "G-7Y18DCNCL5"
+    apiKey: "AIzaSyCII5JfYp_5-hik4kpzttFJqgjUECjrQR4",
+    authDomain: "fida-ecom-93e0a.firebaseapp.com",
+    projectId: "fida-ecom-93e0a",
+    storageBucket: "fida-ecom-93e0a.firebasestorage.app",
+    messagingSenderId: "204680021448",
+    appId: "1:204680021448:web:012b9d10bfa0ff244b2cfd",
+    measurementId: "G-XJCJVXBZNK"
 };
 
 

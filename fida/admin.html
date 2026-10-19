@@ -10,6 +10,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+<link rel="stylesheet" href="./style.css">
 
 <style>
 /* =========================================================
@@ -1123,10 +1124,10 @@ select.form-control{
 <header class="admin-header">
   <div class="container admin-header__inner">
     <div class="admin-header__brand">
-      <img src="images/logo.png" alt="FIDA logo" class="admin-header__logo" onerror="this.style.display='none';this.parentElement.style.background='var(--brown)';this.parentElement.style.width='52px';this.parentElement.style.height='52px';" />
+      <img src="./images/logo.jpg" alt="FIDA logo" class="admin-header__logo" onerror="this.style.display='none';this.parentElement.style.background='var(--brown)';this.parentElement.style.width='52px';this.parentElement.style.height='52px';" />
       <span class="admin-header__text">
         <span class="admin-header__name">FIDA Admin Panel</span>
-        <span class="admin-header__tag">Clothing &amp; Essentials</span>
+        <span class="admin-header__tag">FASHIONS &amp; LIFESTYLES</span>
       </span>
     </div>
 
@@ -1451,6 +1452,19 @@ select.form-control{
                 <option>Women's Wear</option>
                 <option>Essentials</option>
               </select>
+            </div>
+
+            <div class="form-group">
+                <label for="pSubcategory">Product Subcategory <span class="req">*</span></label>
+
+                <select
+                     id="pSubcategory"
+                    class="form-control"
+                     required
+                     disabled
+                    >
+                    <option value="">Select a category first</option>
+                </select>
             </div>
 
             <div class="form-group">
@@ -3080,7 +3094,6 @@ $("enqSearch")
         }
     );
 
-
 /* =========================================================
    PRODUCTS
    ========================================================= */
@@ -3708,7 +3721,6 @@ if (imgInput) {
     );
 }
 
-
 /* =========================================================
    REMOVE IMAGE
    ========================================================= */
@@ -3755,7 +3767,34 @@ if (imgRemove) {
         }
     );
 }
+const categorySelect = document.getElementById("pCategory");
+const subcategorySelect = document.getElementById("pSubcategory");
 
+const subcategories = {
+  "Women's Wear": [
+    "Kurtis", "Lehehgas", "Off Sarees", 
+    "Daily Wear", "Abayas", "Wedding Collections"
+  ],
+  "Essentials": [
+    "Bags"
+  ]
+};
+
+categorySelect.addEventListener("change", function () {
+  const options = subcategories[this.value] || [];
+
+  subcategorySelect.innerHTML =
+    '<option value="">Select a subcategory</option>';
+
+  options.forEach(function (name) {
+    const option = document.createElement("option");
+    option.value = name;
+    option.textContent = name;
+    subcategorySelect.appendChild(option);
+  });
+
+  subcategorySelect.disabled = options.length === 0;
+});
 
 /* =========================================================
    PACK SIZES
@@ -4469,7 +4508,15 @@ $("uploadForm")
                     $("pTotal")?.value
                 );
 
+            const subcategory =
+                document.getElementById("pSubcategory").value;
 
+            if (!subcategory) {
+                    alert("Please select a product subcategory.");
+                     return;
+            }
+
+            
             /* ---------------------------------------------
                VALIDATION
                --------------------------------------------- */
@@ -4617,6 +4664,11 @@ $("uploadForm")
                     category
                 );
 
+                formData.append(
+                    "subcategory", 
+                    subcategory
+                );
+
 
                 formData.append(
                     "description",
@@ -4650,6 +4702,8 @@ $("uploadForm")
                     "image",
                     selectedImageFile
                 );
+
+                
 
 
                 /* -----------------------------------------

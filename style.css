@@ -1,0 +1,47 @@
+
+/* =================================
+   FIDA - GLOBAL WEBSITE BACKGROUND
+   ================================= */
+
+html {
+    min-height: 100%;
+}
+
+body {
+    min-height: 100vh;
+    margin: 0;
+
+    background-image: url("./images/fida-background.png");
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+
+    background-color: #f8dfd1;
+    font-family: Arial, sans-serif;
+}
+
+/* Keep page content above the background */
+main,
+.page-content {
+    position: relative;
+    z-index: 1;
+}
+
+/* Optional: translucent panels for readability */
+.login-container,
+.login-box,
+.admin-container,
+.admin-panel {
+    background: rgba(255, 255, 255, 0.88);
+    backdrop-filter: blur(5px);
+    border-radius: 12px;
+}
+
+/* Mobile background adjustment */
+@media (max-width: 768px) {
+    body {
+        background-position: 65% center;
+        background-attachment: scroll;
+    }
+}

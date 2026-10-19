@@ -6,6 +6,8 @@
 <title>Enquiry — FIDA Clothing & Essentials</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="./style.css">
+
 
 <style>
 /* ============ VARIABLES ============ */
@@ -21,12 +23,35 @@
     --gray: #8a7a6a;
 }
 
+body {
+    background: transparent !important;
+    position: relative;
+    isolation: isolate;
+    min-height: 100vh;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+
+    background-image: url("./images/fida-background.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 body {
     font-family: 'Poppins', sans-serif;
     color: var(--text);
-    background: var(--cream);
+    background: transparent !important;
+    position: relative;
+    isolation: isolate;
+    min-height: 100vh;
     line-height: 1.6;
     overflow-x: hidden;
 }
@@ -185,7 +210,7 @@ button { font-family: inherit; }
 
 /* ============ PAGE HEADER ============ */
 .page-header {
-    background: linear-gradient(135deg, var(--cream-2), #efe2cd);
+    background: rgba(244, 237, 226, 0.48);
     padding: 60px 30px 50px;
     text-align: center;
     border-bottom: 1px solid #e8ddc9;
@@ -507,7 +532,7 @@ button { font-family: inherit; }
 
 /* ============ QUICK CONTACT CARDS ============ */
 .quick-contact {
-    background: var(--cream-2);
+    background: rgba(244, 237, 226, 0.42);
     padding: 70px 30px;
 }
 .quick-contact-inner {
@@ -980,6 +1005,45 @@ button { font-family: inherit; }
     .logo-text .brand { font-size: 15px; letter-spacing: 3px; }
     .logo-text .tagline-sm { font-size: 5.5px; letter-spacing: 1.5px; }
 }
+
+
+/* ============ FIDA BACKGROUND IMAGE & TRANSLUCENT SECTIONS ============ */
+body {
+    background: transparent !important;
+    position: relative;
+    isolation: isolate;
+    min-height: 100vh;
+}
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background-image: url("./images/fida-background.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+.enquiry-section {
+    background: transparent;
+}
+@media (max-width: 768px) {
+    body::before {
+        background-position: 65% center;
+    }
+}
+.site-logo {
+    display: block;
+    width: 68px;
+    height: 68px;
+    object-fit: contain;
+    background: transparent;
+    filter: none !important;
+    opacity: 1;
+    flex-shrink: 0;
+}
+
 </style>
 </head>
 
@@ -1014,7 +1078,7 @@ button { font-family: inherit; }
             <img src="images/logo.png" alt="FIDA" onerror="this.style.display='none'">
             <div class="logo-text">
                 <span class="brand">FIDA</span>
-                <span class="tagline-sm">Clothing &amp; Essentials</span>
+                <span class="tagline-sm">FASHIONS &amp; LIFESTYLES</span>
             </div>
         </a>
 
@@ -1046,27 +1110,13 @@ button { font-family: inherit; }
         <p>Whether you want to place a bulk order, ask about a product, or partner with us for exports — we're here to help.</p>
 
         <div class="info-items">
-            <div class="info-item">
-                <div class="icon"><i class="fas fa-user"></i></div>
-                <div class="text">
-                    <span class="label">Contact Person</span>
-                    <span>Balaji Rajendran</span>
-                </div>
-            </div>
-
-            <div class="info-item">
-                <div class="icon"><i class="fas fa-briefcase"></i></div>
-                <div class="text">
-                    <span class="label">Designation</span>
-                    <span>Business Development Executive</span>
-                </div>
-            </div>
+            
 
             <div class="info-item">
                 <div class="icon"><i class="fas fa-phone"></i></div>
                 <div class="text">
                     <span class="label">Phone / WhatsApp</span>
-                    <a href="tel:+916382584014">+91 63825 84014</a>
+                    <a href="tel:+918667462522">+91 866 746 2522</a>
                 </div>
             </div>
 
@@ -1074,15 +1124,21 @@ button { font-family: inherit; }
                 <div class="icon"><i class="fas fa-envelope"></i></div>
                 <div class="text">
                     <span class="label">Email</span>
-                    <a href="mailto:balajir@fidaexports.com">balajir@fidaexports.com</a>
+                    <a href="mailto:sales@fidafashions.com">sales@fidafashions.com</a>
                 </div>
             </div>
 
             <div class="info-item">
                 <div class="icon"><i class="fas fa-map-marker-alt"></i></div>
                 <div class="text">
-                    <span class="label">Location</span>
-                    <span>Salem, Tamil Nadu, India</span>
+                    <span class="label">LocationS</span>
+                    <br>
+                    <span>Tamil Nadu, India.</span>
+                    <br>
+                    <span>Dubai, UAE.</span>
+                    <br>
+                    <span>kandy, Srilanka.</span>
+                    <br>
                 </div>
             </div>
         </div>
@@ -1090,10 +1146,10 @@ button { font-family: inherit; }
         <div class="divider-line"></div>
 
         <div class="socials">
-            <a href="https://instagram.com/" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-            <a href="https://facebook.com/" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-            <a href="https://wa.me/916382584014" target="_blank" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
-            <a href="https://linkedin.com/" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+            <a href="https://instagram.com/fidafashions.global" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="https://facebook.com/fidafashions.global" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://wa.me/+918667462522" target="_blank" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+            <a href="https://linkedin.com/fidafashions" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
         </div>
     </aside>
 
@@ -1178,25 +1234,25 @@ button { font-family: inherit; }
         <p>Choose the channel that suits you best</p>
 
         <div class="qc-grid">
-            <a href="https://wa.me/916382584014?text=Hi%20FIDA%2C%20I%20have%20an%20enquiry" target="_blank" class="qc-card">
+            <a href="https://wa.me/+918667462522?text=Hi%20FIDA%2C%20I%20have%20an%20enquiry" target="_blank" class="qc-card">
                 <div class="qc-icon"><i class="fab fa-whatsapp"></i></div>
                 <h4>WhatsApp</h4>
                 <p>Chat with us instantly</p>
-                <span class="qc-value">+91 63825 84014</span>
+                <span class="qc-value">+91 866 746 2522</span>
             </a>
 
-            <a href="mailto:balajir@fidaexports.com" class="qc-card">
+            <a href="mailto:sales@fidafashions.com" class="qc-card">
                 <div class="qc-icon"><i class="fas fa-envelope"></i></div>
                 <h4>Email Us</h4>
                 <p>Send a detailed message</p>
-                <span class="qc-value">balajir@fidaexports.com</span>
+                <span class="qc-value">sales@fidafashions.com</span>
             </a>
 
             <a href="tel:+916382584014" class="qc-card">
                 <div class="qc-icon"><i class="fas fa-phone"></i></div>
                 <h4>Call Us</h4>
-                <p>Mon–Sat, 9 AM – 7 PM IST</p>
-                <span class="qc-value">+91 63825 84014</span>
+                <p>24/7</p>
+                <span class="qc-value">+91 866 746 2522</span>
             </a>
         </div>
     </div>
@@ -1219,18 +1275,18 @@ button { font-family: inherit; }
     <div class="footer-grid">
         <div class="footer-brand">
             <div class="footer-logo-wrap">
-                <img src="images/logo.png" alt="FIDA" onerror="this.style.display='none'">
+                <img src="./images/logo.png" alt="FIDA Logo" class="site-logo">
                 <div class="footer-logo-text">
                     <span class="brand">FIDA</span>
-                    <span class="tagline-sm">Clothing &amp; Essentials</span>
+                    <span class="tagline-sm">FASHIONS &amp; LIFESTYLES</span>
                 </div>
             </div>
             <p class="tagline">Essentials for Every Day.<br>Style for Every You.</p>
             <div class="socials">
-                <a href="https://instagram.com/" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                <a href="https://facebook.com/" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                <a href="https://wa.me/916382584014" target="_blank" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
-                <a href="https://linkedin.com/" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                <a href="https://instagram.com/fidafashions.global" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="https://facebook.com/fidafashions.global" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://wa.me/+918667462522" target="_blank" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                <a href="https://linkedin.com/fidafashions" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
             </div>
         </div>
         <div>
@@ -1243,19 +1299,16 @@ button { font-family: inherit; }
         </div>
         <div>
             <h4>Categories</h4>
-            <a href="women.html">Women's Wear</a>
-            <a href="essentials.html">Essentials</a>
-            <a href="accessories.html">Accessories</a>
-            <a href="offer.html">Special Offers</a>
+            <a href="products.html">Women's Wear</a>
+            <a href="products.html">Accessories</a>
+            <a href="products.html">Special Offers</a>
         </div>
         <div>
             <h4>Contact</h4>
-            <p class="contact-line"><i class="fas fa-user"></i> Balaji Rajendran</p>
-            <p class="contact-line"><i class="fas fa-briefcase"></i> Business Development Executive</p>
-            <a href="tel:+916382584014"><i class="fas fa-phone"></i> +91 63825 84014</a>
-            <a href="mailto:balajir@fidaexports.com"><i class="fas fa-envelope"></i> balajir@fidaexports.com</a>
+            <a href="tel:+918667462522"><i class="fas fa-phone"></i> +91 866 746 2522</a>
+            <a href="mailto:sales@fidafashions.com"><i class="fas fa-envelope"></i> sales@fidafashions.com</a>
             <p class="contact-line"><i class="fas fa-map-marker-alt"></i> Salem, Tamil Nadu, India</p>
-            <a href="https://wa.me/916382584014" target="_blank" class="footer-wa">
+            <a href="https://wa.me/+918667462522" target="_blank" class="footer-wa">
                 <i class="fab fa-whatsapp"></i> Enquire on WhatsApp
             </a>
         </div>
@@ -1267,7 +1320,7 @@ button { font-family: inherit; }
 </footer>
 
 <!-- ========== FLOATING WHATSAPP BUTTON ========== -->
-<a href="https://wa.me/916382584014?text=Hi%20FIDA%2C%20I%27d%20like%20to%20enquire%20about%20a%20product" target="_blank" class="wa-float" aria-label="WhatsApp">
+<a href="https://wa.me/+918667462522?text=Hi%20FIDA%2C%20I%27d%20like%20to%20enquire%20about%20a%20product" target="_blank" class="wa-float" aria-label="WhatsApp">
     <i class="fab fa-whatsapp"></i>
 </a>
 
@@ -1427,7 +1480,66 @@ window.addEventListener('scroll', () => {
     navbar.style.boxShadow = window.scrollY > 50 ? '0 5px 20px rgba(92,58,33,0.08)' : 'none';
 });
 
+async function loadPromotionBanner() {
 
+    try {
+
+        const response = await fetch("http://127.0.0.1:8000/api/offer");
+
+        if (!response.ok) {
+            throw new Error("Failed to load promotion");
+        }
+
+        const offer = await response.json();
+
+        console.log("Promotion loaded:", offer);
+
+        // Discount
+        const discountElement =
+            document.getElementById("offerDiscount");
+
+        if (discountElement && offer.discount !== undefined) {
+            discountElement.textContent =
+                `${offer.discount}% OFF`;
+        }
+
+        // Category
+        const categoryElement =
+            document.getElementById("offerCategory");
+
+        if (categoryElement && offer.category) {
+            categoryElement.textContent =
+                offer.category;
+        }
+
+        // Banner message
+        const messageElement =
+            document.getElementById("offerMessage");
+
+        if (
+            messageElement &&
+            offer.message
+        ) {
+            messageElement.textContent =
+                offer.message;
+        }
+
+    } catch (error) {
+
+        console.error(
+            "Promotion banner error:",
+            error
+        );
+
+    }
+}
+
+
+// Load promotion when page opens
+document.addEventListener(
+    "DOMContentLoaded",
+    loadPromotionBanner
+);
 </script>
 
 </body>

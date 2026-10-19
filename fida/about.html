@@ -6,6 +6,7 @@
 <title>About — FIDA Clothing & Essentials</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="./style.css">
 
 <style>
 /* ============ VARIABLES ============ */
@@ -21,14 +22,36 @@
     --gray: #8a7a6a;
 }
 
+body {
+    background: transparent !important;
+    position: relative;
+    isolation: isolate;
+    min-height: 100vh;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background-image: url("./images/fida-background.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 body {
     font-family: 'Poppins', sans-serif;
     color: var(--text);
-    background: var(--cream);
+    background: transparent !important;
     line-height: 1.6;
     overflow-x: hidden;
+    position: relative;
+    isolation: isolate;
+    min-height: 100vh;
 }
 h1, h2, h3, h4 { font-family: 'Playfair Display', serif; color: var(--dark); }
 a { text-decoration: none; color: inherit; }
@@ -1048,6 +1071,78 @@ button { font-family: inherit; }
     .logo-text .tagline-sm { font-size: 5.5px; letter-spacing: 1.5px; }
     .values-grid { grid-template-columns: 1fr; }
 }
+
+/* ============ FIDA BACKGROUND + TRANSLUCENT ABOUT SECTIONS ============ */
+/* Keep the background image fixed behind the page content */
+body::before {
+    content: "";
+    position: fixed;
+    inset: -6px;
+    z-index: -1;
+    pointer-events: none;
+    background-image: url("./images/fida-background.png");
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+}
+
+/* Let the fashion background show through these sections */
+.page-header,
+.story-section,
+.mv-section,
+.serve-section {
+    background: rgba(250, 246, 240, 0.30) !important;
+}
+
+/* Dark sections remain readable while showing a little background */
+.stats-section,
+.business-section {
+    background: rgba(92, 58, 33, 0.88) !important;
+}
+
+/* Light section overlays */
+.values-section {
+    background: rgba(244, 237, 226, 0.40) !important;
+}
+
+.cta-section {
+    background: rgba(248, 240, 227, 0.45) !important;
+}
+
+/* Keep foreground cards and photos clear */
+.mv-card,
+.value-card {
+    background: rgba(255, 255, 255, 0.90);
+}
+
+.story-image img,
+.serve-card img {
+    opacity: 1;
+}
+
+/* Mobile background positioning */
+@media (max-width: 768px) {
+    body::before {
+        background-position: 65% center;
+    }
+}
+.site-logo {
+    display: block;
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+}
+.site-logo {
+    display: block;
+    width: 68px;
+    height: 68px;
+    object-fit: contain;
+    background: transparent;
+    filter: none !important;
+    opacity: 1;
+    flex-shrink: 0;
+}
+
 </style>
 </head>
 
@@ -1082,7 +1177,7 @@ button { font-family: inherit; }
             <img src="images/logo.png" alt="FIDA" onerror="this.style.display='none'">
             <div class="logo-text">
                 <span class="brand">FIDA</span>
-                <span class="tagline-sm">Clothing &amp; Essentials</span>
+                <span class="tagline-sm">FASHIONS &amp; LIFESTYLES</span>
             </div>
         </a>
 
@@ -1243,21 +1338,14 @@ button { font-family: inherit; }
             <p>For bulk orders, export enquiries, or partnerships — reach out to our Business Development Executive directly.</p>
         </div>
         <div class="business-info-grid">
-            <div class="business-info-item">
-                <span class="label">Contact Person</span>
-                <div class="value">Balaji Rajendran</div>
-            </div>
-            <div class="business-info-item">
-                <span class="label">Designation</span>
-                <div class="value">Business Development Executive</div>
-            </div>
+            
             <div class="business-info-item">
                 <span class="label">Phone / WhatsApp</span>
-                <div class="value"><a href="tel:+916382584014">+91 63825 84014</a></div>
+                <div class="value"><a href="tel:+918667462522">+91 866 746 2522</a></div>
             </div>
             <div class="business-info-item">
                 <span class="label">Email</span>
-                <div class="value"><a href="mailto:balajir@fidaexports.com">balajir@fidaexports.com</a></div>
+                <div class="value"><a href="mailto:sales@fidafashions.com">sales@fidafashions.com</a></div>
             </div>
             <div class="business-info-item">
                 <span class="label">Address</span>
@@ -1279,7 +1367,7 @@ button { font-family: inherit; }
         <a href="products.html" class="btn" style="background: var(--brown); color: #fff; padding: 14px 32px; border-radius: 2px; font-size: 13px; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase; display: inline-flex; align-items: center; justify-content: center; gap: 10px;">
             <i class="fas fa-shopping-bag"></i> View Products
         </a>
-        <a href="https://wa.me/916382584014?text=Hi%20FIDA%2C%20I%27d%20like%20to%20know%20more" target="_blank" class="btn" style="background: var(--gold); color: var(--dark); padding: 14px 32px; border-radius: 2px; font-size: 13px; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase; display: inline-flex; align-items: center; justify-content: center; gap: 10px;">
+        <a href="https://wa.me/+918667462522?text=Hi%20FIDA%2C%20I%27d%20like%20to%20know%20more" target="_blank" class="btn" style="background: var(--gold); color: var(--dark); padding: 14px 32px; border-radius: 2px; font-size: 13px; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase; display: inline-flex; align-items: center; justify-content: center; gap: 10px;">
             <i class="fab fa-whatsapp"></i> Chat on WhatsApp
         </a>
     </div>
@@ -1290,18 +1378,18 @@ button { font-family: inherit; }
     <div class="footer-grid">
         <div class="footer-brand">
             <div class="footer-logo-wrap">
-                <img src="logo.png" alt="FIDA" onerror="this.style.display='none'">
+                <img src="./images/logo.png" alt="FIDA Logo" class="site-logo">
                 <div class="footer-logo-text">
                     <span class="brand">FIDA</span>
-                    <span class="tagline-sm">Clothing &amp; Essentials</span>
+                    <span class="tagline-sm">FASHIONS &amp; LIFESTYLES</span>
                 </div>
             </div>
             <p class="tagline">Essentials for Every Day.<br>Style for Every You.</p>
             <div class="socials">
-                <a href="https://instagram.com/" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                <a href="https://facebook.com/" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                <a href="https://wa.me/916382584014" target="_blank" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
-                <a href="https://linkedin.com/" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                <a href="https://instagram.com/fidafashions.global" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="https://facebook.com/fidafashions.global" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://wa.me/+918667462522" target="_blank" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                <a href="https://linkedin.com/fidafashions" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
             </div>
         </div>
         <div>
@@ -1314,19 +1402,16 @@ button { font-family: inherit; }
         </div>
         <div>
             <h4>Categories</h4>
-            <a href="women.html">Women's Wear</a>
-            <a href="essentials.html">Essentials</a>
-            <a href="accessories.html">Accessories</a>
-            <a href="offer.html">Special Offers</a>
+            <a href="products.html">Women's Wear</a>
+            <a href="products.html">Accessories</a>
+            <a href="products.html">Special Offers</a>
         </div>
         <div>
             <h4>Contact</h4>
-            <p class="contact-line"><i class="fas fa-user"></i> Balaji Rajendran</p>
-            <p class="contact-line"><i class="fas fa-briefcase"></i> Business Development Executive</p>
-            <a href="tel:+916382584014"><i class="fas fa-phone"></i> +91 63825 84014</a>
-            <a href="mailto:balajir@fidaexports.com"><i class="fas fa-envelope"></i> balajir@fidaexports.com</a>
+            <a href="tel:+918667462522"><i class="fas fa-phone"></i> +91 866 746 2522</a>
+            <a href="mailto:sales@fidafashions.com"><i class="fas fa-envelope"></i> sales@fidafashions.com</a>
             <p class="contact-line"><i class="fas fa-map-marker-alt"></i> Salem, Tamil Nadu, India</p>
-            <a href="https://wa.me/916382584014" target="_blank" class="footer-wa">
+            <a href="https://wa.me/+918667462522" target="_blank" class="footer-wa">
                 <i class="fab fa-whatsapp"></i> Enquire on WhatsApp
             </a>
         </div>
@@ -1359,6 +1444,67 @@ window.addEventListener('scroll', () => {
     const navbar = document.querySelector('.navbar');
     navbar.style.boxShadow = window.scrollY > 50 ? '0 5px 20px rgba(92,58,33,0.08)' : 'none';
 });
+
+async function loadPromotionBanner() {
+
+    try {
+
+        const response = await fetch("http://127.0.0.1:8000/api/offer");
+
+        if (!response.ok) {
+            throw new Error("Failed to load promotion");
+        }
+
+        const offer = await response.json();
+
+        console.log("Promotion loaded:", offer);
+
+        // Discount
+        const discountElement =
+            document.getElementById("offerDiscount");
+
+        if (discountElement && offer.discount !== undefined) {
+            discountElement.textContent =
+                `${offer.discount}% OFF`;
+        }
+
+        // Category
+        const categoryElement =
+            document.getElementById("offerCategory");
+
+        if (categoryElement && offer.category) {
+            categoryElement.textContent =
+                offer.category;
+        }
+
+        // Banner message
+        const messageElement =
+            document.getElementById("offerMessage");
+
+        if (
+            messageElement &&
+            offer.message
+        ) {
+            messageElement.textContent =
+                offer.message;
+        }
+
+    } catch (error) {
+
+        console.error(
+            "Promotion banner error:",
+            error
+        );
+
+    }
+}
+
+
+// Load promotion when page opens
+document.addEventListener(
+    "DOMContentLoaded",
+    loadPromotionBanner
+);
 
 </script>
 

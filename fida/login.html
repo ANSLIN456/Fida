@@ -3,9 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sign In / Sign Up — FIDA Clothing & Essentials</title>
+<title>Sign In / Sign Up — FIDA FASHIONS</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="./style.css">
 
 <style>
 /* ============ VARIABLES ============ */
@@ -23,11 +24,11 @@
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
-html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+html { min-height: 100%; scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 body {
     font-family: 'Poppins', sans-serif;
     color: var(--text);
-    background: var(--cream);
+    background: transparent;
     line-height: 1.6;
     min-height: 100vh;
     display: flex;
@@ -35,6 +36,22 @@ body {
     justify-content: center;
     padding: 20px;
     overflow-x: hidden;
+    position: relative;
+    isolation: isolate;
+}
+
+/* Fixed fashion background behind the login and sign-up panels */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background-image: url("./images/fida-background.png");
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-color: #f8dfd1;
 }
 a { text-decoration: none; color: inherit; }
 img { display: block; max-width: 100%; }
@@ -42,7 +59,7 @@ button { font-family: inherit; cursor: pointer; }
 
 /* ============ CONTAINER ============ */
 .auth-container {
-    background: #fff;
+    background: rgba(255, 255, 255, 0.88);
     border-radius: 12px;
     box-shadow: 0 25px 70px rgba(92, 58, 33, 0.18);
     position: relative;
@@ -90,7 +107,7 @@ button { font-family: inherit; cursor: pointer; }
 
 /* ============ FORM STYLES ============ */
 form {
-    background: #fff;
+    background: rgba(255, 255, 255, 0.90);
     display: flex;
     flex-direction: column;
     padding: 40px 55px;
@@ -608,6 +625,7 @@ form {
     .form-row { grid-template-columns: 1fr; gap: 0; }
     .form-group { margin-bottom: 14px; }
     .btn-primary { padding: 13px 22px; font-size: 11px; }
+    body::before { background-position: 65% center; }
 }
 
 @media (max-width: 420px) {
@@ -635,6 +653,16 @@ form::-webkit-scrollbar-thumb { background: #e0d3bb; border-radius: 5px; }
     .sign-up-container .input-wrap select { padding: 10px 38px 10px 38px; }
     .sign-up-container .terms-check { margin-bottom: 12px; }
     .sign-up-container .btn-primary { padding: 12px 24px; }
+}
+.site-logo {
+    display: block;
+    width: 70px;
+    height: 70px;
+    object-fit: contain;
+    background: transparent;
+    filter: none !important;
+    opacity: 1;
+    flex-shrink: 0;
 }
 </style>
 </head>
@@ -830,10 +858,10 @@ form::-webkit-scrollbar-thumb { background: #e0d3bb; border-radius: 5px; }
             <!-- LEFT overlay (shown when on SIGN UP) -->
             <div class="overlay-panel overlay-left">
                 <div class="overlay-logo">
-                    <img src="logo.png" alt="FIDA" onerror="this.style.display='none'">
+                    <img src="./images/logo.jpg" alt="FIDA Logo" class="site-logo">
                     <div class="overlay-logo-text">
                         <span class="brand">FIDA</span>
-                        <span class="tagline-sm">Clothing &amp; Essentials</span>
+                        <span class="tagline-sm">FASHIONS &amp; LIFESTYLES</span>
                     </div>
                 </div>
                 <p class="sub">Welcome Back</p>
@@ -847,10 +875,10 @@ form::-webkit-scrollbar-thumb { background: #e0d3bb; border-radius: 5px; }
             <!-- RIGHT overlay (shown when on SIGN IN) -->
             <div class="overlay-panel overlay-right">
                 <div class="overlay-logo">
-                    <img src="logo.png" alt="FIDA" onerror="this.style.display='none'">
+                    <img src="./images/logo.jpg" alt="FIDA Logo" class="site-logo">
                     <div class="overlay-logo-text">
                         <span class="brand">FIDA</span>
-                        <span class="tagline-sm">Clothing &amp; Essentials</span>
+                        <span class="tagline-sm">FASHIONS &amp; LIFESTYLES</span>
                     </div>
                 </div>
                 <p class="sub">Join FIDA</p>
