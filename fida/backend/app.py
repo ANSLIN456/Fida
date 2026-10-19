@@ -64,11 +64,12 @@ load_dotenv(BASE_DIR / ".env")
 
 
 
-import os
-
 FIREBASE_CREDENTIALS_PATH = os.getenv(
+
     "FIREBASE_CREDENTIALS_PATH",
-    "/etc/secrets/serviceAccountKey.json"
+
+    str(BASE_DIR / "serviceAccountKey.json")
+
 )
 
 
